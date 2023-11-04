@@ -9,8 +9,6 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home({
   stories,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log("📚", stories);
-
   const t = useTranslations("Index");
 
   return (
