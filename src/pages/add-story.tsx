@@ -9,6 +9,8 @@ export default function AddStoryPage() {
     <Layout pageTitle={t("page_title")} pageDescription={"page_description"}>
       <Container>
         <h1 className="title-1">{t("heading")}</h1>
+
+        <form></form>
       </Container>
     </Layout>
   );
