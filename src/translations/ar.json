@@ -1,8 +1,13 @@
 {
-  "Index": {
+  "IndexPage": {
     "title": "هم قصص"
   },
   "StoriesList": {
     "stories": "القصص"
+  },
+  "AddStoryPage": {
+    "page_title": "أضف قصة",
+    "page_description": "",
+    "heading": "أضف قصة"
   }
 }

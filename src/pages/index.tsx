@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home({
   stories,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const t = useTranslations("Index");
+  const t = useTranslations("IndexPage");
 
   return (
     <main

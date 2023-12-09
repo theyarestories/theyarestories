@@ -1,8 +1,13 @@
 {
-  "Index": {
+  "IndexPage": {
     "title": "They are stories"
   },
   "StoriesList": {
     "stories": "Stories"
+  },
+  "AddStoryPage": {
+    "page_title": "Add a Story",
+    "page_description": "",
+    "heading": "Add a Story"
   }
 }
