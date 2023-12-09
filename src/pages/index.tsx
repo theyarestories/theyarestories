@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Story } from "@/interfaces/database/Story";
 import { ServerApiClient } from "@/apis/ServerApiClient";
+import classNames from "@/helpers/style/classNames";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,10 +14,11 @@ export default function Home({
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      {t("title")}
-    </main>
+      className={classNames(
+        "flex min-h-screen flex-col items-center justify-between",
+        inter.className
+      )}
+    ></main>
   );
 }
 
