@@ -13,7 +13,7 @@ export class ServerApiClient {
     const result = await this.serverApiClient.get<
       ServerAdvancedResponse<Story[]>
     >(
-      `${this.apiBaseUrl}/v${this.apiVersion}/stories?isApproved=false&sort=-_id`
+      `${this.apiBaseUrl}/v${this.apiVersion}/stories?isApproved=false&sort=-_id&limit=50`
     );
 
     if (result.isErr()) {
