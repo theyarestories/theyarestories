@@ -4,6 +4,8 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Story } from "@/interfaces/database/Story";
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import classNames from "@/helpers/style/classNames";
+import StoriesList from "@/components/stories/StoriesList";
+import Container from "@/components/container/Container";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +20,11 @@ export default function Home({
         "flex min-h-screen flex-col items-center justify-between",
         inter.className
       )}
-    ></main>
+    >
+      <Container>
+        <StoriesList stories={stories} />
+      </Container>
+    </main>
   );
 }
 
