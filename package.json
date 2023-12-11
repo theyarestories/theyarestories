@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
     "axios": "^1.6.0",
     "axios-retry": "^3.8.1",
     "neverthrow": "^6.1.0",

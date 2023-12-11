@@ -8,6 +8,14 @@
   "AddStoryPage": {
     "page_title": "أضف قصة",
     "page_description": "",
-    "heading": "أضف قصة"
+    "heading": "أضف قصة",
+    "language": "اللغة",
+    "name": "الاسم",
+    "city": "المدينة",
+    "job": "الوظيفة",
+    "story": "القصة",
+    "name_required": "رجاءاً، أضف الاسم",
+    "city_required": "رجاءاً، أضف المدينة",
+    "story_required": "رجاءاً، أضف القصة"
   }
 }

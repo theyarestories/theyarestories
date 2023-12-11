@@ -4,9 +4,21 @@ export interface Story {
   city: string;
   story: string;
   images: string[];
-  avatar: string;
   isApproved: boolean;
-  isHighloghted: boolean;
-  dateOfBirth?: Date;
+  isHighlighted: boolean;
+  isDeleted: boolean;
+  dateOfBirth?: string;
   job?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
+
+export type RegisteringStory = Omit<
+  Story,
+  | "_id"
+  | "createdAt"
+  | "updatedAt"
+  | "isApproved"
+  | "isHighlighted"
+  | "isDeleted"
+>;

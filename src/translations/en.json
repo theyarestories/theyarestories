@@ -8,6 +8,14 @@
   "AddStoryPage": {
     "page_title": "Add a Story",
     "page_description": "",
-    "heading": "Add a Story"
+    "heading": "Add a Story",
+    "language": "Language",
+    "name": "Name",
+    "city": "City",
+    "job": "Job",
+    "story": "Story",
+    "name_required": "Please, add the name",
+    "city_required": "Please, add the city",
+    "story_required": "Please, add the story"
   }
 }
