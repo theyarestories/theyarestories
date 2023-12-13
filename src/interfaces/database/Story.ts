@@ -5,27 +5,18 @@ interface StoryTranslatedFields {
   job?: string;
 }
 
-export type DBStory = {
+export type DBStory = StoryTranslatedFields & {
   _id: string;
-  protagonist: string;
-  city: string;
-  story: string;
-  job?: string;
-  avatar: string;
+  avatar?: string;
   images: string[];
   isApproved: boolean;
   isHighlighted: boolean;
   isDeleted: boolean;
-  dateOfBirth?: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  dateOfBirth?: string;
+  createdAt: string;
+  updatedAt: string;
   translations: {
-    [key: string]: {
-      protagonist: string;
-      city: string;
-      story: string;
-      job?: string;
-    };
+    [key: string]: StoryTranslatedFields;
   };
 };
 

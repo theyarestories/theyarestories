@@ -4,6 +4,7 @@ import Layout from "@/components/layout/Layout";
 import ThemeSelect from "@/components/select/ThemeSelect";
 import ThemeTextarea from "@/components/textarea/ThemeTextarea";
 import allLanguages from "@/config/languages/allLanguages";
+import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
 import { RegisteringStory } from "@/interfaces/database/Story";
 import { useTranslations } from "next-intl";
 import {
@@ -35,9 +36,11 @@ export default function AddStoryPage() {
     protagonist: "",
     city: "",
     story: "",
+    avatar: "",
     images: [],
     job: "",
     dateOfBirth: "",
+    translations: {},
   });
   const [storyFieldsErrors, setStoryFieldsErrors] = useState({
     protagonistError: "",
@@ -110,6 +113,13 @@ export default function AddStoryPage() {
     },
     [isSubmittedOnce, storyFields]
   );
+
+  useEffect(function setInitialLanguage() {
+    const initialLanguage = languagesOptions.find(
+      (language) => language.code === getHomeLanguage()
+    );
+    if (initialLanguage) setSelectedLanguage(initialLanguage);
+  }, []);
 
   return (
     <Layout pageTitle={t("page_title")} pageDescription={"page_description"}>

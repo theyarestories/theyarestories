@@ -1,4 +1,4 @@
-import Cookies from "js-cookie";
+import getHomeLanguage from "../translations/getHomeLanguage";
 
 type DataWithTranslations<T> = T & {
   translations: {
@@ -10,7 +10,7 @@ export default function getTranslatedData<T>(
   data: DataWithTranslations<T>,
   selectedLanguage?: string
 ): T {
-  let translationLanguage = Cookies.get("home_language");
+  let translationLanguage = getHomeLanguage();
   if (selectedLanguage) translationLanguage = selectedLanguage;
 
   let result = data;
