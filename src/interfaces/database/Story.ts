@@ -7,7 +7,7 @@ interface StoryTranslatedFields {
 
 export type DBStory = StoryTranslatedFields & {
   _id: string;
-  avatar?: string;
+  avatar: string;
   images: string[];
   isApproved: boolean;
   isHighlighted: boolean;
