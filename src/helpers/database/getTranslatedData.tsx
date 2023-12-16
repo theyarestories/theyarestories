@@ -16,6 +16,7 @@ export default function getTranslatedData<T>(
   let result = data;
   if (
     translationLanguage &&
+    data.translations &&
     Object.keys(data.translations).includes(translationLanguage)
   ) {
     result = {
