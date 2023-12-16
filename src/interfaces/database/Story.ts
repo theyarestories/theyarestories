@@ -1,12 +1,31 @@
-export interface Story {
-  _id: string;
+interface StoryTranslatedFields {
   protagonist: string;
   city: string;
   story: string;
-  images: string[];
-  avatar: string;
-  isApproved: boolean;
-  isHighloghted: boolean;
-  dateOfBirth?: Date;
   job?: string;
 }
+
+export type DBStory = StoryTranslatedFields & {
+  _id: string;
+  avatar: string;
+  images: string[];
+  isApproved: boolean;
+  isHighlighted: boolean;
+  isDeleted: boolean;
+  dateOfBirth?: string;
+  createdAt: string;
+  updatedAt: string;
+  translations: {
+    [key: string]: StoryTranslatedFields;
+  };
+};
+
+export type RegisteringStory = Omit<
+  DBStory,
+  | "_id"
+  | "createdAt"
+  | "updatedAt"
+  | "isApproved"
+  | "isHighlighted"
+  | "isDeleted"
+>;

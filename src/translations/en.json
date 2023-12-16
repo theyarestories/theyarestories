@@ -1,8 +1,24 @@
 {
-  "Index": {
+  "IndexPage": {
     "title": "They are stories"
   },
   "StoriesList": {
     "stories": "Stories"
+  },
+  "AddStoryPage": {
+    "page_title": "Add a Story",
+    "page_description": "",
+    "heading": "Add a Story",
+    "language": "Language",
+    "name": "Name",
+    "city": "City",
+    "job": "Job",
+    "story": "Story",
+    "name_required": "Please, add the name",
+    "city_required": "Please, add the city",
+    "story_required": "Please, add the story",
+    "submit": "Submit",
+    "submit_success": "Thank you for your effort ♥. We'll review it in a maximum of 48 hours and notify you once it's approved.",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach through any of our social media channels."
   }
 }

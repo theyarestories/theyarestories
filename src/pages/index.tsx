@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import { useTranslations } from "next-intl";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { Story } from "@/interfaces/database/Story";
+import { DBStory } from "@/interfaces/database/Story";
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import classNames from "@/helpers/style/classNames";
 import StoriesList from "@/components/stories/StoriesList";
@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home({
   stories,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const t = useTranslations("Index");
+  const t = useTranslations("IndexPage");
 
   return (
     <main
@@ -38,5 +38,5 @@ export const getServerSideProps = (async (context) => {
   }
   return { props: { stories: storiesResult.value } };
 }) satisfies GetServerSideProps<{
-  stories: Story[];
+  stories: DBStory[];
 }>;

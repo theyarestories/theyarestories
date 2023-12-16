@@ -18,10 +18,20 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); */
+}
+
+@layer components {
+  .title-1 {
+    @apply text-xl font-semibold;
+  }
+
+  .input {
+    @apply rounded-sm p-2 placeholder:text-gray-500;
+  }
 }
