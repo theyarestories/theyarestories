@@ -1,3 +1,5 @@
+import { ServerApiClient } from "@/apis/ServerApiClient";
+import ThemeButton from "@/components/button/ThemeButton";
 import Container from "@/components/container/Container";
 import ThemeInput from "@/components/input/ThemeInput";
 import Layout from "@/components/layout/Layout";
@@ -5,14 +7,12 @@ import ThemeSelect from "@/components/select/ThemeSelect";
 import ThemeTextarea from "@/components/textarea/ThemeTextarea";
 import allLanguages from "@/config/languages/allLanguages";
 import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
-import { RegisteringStory } from "@/interfaces/database/Story";
+import { ApiError } from "@/interfaces/api-client/Error";
+import { DBStory, RegisteringStory } from "@/interfaces/database/Story";
+import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
-import {
-  ChangeEventHandler,
-  FormEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
+import { useAsyncFn } from "react-use";
 
 type LanguageOption = {
   name: string;
@@ -26,6 +26,8 @@ const languagesOptions = allLanguages.map((language) => ({
       : `${language.name} (${language.nativeName})`,
   code: language.code,
 }));
+
+const serverApiClient = new ServerApiClient();
 
 export default function AddStoryPage() {
   const t = useTranslations("AddStoryPage");
@@ -88,6 +90,22 @@ export default function AddStoryPage() {
     );
   };
 
+  const addTranslationToStory = (
+    storyFields: RegisteringStory
+  ): RegisteringStory => {
+    return {
+      ...storyFields,
+      translations: {
+        [selectedLanguage.code]: {
+          protagonist: storyFields.protagonist,
+          city: storyFields.city,
+          story: storyFields.story,
+          job: storyFields.job,
+        },
+      },
+    };
+  };
+
   const handleChange: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = (event) => {
@@ -97,13 +115,32 @@ export default function AddStoryPage() {
     }));
   };
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-    setIsSubmittedOnce(true);
+  const [handleSubmitState, handleSubmit] = useAsyncFn(
+    async (
+      event: FormEvent<HTMLFormElement>,
+      storyFields: RegisteringStory
+    ): Promise<Result<DBStory, ApiError>> => {
+      event.preventDefault();
+      setIsSubmittedOnce(true);
 
-    // 1. validate fields
-    const isFieldsValid = validateStoryFields(storyFields);
-  };
+      // 1. add translation to story
+      const translatedStory = addTranslationToStory(storyFields);
+
+      // 2. validate fields
+      const isStoryValid = validateStoryFields(storyFields);
+      if (!isStoryValid) {
+        return err({ errorMessage: "Story fields are not valid" });
+      }
+
+      // 3. Create the story
+      const createResult = await serverApiClient.createStory(translatedStory);
+      if (createResult.isErr()) {
+        throw new Error(createResult.error.errorMessage);
+      }
+
+      return ok(createResult.value);
+    }
+  );
 
   useEffect(
     function validateFieldsOnChange() {
@@ -127,7 +164,10 @@ export default function AddStoryPage() {
         <div className="space-y-4">
           <h1 className="title-1">{t("heading")}</h1>
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form
+            className="space-y-4"
+            onSubmit={(event) => handleSubmit(event, storyFields)}
+          >
             {/* Language select */}
             <ThemeSelect<LanguageOption>
               label={t("language")}
@@ -175,9 +215,22 @@ export default function AddStoryPage() {
               error={storyFieldsErrors.storyError}
             />
 
-            <button className="border p-3 w-full" type="submit">
-              Submit
-            </button>
+            <ThemeButton
+              className="w-full"
+              type="submit"
+              loading={handleSubmitState.loading}
+              disabled={handleSubmitState.loading}
+              successMessage={
+                handleSubmitState.value && handleSubmitState.value.isOk()
+                  ? t("submit_success")
+                  : ""
+              }
+              errorMessage={
+                handleSubmitState.error ? t("something_went_wrong") : ""
+              }
+            >
+              {t("submit")}
+            </ThemeButton>
           </form>
         </div>
       </Container>
