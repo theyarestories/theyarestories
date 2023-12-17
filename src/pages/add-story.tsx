@@ -3,6 +3,7 @@ import ThemeButton from "@/components/button/ThemeButton";
 import Container from "@/components/container/Container";
 import ThemeInput from "@/components/input/ThemeInput";
 import Layout from "@/components/layout/Layout";
+import ThemeMDEditor from "@/components/md-editor/ThemeMDEditor";
 import ThemeSelect from "@/components/select/ThemeSelect";
 import ThemeTextarea from "@/components/textarea/ThemeTextarea";
 import allLanguages from "@/config/languages/allLanguages";
@@ -52,6 +53,8 @@ export default function AddStoryPage() {
     jobError: "",
     dateOfBirthError: "",
   });
+
+  console.log("📖", { storyFields });
 
   const validateStoryFields = (storyFields: RegisteringStory): boolean => {
     // protagonist
@@ -207,12 +210,19 @@ export default function AddStoryPage() {
             />
 
             {/* Story */}
-            <ThemeTextarea
+            {/* <ThemeTextarea
               label={t("story")}
               name="story"
               value={storyFields.story}
               onChange={handleChange}
               error={storyFieldsErrors.storyError}
+            /> */}
+
+            <ThemeMDEditor
+              value={storyFields.story}
+              onChange={(value) =>
+                setStoryFields((prev) => ({ ...prev, story: value }))
+              }
             />
 
             <ThemeButton
