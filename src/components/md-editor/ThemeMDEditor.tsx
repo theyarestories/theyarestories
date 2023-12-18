@@ -2,6 +2,7 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import rehypeSanitize from "rehype-sanitize";
+import { useMedia } from "react-use";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -25,6 +26,8 @@ type Props = {
 };
 
 export default function ThemeMDEditor({ value, onChange }: Props) {
+  const isWide = useMedia("(min-width: 768px)");
+
   return (
     // <div data-color-mode="dark">
     <MDEditor
@@ -33,7 +36,7 @@ export default function ThemeMDEditor({ value, onChange }: Props) {
       previewOptions={{
         rehypePlugins: [[rehypeSanitize]],
       }}
-      preview="edit"
+      preview={isWide ? "live" : "edit"}
     />
     // {/* <div style={{ paddingTop: 50 }}>
     //   <Markdown source={value} />

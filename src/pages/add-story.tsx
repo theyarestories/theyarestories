@@ -1,11 +1,10 @@
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import ThemeButton from "@/components/button/ThemeButton";
 import Container from "@/components/container/Container";
-import ThemeInput from "@/components/input/ThemeInput";
+import InputContainer from "@/components/input/InputContainer";
 import Layout from "@/components/layout/Layout";
 import ThemeMDEditor from "@/components/md-editor/ThemeMDEditor";
 import ThemeSelect from "@/components/select/ThemeSelect";
-import ThemeTextarea from "@/components/textarea/ThemeTextarea";
 import allLanguages from "@/config/languages/allLanguages";
 import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
 import { ApiError } from "@/interfaces/api-client/Error";
@@ -14,6 +13,7 @@ import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
 import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import { useAsyncFn } from "react-use";
+import { DateTime } from "luxon";
 
 type LanguageOption = {
   name: string;
@@ -77,7 +77,11 @@ export default function AddStoryPage() {
 
     // date of birth
     let dateOfBirthError = "";
-    if (storyFields.dateOfBirth) {
+    if (
+      storyFields.dateOfBirth &&
+      DateTime.fromISO(storyFields.dateOfBirth) > DateTime.now()
+    ) {
+      dateOfBirthError = t("future_date");
     }
 
     setStoryFieldsErrors((prevErrors) => ({
@@ -168,62 +172,92 @@ export default function AddStoryPage() {
           <h1 className="title-1">{t("heading")}</h1>
 
           <form
-            className="space-y-4"
+            className="space-y-3"
             onSubmit={(event) => handleSubmit(event, storyFields)}
+            noValidate
           >
             {/* Language select */}
-            <ThemeSelect<LanguageOption>
+            <InputContainer
               label={t("language")}
-              options={languagesOptions}
-              selected={selectedLanguage}
-              setSelected={setSelectedLanguage}
-            />
+              description={t("language_description")}
+              required
+            >
+              <ThemeSelect<LanguageOption>
+                // label={t("language")}
+                options={languagesOptions}
+                selected={selectedLanguage}
+                setSelected={setSelectedLanguage}
+              />
+            </InputContainer>
 
             {/* name */}
-            <ThemeInput
-              type="text"
+            <InputContainer
               label={t("name")}
-              name="protagonist"
-              value={storyFields.protagonist}
-              onChange={handleChange}
               error={storyFieldsErrors.protagonistError}
-            />
+              required
+            >
+              <input
+                className="w-full input"
+                type="text"
+                name="protagonist"
+                value={storyFields.protagonist}
+                onChange={handleChange}
+              />
+            </InputContainer>
 
             {/* city */}
-            <ThemeInput
-              type="text"
+            <InputContainer
               label={t("city")}
-              name="city"
-              value={storyFields.city}
-              onChange={handleChange}
               error={storyFieldsErrors.cityError}
-            />
+              required
+            >
+              <input
+                className="w-full input"
+                type="text"
+                name="city"
+                value={storyFields.city}
+                onChange={handleChange}
+              />
+            </InputContainer>
 
-            {/* city */}
-            <ThemeInput
-              type="text"
-              label={t("job")}
-              name="job"
-              value={storyFields.job || ""}
-              onChange={handleChange}
-              error={storyFieldsErrors.jobError}
-            />
+            {/* date of birth */}
+            <InputContainer
+              label={t("date_of_birth")}
+              error={storyFieldsErrors.dateOfBirthError}
+            >
+              <input
+                className="w-full input text-start"
+                type="date"
+                name="dateOfBirth"
+                max={DateTime.now().toFormat("yyyy-MM-dd")}
+                value={storyFields.dateOfBirth}
+                onChange={handleChange}
+              />
+            </InputContainer>
 
-            {/* Story */}
-            {/* <ThemeTextarea
+            {/* job */}
+            <InputContainer label={t("job")} error={storyFieldsErrors.jobError}>
+              <input
+                className="w-full input"
+                type="text"
+                name="job"
+                value={storyFields.city}
+                onChange={handleChange}
+              />
+            </InputContainer>
+
+            <InputContainer
               label={t("story")}
-              name="story"
-              value={storyFields.story}
-              onChange={handleChange}
               error={storyFieldsErrors.storyError}
-            /> */}
-
-            <ThemeMDEditor
-              value={storyFields.story}
-              onChange={(value) =>
-                setStoryFields((prev) => ({ ...prev, story: value }))
-              }
-            />
+              required
+            >
+              <ThemeMDEditor
+                value={storyFields.story}
+                onChange={(value) =>
+                  setStoryFields((prev) => ({ ...prev, story: value }))
+                }
+              />
+            </InputContainer>
 
             <ThemeButton
               className="w-full"
