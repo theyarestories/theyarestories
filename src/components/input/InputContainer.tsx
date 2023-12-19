@@ -32,9 +32,6 @@ function InputContainer({
           )}
           :
         </span>
-        {/* {description && (
-          <span className="text-sm text-gray-500">{description}</span>
-        )} */}
         {children}
       </label>
       {error && <ErrorMessage message={error} />}

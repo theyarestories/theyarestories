@@ -26,7 +26,7 @@ type Props = {
 };
 
 export default function ThemeMDEditor({ value, onChange }: Props) {
-  const isWide = useMedia("(min-width: 768px)");
+  const isWide = useMedia("(min-width: 768px)", false);
 
   return (
     // <div data-color-mode="dark">

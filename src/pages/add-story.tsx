@@ -14,6 +14,8 @@ import { useTranslations } from "next-intl";
 import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import { useAsyncFn } from "react-use";
 import { DateTime } from "luxon";
+import { LanguageDetectorApiClient } from "@/apis/LanguageDetectorApiClient";
+import ErrorMessage from "@/components/alerts/ErrorMessage";
 
 type LanguageOption = {
   name: string;
@@ -29,6 +31,7 @@ const languagesOptions = allLanguages.map((language) => ({
 }));
 
 const serverApiClient = new ServerApiClient();
+const languageDetectorApiClient = new LanguageDetectorApiClient();
 
 export default function AddStoryPage() {
   const t = useTranslations("AddStoryPage");
@@ -52,9 +55,8 @@ export default function AddStoryPage() {
     imagesError: "",
     jobError: "",
     dateOfBirthError: "",
+    languageError: "",
   });
-
-  console.log("📖", { storyFields });
 
   const validateStoryFields = (storyFields: RegisteringStory): boolean => {
     // protagonist
@@ -84,17 +86,16 @@ export default function AddStoryPage() {
       dateOfBirthError = t("future_date");
     }
 
-    setStoryFieldsErrors((prevErrors) => ({
-      ...prevErrors,
+    const allErrors = {
       protagonistError,
       cityError,
       storyError,
       dateOfBirthError,
-    }));
+    };
+    setStoryFieldsErrors((prevErrors) => ({ ...prevErrors, ...allErrors }));
+    const isValid = !Object.values(allErrors).some(Boolean);
 
-    return ![protagonistError, cityError, storyError, dateOfBirthError].some(
-      Boolean
-    );
+    return isValid;
   };
 
   const addTranslationToStory = (
@@ -139,7 +140,22 @@ export default function AddStoryPage() {
         return err({ errorMessage: "Story fields are not valid" });
       }
 
-      // 3. Create the story
+      // 3. check language
+      const languageResult = await languageDetectorApiClient.detectLanguage(
+        storyFields.story
+      );
+      if (
+        languageResult.isOk() &&
+        languageResult.value !== selectedLanguage.code
+      ) {
+        setStoryFieldsErrors((prev) => ({
+          ...prev,
+          languageError: t("wrong_language"),
+        }));
+        return err({ errorMessage: "Wrong language detected" });
+      }
+
+      // 4. Create the story
       const createResult = await serverApiClient.createStory(translatedStory);
       if (createResult.isErr()) {
         throw new Error(createResult.error.errorMessage);
@@ -183,7 +199,6 @@ export default function AddStoryPage() {
               required
             >
               <ThemeSelect<LanguageOption>
-                // label={t("language")}
                 options={languagesOptions}
                 selected={selectedLanguage}
                 setSelected={setSelectedLanguage}
@@ -241,7 +256,7 @@ export default function AddStoryPage() {
                 className="w-full input"
                 type="text"
                 name="job"
-                value={storyFields.city}
+                value={storyFields.job}
                 onChange={handleChange}
               />
             </InputContainer>
@@ -275,6 +290,10 @@ export default function AddStoryPage() {
             >
               {t("submit")}
             </ThemeButton>
+
+            {storyFieldsErrors.languageError && (
+              <ErrorMessage message={storyFieldsErrors.languageError} />
+            )}
           </form>
         </div>
       </Container>
