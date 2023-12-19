@@ -29,23 +29,26 @@ export default function ThemeMDEditor({ value, onChange }: Props) {
   const isWide = useMedia("(min-width: 768px)", false);
 
   return (
-    // <div data-color-mode="dark">
-    <MDEditor
-      value={value}
-      onChange={(value) => onChange(value || "")}
-      previewOptions={{
-        rehypePlugins: [[rehypeSanitize]],
-      }}
-      preview={isWide ? "live" : "edit"}
-      commandsFilter={(cmd) =>
-        cmd.name && /(code|comment|strikethrough|table)/.test(cmd.name)
-          ? false
-          : cmd
-      }
-    />
-    // {/* <div style={{ paddingTop: 50 }}>
+    <div
+      dir="ltr"
+      // data-color-mode="dark"
+    >
+      <MDEditor
+        value={value}
+        onChange={(value) => onChange(value || "")}
+        previewOptions={{
+          rehypePlugins: [[rehypeSanitize]],
+        }}
+        preview={isWide ? "live" : "edit"}
+        commandsFilter={(cmd) =>
+          cmd.name && /(code|comment|strikethrough|table)/.test(cmd.name)
+            ? false
+            : cmd
+        }
+      />
+      {/* <div style={{ paddingTop: 50 }}>
     //   <Markdown source={value} />
     // // </div> */}
-    // {/* </div> */}
+    </div>
   );
 }
