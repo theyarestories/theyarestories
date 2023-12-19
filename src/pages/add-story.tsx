@@ -1,10 +1,10 @@
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import ThemeButton from "@/components/button/ThemeButton";
 import Container from "@/components/container/Container";
-import ThemeInput from "@/components/input/ThemeInput";
+import InputContainer from "@/components/input/InputContainer";
 import Layout from "@/components/layout/Layout";
+import ThemeMDEditor from "@/components/md-editor/ThemeMDEditor";
 import ThemeSelect from "@/components/select/ThemeSelect";
-import ThemeTextarea from "@/components/textarea/ThemeTextarea";
 import allLanguages from "@/config/languages/allLanguages";
 import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
 import { ApiError } from "@/interfaces/api-client/Error";
@@ -13,6 +13,9 @@ import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
 import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import { useAsyncFn } from "react-use";
+import { DateTime } from "luxon";
+import { LanguageDetectorApiClient } from "@/apis/LanguageDetectorApiClient";
+import ErrorMessage from "@/components/alerts/ErrorMessage";
 
 type LanguageOption = {
   name: string;
@@ -28,6 +31,7 @@ const languagesOptions = allLanguages.map((language) => ({
 }));
 
 const serverApiClient = new ServerApiClient();
+const languageDetectorApiClient = new LanguageDetectorApiClient();
 
 export default function AddStoryPage() {
   const t = useTranslations("AddStoryPage");
@@ -51,9 +55,13 @@ export default function AddStoryPage() {
     imagesError: "",
     jobError: "",
     dateOfBirthError: "",
+    languageError: "",
   });
 
-  const validateStoryFields = (storyFields: RegisteringStory): boolean => {
+  const validateStoryFields = async (
+    storyFields: RegisteringStory,
+    selectedLanguage: LanguageOption
+  ): Promise<Result<true, false>> => {
     // protagonist
     let protagonistError = "";
     if (!storyFields.protagonist) {
@@ -71,23 +79,36 @@ export default function AddStoryPage() {
     if (!storyFields.story) {
       storyError = t("story_required");
     }
+    const languageResult = await languageDetectorApiClient.detectLanguage(
+      storyFields.story
+    );
+    if (
+      languageResult.isOk() &&
+      languageResult.value !== selectedLanguage.code
+    ) {
+      storyError = t("wrong_language");
+    }
 
     // date of birth
     let dateOfBirthError = "";
-    if (storyFields.dateOfBirth) {
+    if (
+      storyFields.dateOfBirth &&
+      DateTime.fromISO(storyFields.dateOfBirth) > DateTime.now()
+    ) {
+      dateOfBirthError = t("future_date");
     }
 
-    setStoryFieldsErrors((prevErrors) => ({
-      ...prevErrors,
+    const allErrors = {
       protagonistError,
       cityError,
       storyError,
       dateOfBirthError,
-    }));
+    };
+    setStoryFieldsErrors((prevErrors) => ({ ...prevErrors, ...allErrors }));
+    const isValid = !Object.values(allErrors).some(Boolean);
 
-    return ![protagonistError, cityError, storyError, dateOfBirthError].some(
-      Boolean
-    );
+    if (isValid) return ok(true);
+    else return err(false);
   };
 
   const addTranslationToStory = (
@@ -118,7 +139,8 @@ export default function AddStoryPage() {
   const [handleSubmitState, handleSubmit] = useAsyncFn(
     async (
       event: FormEvent<HTMLFormElement>,
-      storyFields: RegisteringStory
+      storyFields: RegisteringStory,
+      selectedLanguage: LanguageOption
     ): Promise<Result<DBStory, ApiError>> => {
       event.preventDefault();
       setIsSubmittedOnce(true);
@@ -127,8 +149,11 @@ export default function AddStoryPage() {
       const translatedStory = addTranslationToStory(storyFields);
 
       // 2. validate fields
-      const isStoryValid = validateStoryFields(storyFields);
-      if (!isStoryValid) {
+      const validationResult = await validateStoryFields(
+        storyFields,
+        selectedLanguage
+      );
+      if (validationResult.isErr()) {
         return err({ errorMessage: "Story fields are not valid" });
       }
 
@@ -145,10 +170,10 @@ export default function AddStoryPage() {
   useEffect(
     function validateFieldsOnChange() {
       if (isSubmittedOnce) {
-        validateStoryFields(storyFields);
+        validateStoryFields(storyFields, selectedLanguage);
       }
     },
-    [isSubmittedOnce, storyFields]
+    [isSubmittedOnce, storyFields, selectedLanguage]
   );
 
   useEffect(function setInitialLanguage() {
@@ -165,55 +190,93 @@ export default function AddStoryPage() {
           <h1 className="title-1">{t("heading")}</h1>
 
           <form
-            className="space-y-4"
-            onSubmit={(event) => handleSubmit(event, storyFields)}
+            className="space-y-3"
+            onSubmit={(event) =>
+              handleSubmit(event, storyFields, selectedLanguage)
+            }
+            noValidate
           >
             {/* Language select */}
-            <ThemeSelect<LanguageOption>
+            <InputContainer
               label={t("language")}
-              options={languagesOptions}
-              selected={selectedLanguage}
-              setSelected={setSelectedLanguage}
-            />
+              description={t("language_description")}
+              required
+            >
+              <ThemeSelect<LanguageOption>
+                options={languagesOptions}
+                selected={selectedLanguage}
+                setSelected={setSelectedLanguage}
+              />
+            </InputContainer>
 
             {/* name */}
-            <ThemeInput
-              type="text"
+            <InputContainer
               label={t("name")}
-              name="protagonist"
-              value={storyFields.protagonist}
-              onChange={handleChange}
               error={storyFieldsErrors.protagonistError}
-            />
+              required
+            >
+              <input
+                className="w-full input"
+                type="text"
+                name="protagonist"
+                value={storyFields.protagonist}
+                onChange={handleChange}
+              />
+            </InputContainer>
 
             {/* city */}
-            <ThemeInput
-              type="text"
+            <InputContainer
               label={t("city")}
-              name="city"
-              value={storyFields.city}
-              onChange={handleChange}
               error={storyFieldsErrors.cityError}
-            />
+              required
+            >
+              <input
+                className="w-full input"
+                type="text"
+                name="city"
+                value={storyFields.city}
+                onChange={handleChange}
+              />
+            </InputContainer>
 
-            {/* city */}
-            <ThemeInput
-              type="text"
-              label={t("job")}
-              name="job"
-              value={storyFields.job || ""}
-              onChange={handleChange}
-              error={storyFieldsErrors.jobError}
-            />
+            {/* date of birth */}
+            <InputContainer
+              label={t("date_of_birth")}
+              error={storyFieldsErrors.dateOfBirthError}
+            >
+              <input
+                className="w-full input text-start"
+                type="date"
+                name="dateOfBirth"
+                max={DateTime.now().toFormat("yyyy-MM-dd")}
+                value={storyFields.dateOfBirth}
+                onChange={handleChange}
+              />
+            </InputContainer>
 
-            {/* Story */}
-            <ThemeTextarea
+            {/* job */}
+            <InputContainer label={t("job")} error={storyFieldsErrors.jobError}>
+              <input
+                className="w-full input"
+                type="text"
+                name="job"
+                value={storyFields.job}
+                onChange={handleChange}
+              />
+            </InputContainer>
+
+            <InputContainer
               label={t("story")}
-              name="story"
-              value={storyFields.story}
-              onChange={handleChange}
               error={storyFieldsErrors.storyError}
-            />
+              required
+            >
+              <ThemeMDEditor
+                value={storyFields.story}
+                onChange={(value) =>
+                  setStoryFields((prev) => ({ ...prev, story: value }))
+                }
+              />
+            </InputContainer>
 
             <ThemeButton
               className="w-full"
@@ -231,6 +294,10 @@ export default function AddStoryPage() {
             >
               {t("submit")}
             </ThemeButton>
+
+            {storyFieldsErrors.languageError && (
+              <ErrorMessage message={storyFieldsErrors.languageError} />
+            )}
           </form>
         </div>
       </Container>

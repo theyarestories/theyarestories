@@ -32,6 +32,6 @@ body {
   }
 
   .input {
-    @apply rounded-sm p-2 placeholder:text-gray-500;
+    @apply rounded-sm border p-2 placeholder:text-gray-500;
   }
 }
