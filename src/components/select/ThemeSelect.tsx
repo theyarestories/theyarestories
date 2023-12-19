@@ -1,6 +1,8 @@
 import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import classNames from "@/helpers/style/classNames";
+import useIsRtl from "@/hooks/useIsRtl";
 
 type Option<CustomOption> = { name: string } & CustomOption;
 
@@ -8,26 +10,34 @@ type Props<CustomOption> = {
   options: Option<CustomOption>[];
   selected: Option<CustomOption>;
   setSelected: Dispatch<SetStateAction<Option<CustomOption>>>;
-  label?: string;
-  labelClassName?: string;
 };
 
 export default function ThemeSelect<CustomOption>({
   options,
   selected,
   setSelected,
-  label,
-  labelClassName = "",
 }: Props<CustomOption>) {
+  const isRtl = useIsRtl();
+
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative mt-1">
-        {label && (
+        {/* {label && (
           <Listbox.Label className={labelClassName}>{label}:</Listbox.Label>
-        )}
-        <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+        )} */}
+        {/* rounded-lg bg-white py-2 pl-3 pr-10 text-left sm:text-sm shadow-md */}
+        <Listbox.Button
+          className={classNames(
+            "relative w-full input cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 text-start"
+          )}
+        >
           <span className="block truncate">{selected.name}</span>
-          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+          <span
+            className={classNames(
+              "pointer-events-none absolute inset-y-0 flex items-center pe-2",
+              isRtl ? "left-0" : "right-0"
+            )}
+          >
             <ChevronUpDownIcon
               className="h-5 w-5 text-gray-400"
               aria-hidden="true"

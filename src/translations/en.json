@@ -10,15 +10,22 @@
     "page_description": "",
     "heading": "Add a Story",
     "language": "Language",
+    "language_description": "Choose the language you will use to write the story",
     "name": "Name",
     "city": "City",
     "job": "Job",
     "story": "Story",
     "name_required": "Please, add the name",
     "city_required": "Please, add the city",
+    "date_of_birth": "Date of birth",
+    "future_date": "Sorry, The date can't be in the future",
     "story_required": "Please, add the story",
     "submit": "Submit",
     "submit_success": "Thank you for your effort ♥. We'll review it in a maximum of 48 hours and notify you once it's approved.",
-    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach through any of our social media channels."
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "wrong_language": "Sorry, we detected the story is written in another language than the selected one. If that's not the case, please reach us through any of our social media channels."
+  },
+  "InputContainer": {
+    "not_required": "not required"
   }
 }
