@@ -58,7 +58,10 @@ export default function AddStoryPage() {
     languageError: "",
   });
 
-  const validateStoryFields = (storyFields: RegisteringStory): boolean => {
+  const validateStoryFields = async (
+    storyFields: RegisteringStory,
+    selectedLanguage: LanguageOption
+  ): Promise<Result<true, false>> => {
     // protagonist
     let protagonistError = "";
     if (!storyFields.protagonist) {
@@ -75,6 +78,15 @@ export default function AddStoryPage() {
     let storyError = "";
     if (!storyFields.story) {
       storyError = t("story_required");
+    }
+    const languageResult = await languageDetectorApiClient.detectLanguage(
+      storyFields.story
+    );
+    if (
+      languageResult.isOk() &&
+      languageResult.value !== selectedLanguage.code
+    ) {
+      storyError = t("wrong_language");
     }
 
     // date of birth
@@ -95,7 +107,8 @@ export default function AddStoryPage() {
     setStoryFieldsErrors((prevErrors) => ({ ...prevErrors, ...allErrors }));
     const isValid = !Object.values(allErrors).some(Boolean);
 
-    return isValid;
+    if (isValid) return ok(true);
+    else return err(false);
   };
 
   const addTranslationToStory = (
@@ -126,7 +139,8 @@ export default function AddStoryPage() {
   const [handleSubmitState, handleSubmit] = useAsyncFn(
     async (
       event: FormEvent<HTMLFormElement>,
-      storyFields: RegisteringStory
+      storyFields: RegisteringStory,
+      selectedLanguage: LanguageOption
     ): Promise<Result<DBStory, ApiError>> => {
       event.preventDefault();
       setIsSubmittedOnce(true);
@@ -135,27 +149,15 @@ export default function AddStoryPage() {
       const translatedStory = addTranslationToStory(storyFields);
 
       // 2. validate fields
-      const isStoryValid = validateStoryFields(storyFields);
-      if (!isStoryValid) {
+      const validationResult = await validateStoryFields(
+        storyFields,
+        selectedLanguage
+      );
+      if (validationResult.isErr()) {
         return err({ errorMessage: "Story fields are not valid" });
       }
 
-      // 3. check language
-      const languageResult = await languageDetectorApiClient.detectLanguage(
-        storyFields.story
-      );
-      if (
-        languageResult.isOk() &&
-        languageResult.value !== selectedLanguage.code
-      ) {
-        setStoryFieldsErrors((prev) => ({
-          ...prev,
-          languageError: t("wrong_language"),
-        }));
-        return err({ errorMessage: "Wrong language detected" });
-      }
-
-      // 4. Create the story
+      // 3. Create the story
       const createResult = await serverApiClient.createStory(translatedStory);
       if (createResult.isErr()) {
         throw new Error(createResult.error.errorMessage);
@@ -168,10 +170,10 @@ export default function AddStoryPage() {
   useEffect(
     function validateFieldsOnChange() {
       if (isSubmittedOnce) {
-        validateStoryFields(storyFields);
+        validateStoryFields(storyFields, selectedLanguage);
       }
     },
-    [isSubmittedOnce, storyFields]
+    [isSubmittedOnce, storyFields, selectedLanguage]
   );
 
   useEffect(function setInitialLanguage() {
@@ -189,7 +191,9 @@ export default function AddStoryPage() {
 
           <form
             className="space-y-3"
-            onSubmit={(event) => handleSubmit(event, storyFields)}
+            onSubmit={(event) =>
+              handleSubmit(event, storyFields, selectedLanguage)
+            }
             noValidate
           >
             {/* Language select */}

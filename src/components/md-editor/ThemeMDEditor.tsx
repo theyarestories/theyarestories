@@ -37,6 +37,11 @@ export default function ThemeMDEditor({ value, onChange }: Props) {
         rehypePlugins: [[rehypeSanitize]],
       }}
       preview={isWide ? "live" : "edit"}
+      commandsFilter={(cmd) =>
+        cmd.name && /(code|comment|strikethrough|table)/.test(cmd.name)
+          ? false
+          : cmd
+      }
     />
     // {/* <div style={{ paddingTop: 50 }}>
     //   <Markdown source={value} />
