@@ -16,6 +16,8 @@ import { useAsyncFn } from "react-use";
 import { DateTime } from "luxon";
 import { LanguageDetectorApiClient } from "@/apis/LanguageDetectorApiClient";
 import ErrorMessage from "@/components/alerts/ErrorMessage";
+import { CldUploadWidget } from "next-cloudinary";
+import { useRouter } from "next/router";
 
 type LanguageOption = {
   name: string;
@@ -34,6 +36,7 @@ const serverApiClient = new ServerApiClient();
 const languageDetectorApiClient = new LanguageDetectorApiClient();
 
 export default function AddStoryPage() {
+  const router = useRouter();
   const t = useTranslations("AddStoryPage");
 
   const [selectedLanguage, setSelectedLanguage] = useState(languagesOptions[0]);
@@ -276,6 +279,26 @@ export default function AddStoryPage() {
                   setStoryFields((prev) => ({ ...prev, story: value }))
                 }
               />
+            </InputContainer>
+
+            <InputContainer label={t("images")}>
+              <CldUploadWidget
+                signatureEndpoint="/api/cloudinary/sign-cloudinary-params"
+                onUpload={(result) => console.log("🍉", result)}
+                options={{
+                  maxFiles: 3,
+                  folder: "protagonists",
+                  maxImageFileSize: 500000, // bytes
+                }}
+              >
+                {({ open }) => {
+                  return (
+                    <button type="button" onClick={() => open()}>
+                      Upload an Image
+                    </button>
+                  );
+                }}
+              </CldUploadWidget>
             </InputContainer>
 
             <ThemeButton
