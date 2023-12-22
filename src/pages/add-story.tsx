@@ -213,11 +213,7 @@ export default function AddStoryPage() {
             noValidate
           >
             {/* Language select */}
-            <InputContainer
-              label={t("language")}
-              description={t("language_description")}
-              required
-            >
+            <InputContainer label={t("language")} required>
               <ThemeSelect<LanguageOption>
                 options={languagesOptions}
                 selected={selectedLanguage}
