@@ -6,7 +6,10 @@ import { useMedia } from "react-use";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
-  { ssr: false }
+  {
+    ssr: false,
+    loading: () => <div className="h-[200px] bg-gray-300 animate-pulse" />,
+  }
 );
 // const EditerMarkdown = dynamic(
 //   () =>
