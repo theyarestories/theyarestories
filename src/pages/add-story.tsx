@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import ThemeButton from "@/components/button/ThemeButton";
 import Container from "@/components/container/Container";
@@ -17,8 +16,12 @@ import { useAsyncFn } from "react-use";
 import { DateTime } from "luxon";
 import { LanguageDetectorApiClient } from "@/apis/LanguageDetectorApiClient";
 import ErrorMessage from "@/components/alerts/ErrorMessage";
-import { CldUploadWidget, CldUploadWidgetProps } from "next-cloudinary";
-import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
+import {
+  CldImage,
+  CldUploadWidget,
+  CldUploadWidgetProps,
+} from "next-cloudinary";
+import { CloudArrowUpIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 type LanguageOption = {
   name: string;
@@ -150,6 +153,10 @@ export default function AddStoryPage() {
         };
       });
     }
+  };
+
+  const removeImage = () => {
+    setStoryFields((prevFields) => ({ ...prevFields, avatar: null }));
   };
 
   const [handleSubmitState, handleSubmit] = useAsyncFn(
@@ -294,6 +301,7 @@ export default function AddStoryPage() {
               />
             </InputContainer>
 
+            {/* <div className="space-y-1"> */}
             <InputContainer label={t("upload_image")}>
               <CldUploadWidget
                 signatureEndpoint="/api/cloudinary/sign-cloudinary-params"
@@ -320,15 +328,27 @@ export default function AddStoryPage() {
               </CldUploadWidget>
             </InputContainer>
 
+            {/* Image preview */}
             {storyFields.avatar && (
-              <Image
-                className="w-20"
-                src={storyFields.avatar.url}
-                alt={""}
-                width={0}
-                height={0}
-                sizes="40rem"
-              />
+              <div className="relative inline-block">
+                <button
+                  className="rounded-full w-6 h-6 p-0.5 border absolute top-0 right-0 translate-x-1/3 -translate-y-1/3 bg-gray-100"
+                  type="button"
+                  onClick={removeImage}
+                >
+                  <XMarkIcon className="w-full" />
+                </button>
+                <CldImage
+                  className="object-cover border rounded-sm"
+                  src={storyFields.avatar.url}
+                  alt={""}
+                  width={160}
+                  height={160}
+                  sizes="14rem"
+                  crop="fill"
+                  gravity="auto"
+                />
+              </div>
             )}
 
             <ThemeButton
