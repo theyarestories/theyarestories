@@ -344,7 +344,6 @@ export default function AddStoryPage() {
                   alt={""}
                   width={160}
                   height={160}
-                  sizes="14rem"
                   crop="fill"
                   gravity="auto"
                 />
