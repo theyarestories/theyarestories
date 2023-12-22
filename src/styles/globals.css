@@ -32,6 +32,10 @@ body {
   }
 
   .input {
-    @apply rounded-sm border p-2 placeholder:text-gray-500;
+    @apply rounded-sm border p-2 placeholder:text-gray-500 border-gray-300;
+  }
+
+  .button {
+    @apply flex items-center justify-center rounded-md py-1.5 px-4 border-gray-300;
   }
 }

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import ThemeButton from "@/components/button/ThemeButton";
 import Container from "@/components/container/Container";
@@ -16,8 +17,8 @@ import { useAsyncFn } from "react-use";
 import { DateTime } from "luxon";
 import { LanguageDetectorApiClient } from "@/apis/LanguageDetectorApiClient";
 import ErrorMessage from "@/components/alerts/ErrorMessage";
-import { CldUploadWidget } from "next-cloudinary";
-import { useRouter } from "next/router";
+import { CldUploadWidget, CldUploadWidgetProps } from "next-cloudinary";
+import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
 
 type LanguageOption = {
   name: string;
@@ -36,7 +37,6 @@ const serverApiClient = new ServerApiClient();
 const languageDetectorApiClient = new LanguageDetectorApiClient();
 
 export default function AddStoryPage() {
-  const router = useRouter();
   const t = useTranslations("AddStoryPage");
 
   const [selectedLanguage, setSelectedLanguage] = useState(languagesOptions[0]);
@@ -45,8 +45,7 @@ export default function AddStoryPage() {
     protagonist: "",
     city: "",
     story: "",
-    avatar: "",
-    images: [],
+    avatar: null,
     job: "",
     dateOfBirth: "",
     translations: {},
@@ -139,6 +138,20 @@ export default function AddStoryPage() {
     }));
   };
 
+  const handleImageChange: CldUploadWidgetProps["onUpload"] = (result: any) => {
+    if (result.event === "success") {
+      setStoryFields((prevFields) => {
+        return {
+          ...prevFields,
+          avatar: {
+            cloudinaryId: result.info.public_id,
+            url: result.info.secure_url,
+          },
+        };
+      });
+    }
+  };
+
   const [handleSubmitState, handleSubmit] = useAsyncFn(
     async (
       event: FormEvent<HTMLFormElement>,
@@ -227,21 +240,6 @@ export default function AddStoryPage() {
               />
             </InputContainer>
 
-            {/* city */}
-            <InputContainer
-              label={t("city")}
-              error={storyFieldsErrors.cityError}
-              required
-            >
-              <input
-                className="w-full input"
-                type="text"
-                name="city"
-                value={storyFields.city}
-                onChange={handleChange}
-              />
-            </InputContainer>
-
             {/* date of birth */}
             <InputContainer
               label={t("date_of_birth")}
@@ -253,6 +251,21 @@ export default function AddStoryPage() {
                 name="dateOfBirth"
                 max={DateTime.now().toFormat("yyyy-MM-dd")}
                 value={storyFields.dateOfBirth}
+                onChange={handleChange}
+              />
+            </InputContainer>
+
+            {/* city */}
+            <InputContainer
+              label={t("city")}
+              error={storyFieldsErrors.cityError}
+              required
+            >
+              <input
+                className="w-full input"
+                type="text"
+                name="city"
+                value={storyFields.city}
                 onChange={handleChange}
               />
             </InputContainer>
@@ -281,25 +294,42 @@ export default function AddStoryPage() {
               />
             </InputContainer>
 
-            <InputContainer label={t("images")}>
+            <InputContainer label={t("upload_image")}>
               <CldUploadWidget
                 signatureEndpoint="/api/cloudinary/sign-cloudinary-params"
-                onUpload={(result) => console.log("🍉", result)}
+                onUpload={handleImageChange}
                 options={{
                   maxFiles: 3,
                   folder: "protagonists",
-                  maxImageFileSize: 500000, // bytes
+                  maxImageFileSize: 1000000, // bytes
+                  multiple: false,
                 }}
               >
                 {({ open }) => {
                   return (
-                    <button type="button" onClick={() => open()}>
-                      Upload an Image
+                    <button
+                      className="button gap-2 border"
+                      type="button"
+                      onClick={() => open()}
+                    >
+                      <CloudArrowUpIcon className="w-6" />
+                      {t("upload")}
                     </button>
                   );
                 }}
               </CldUploadWidget>
             </InputContainer>
+
+            {storyFields.avatar && (
+              <Image
+                className="w-20"
+                src={storyFields.avatar.url}
+                alt={""}
+                width={0}
+                height={0}
+                sizes="40rem"
+              />
+            )}
 
             <ThemeButton
               className="w-full"
