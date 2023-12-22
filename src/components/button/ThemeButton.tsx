@@ -31,7 +31,7 @@ function ThemeButton({
     <div className="space-y-1.5">
       <button
         className={classNames(
-          "btn gap-2 bg-teal-600 text-white",
+          "button gap-2 bg-teal-600 text-white",
           className,
           disabled ? "cursor-not-allowed opacity-50" : ""
         )}
