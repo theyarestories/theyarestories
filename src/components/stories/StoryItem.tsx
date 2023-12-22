@@ -11,7 +11,7 @@ function StoryItem({ story }: Props) {
       <div className="flex gap-2">
         <Image
           className="w-24 h-24 object-cover object-center"
-          src={story.avatar}
+          src={story.avatar.url}
           alt=""
           width={0}
           height={0}

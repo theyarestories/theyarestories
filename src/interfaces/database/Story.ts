@@ -1,3 +1,5 @@
+import { DBImage } from "./DBImage";
+
 interface StoryTranslatedFields {
   protagonist: string;
   city: string;
@@ -7,8 +9,7 @@ interface StoryTranslatedFields {
 
 export type DBStory = StoryTranslatedFields & {
   _id: string;
-  avatar: string;
-  images: string[];
+  avatar: DBImage;
   isApproved: boolean;
   isHighlighted: boolean;
   isDeleted: boolean;
@@ -28,4 +29,5 @@ export type RegisteringStory = Omit<
   | "isApproved"
   | "isHighlighted"
   | "isDeleted"
->;
+  | "avatar"
+> & { avatar: DBImage | null };

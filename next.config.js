@@ -12,15 +12,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "cloudflare-ipfs.com",
-      },
-      {
-        protocol: "https",
-        hostname: "avatars.githubusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "picsum.photos",
+        hostname: "res.cloudinary.com",
       },
     ],
   },
