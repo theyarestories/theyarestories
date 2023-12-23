@@ -11,7 +11,13 @@ import { ApiError } from "@/interfaces/api-client/Error";
 import { DBStory, RegisteringStory } from "@/interfaces/database/Story";
 import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
-import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useAsyncFn } from "react-use";
 import { DateTime } from "luxon";
 import { LanguageDetectorApiClient } from "@/apis/LanguageDetectorApiClient";
@@ -22,10 +28,16 @@ import {
   CldUploadWidgetProps,
 } from "next-cloudinary";
 import { CloudArrowUpIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { cities } from "@/config/palestine/cities";
 
 type LanguageOption = {
   name: string;
   code: string;
+};
+
+type CityOption = {
+  name: string;
+  value: string;
 };
 
 const languagesOptions = allLanguages.map((language) => ({
@@ -46,7 +58,7 @@ export default function AddStoryPage() {
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [storyFields, setStoryFields] = useState<RegisteringStory>({
     protagonist: "",
-    city: "",
+    city: "Gaza",
     story: "",
     avatar: null,
     job: "",
@@ -62,6 +74,12 @@ export default function AddStoryPage() {
     dateOfBirthError: "",
     languageError: "",
   });
+  const cityOptions = useRef(
+    cities.map((city) => ({
+      name: t(city.name),
+      value: city.name,
+    }))
+  );
 
   const validateStoryFields = async (
     storyFields: RegisteringStory,
@@ -224,7 +242,7 @@ export default function AddStoryPage() {
               <ThemeSelect<LanguageOption>
                 options={languagesOptions}
                 selected={selectedLanguage}
-                setSelected={setSelectedLanguage}
+                handleChange={setSelectedLanguage}
               />
             </InputContainer>
 
@@ -264,13 +282,24 @@ export default function AddStoryPage() {
               error={storyFieldsErrors.cityError}
               required
             >
-              <input
+              <ThemeSelect<CityOption>
+                options={cityOptions.current}
+                selected={
+                  cityOptions.current.find(
+                    (city) => city.value === storyFields.city
+                  ) || cityOptions.current[0]
+                }
+                handleChange={(option) =>
+                  setStoryFields((prev) => ({ ...prev, city: option.name }))
+                }
+              />
+              {/* <input
                 className="w-full input"
                 type="text"
                 name="city"
                 value={storyFields.city}
                 onChange={handleChange}
-              />
+              /> */}
             </InputContainer>
 
             {/* job */}
