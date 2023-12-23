@@ -246,72 +246,74 @@ export default function AddStoryPage() {
               />
             </InputContainer>
 
-            {/* name */}
-            <InputContainer
-              label={t("name")}
-              error={storyFieldsErrors.protagonistError}
-              required
-            >
-              <input
-                className="w-full input"
-                type="text"
-                name="protagonist"
-                value={storyFields.protagonist}
-                onChange={handleChange}
-              />
-            </InputContainer>
+            <hr />
 
-            {/* date of birth */}
-            <InputContainer
-              label={t("date_of_birth")}
-              error={storyFieldsErrors.dateOfBirthError}
-            >
-              <input
-                className="w-full input text-start"
-                type="date"
-                name="dateOfBirth"
-                max={DateTime.now().toFormat("yyyy-MM-dd")}
-                value={storyFields.dateOfBirth}
-                onChange={handleChange}
-              />
-            </InputContainer>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {/* name */}
+              <InputContainer
+                label={t("name")}
+                error={storyFieldsErrors.protagonistError}
+                required
+              >
+                <input
+                  className="w-full input"
+                  type="text"
+                  name="protagonist"
+                  value={storyFields.protagonist}
+                  onChange={handleChange}
+                />
+              </InputContainer>
 
-            {/* city */}
-            <InputContainer
-              label={t("city")}
-              error={storyFieldsErrors.cityError}
-              required
-            >
-              <ThemeSelect<CityOption>
-                options={cityOptions.current}
-                selected={
-                  cityOptions.current.find(
-                    (city) => city.value === storyFields.city
-                  ) || cityOptions.current[0]
-                }
-                handleChange={(option) =>
-                  setStoryFields((prev) => ({ ...prev, city: option.name }))
-                }
-              />
-              {/* <input
-                className="w-full input"
-                type="text"
-                name="city"
-                value={storyFields.city}
-                onChange={handleChange}
-              /> */}
-            </InputContainer>
+              {/* date of birth */}
+              <InputContainer
+                label={t("date_of_birth")}
+                error={storyFieldsErrors.dateOfBirthError}
+              >
+                <input
+                  className="w-full input text-start max-h-[2.625rem]"
+                  type="date"
+                  name="dateOfBirth"
+                  max={DateTime.now().toFormat("yyyy-MM-dd")}
+                  value={storyFields.dateOfBirth}
+                  onChange={handleChange}
+                />
+              </InputContainer>
 
-            {/* job */}
-            <InputContainer label={t("job")} error={storyFieldsErrors.jobError}>
-              <input
-                className="w-full input"
-                type="text"
-                name="job"
-                value={storyFields.job}
-                onChange={handleChange}
-              />
-            </InputContainer>
+              {/* city */}
+              <InputContainer
+                label={t("city")}
+                error={storyFieldsErrors.cityError}
+                required
+              >
+                <ThemeSelect<CityOption>
+                  options={cityOptions.current}
+                  selected={
+                    cityOptions.current.find(
+                      (city) => city.value === storyFields.city
+                    ) || cityOptions.current[0]
+                  }
+                  handleChange={(option) =>
+                    setStoryFields((prev) => ({ ...prev, city: option.name }))
+                  }
+                />
+              </InputContainer>
+
+              {/* job */}
+              <InputContainer
+                label={t("job")}
+                error={storyFieldsErrors.jobError}
+              >
+                <input
+                  className="w-full input"
+                  type="text"
+                  name="job"
+                  value={storyFields.job}
+                  onChange={handleChange}
+                />
+              </InputContainer>
+            </div>
+
+            <hr />
 
             <InputContainer
               label={t("story")}
