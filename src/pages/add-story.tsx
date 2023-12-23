@@ -29,6 +29,7 @@ import {
 } from "next-cloudinary";
 import { CloudArrowUpIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { cities } from "@/config/palestine/cities";
+import consts from "@/config/consts";
 
 type LanguageOption = {
   name: string;
@@ -62,7 +63,7 @@ export default function AddStoryPage() {
     story: "",
     avatar: null,
     job: "",
-    dateOfBirth: "",
+    age: null,
     translations: {},
   });
   const [storyFieldsErrors, setStoryFieldsErrors] = useState({
@@ -71,7 +72,7 @@ export default function AddStoryPage() {
     storyError: "",
     imagesError: "",
     jobError: "",
-    dateOfBirthError: "",
+    ageError: "",
     languageError: "",
   });
   const cityOptions = useRef(
@@ -112,20 +113,24 @@ export default function AddStoryPage() {
       storyError = t("wrong_language");
     }
 
-    // date of birth
-    let dateOfBirthError = "";
+    // age
+    let ageError = "";
     if (
-      storyFields.dateOfBirth &&
-      DateTime.fromISO(storyFields.dateOfBirth) > DateTime.now()
+      storyFields.age &&
+      (Number(storyFields.age) > consts.maxAge ||
+        Number(storyFields.age) < consts.minAge)
     ) {
-      dateOfBirthError = t("future_date");
+      ageError = t("age_error", {
+        minAge: consts.minAge,
+        maxAge: consts.maxAge,
+      });
     }
 
     const allErrors = {
       protagonistError,
       cityError,
       storyError,
-      dateOfBirthError,
+      ageError,
     };
     setStoryFieldsErrors((prevErrors) => ({ ...prevErrors, ...allErrors }));
     const isValid = !Object.values(allErrors).some(Boolean);
@@ -155,7 +160,10 @@ export default function AddStoryPage() {
   > = (event) => {
     setStoryFields((prevFields) => ({
       ...prevFields,
-      [event.target.name]: event.target.value,
+      [event.target.name]:
+        event.target.type === "number"
+          ? Number(event.target.value)
+          : event.target.value,
     }));
   };
 
@@ -266,15 +274,16 @@ export default function AddStoryPage() {
 
               {/* date of birth */}
               <InputContainer
-                label={t("date_of_birth")}
-                error={storyFieldsErrors.dateOfBirthError}
+                label={t("age")}
+                error={storyFieldsErrors.ageError}
               >
                 <input
-                  className="w-full input text-start max-h-[2.625rem]"
-                  type="date"
-                  name="dateOfBirth"
-                  max={DateTime.now().toFormat("yyyy-MM-dd")}
-                  value={storyFields.dateOfBirth}
+                  className="w-full input text-start"
+                  type="number"
+                  name="age"
+                  min={consts.minAge}
+                  max={consts.maxAge}
+                  value={storyFields.age || ""}
                   onChange={handleChange}
                 />
               </InputContainer>
@@ -384,7 +393,7 @@ export default function AddStoryPage() {
               disabled={handleSubmitState.loading}
               successMessage={
                 handleSubmitState.value && handleSubmitState.value.isOk()
-                  ? t("submit_success")
+                  ? t("submit_success", { reviewHours: consts.reviewHours })
                   : ""
               }
               errorMessage={

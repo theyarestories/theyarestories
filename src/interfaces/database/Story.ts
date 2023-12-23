@@ -13,7 +13,7 @@ export type DBStory = StoryTranslatedFields & {
   isApproved: boolean;
   isHighlighted: boolean;
   isDeleted: boolean;
-  dateOfBirth?: string;
+  age: number;
   createdAt: string;
   updatedAt: string;
   translations: {
@@ -21,13 +21,10 @@ export type DBStory = StoryTranslatedFields & {
   };
 };
 
-export type RegisteringStory = Omit<
-  DBStory,
-  | "_id"
-  | "createdAt"
-  | "updatedAt"
-  | "isApproved"
-  | "isHighlighted"
-  | "isDeleted"
-  | "avatar"
-> & { avatar: DBImage | null };
+export type RegisteringStory = StoryTranslatedFields & {
+  avatar: DBImage | null;
+  age: number | null;
+  translations: {
+    [key: string]: StoryTranslatedFields;
+  };
+};
