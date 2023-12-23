@@ -21,7 +21,7 @@ function InputContainer({
 
   return (
     <div className="space-y-1">
-      <label className="flex flex-col">
+      <label className="flex flex-col gap-0.5">
         <span className="text-sm">
           <span className="font-semibold">{label}</span>
           {!required && (

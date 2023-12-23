@@ -265,8 +265,6 @@ export default function AddStoryPage() {
               />
             </InputContainer>
 
-            <hr />
-
             <div className="grid sm:grid-cols-2 gap-4">
               {/* name */}
               <InputContainer
@@ -332,8 +330,6 @@ export default function AddStoryPage() {
                 />
               </InputContainer>
             </div>
-
-            <hr />
 
             <InputContainer
               label={t("story")}
