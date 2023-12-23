@@ -8,7 +8,11 @@ import ThemeSelect from "@/components/select/ThemeSelect";
 import allLanguages from "@/config/languages/allLanguages";
 import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
 import { ApiError } from "@/interfaces/api-client/Error";
-import { DBStory, RegisteringStory } from "@/interfaces/database/Story";
+import {
+  DBStory,
+  RegisteringStory,
+  StoryTranslatedFields,
+} from "@/interfaces/database/Story";
 import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
 import {
@@ -19,7 +23,6 @@ import {
   useState,
 } from "react";
 import { useAsyncFn } from "react-use";
-import { DateTime } from "luxon";
 import { LanguageDetectorApiClient } from "@/apis/LanguageDetectorApiClient";
 import ErrorMessage from "@/components/alerts/ErrorMessage";
 import {
@@ -30,6 +33,7 @@ import {
 import { CloudArrowUpIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { cities } from "@/config/palestine/cities";
 import consts from "@/config/consts";
+import { DBImage } from "@/interfaces/database/DBImage";
 
 type LanguageOption = {
   name: string;
@@ -39,6 +43,11 @@ type LanguageOption = {
 type CityOption = {
   name: string;
   value: string;
+};
+
+type StoryFields = StoryTranslatedFields & {
+  avatar: DBImage | null;
+  age: string;
 };
 
 const languagesOptions = allLanguages.map((language) => ({
@@ -57,15 +66,15 @@ export default function AddStoryPage() {
 
   const [selectedLanguage, setSelectedLanguage] = useState(languagesOptions[0]);
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
-  const [storyFields, setStoryFields] = useState<RegisteringStory>({
+  const [storyFields, setStoryFields] = useState<StoryFields>({
     protagonist: "",
     city: "Gaza",
     story: "",
     avatar: null,
     job: "",
-    age: null,
-    translations: {},
+    age: "",
   });
+  console.log(storyFields);
   const [storyFieldsErrors, setStoryFieldsErrors] = useState({
     protagonistError: "",
     cityError: "",
@@ -83,7 +92,7 @@ export default function AddStoryPage() {
   );
 
   const validateStoryFields = async (
-    storyFields: RegisteringStory,
+    storyFields: StoryFields,
     selectedLanguage: LanguageOption
   ): Promise<Result<true, false>> => {
     // protagonist
@@ -139,11 +148,11 @@ export default function AddStoryPage() {
     else return err(false);
   };
 
-  const addTranslationToStory = (
-    storyFields: RegisteringStory
-  ): RegisteringStory => {
-    return {
-      ...storyFields,
+  const mapFieldsToStory = (storyFields: StoryFields): RegisteringStory => {
+    const story: RegisteringStory = {
+      protagonist: storyFields.protagonist,
+      city: storyFields.city,
+      story: storyFields.story,
       translations: {
         [selectedLanguage.code]: {
           protagonist: storyFields.protagonist,
@@ -152,7 +161,12 @@ export default function AddStoryPage() {
           job: storyFields.job,
         },
       },
+      ...(storyFields.avatar && { avatar: storyFields.avatar }),
+      ...(storyFields.job && { job: storyFields.job }),
+      ...(storyFields.age && { age: Number(storyFields.age) }),
     };
+
+    return story;
   };
 
   const handleChange: ChangeEventHandler<
@@ -160,10 +174,7 @@ export default function AddStoryPage() {
   > = (event) => {
     setStoryFields((prevFields) => ({
       ...prevFields,
-      [event.target.name]:
-        event.target.type === "number"
-          ? Number(event.target.value)
-          : event.target.value,
+      [event.target.name]: event.target.value,
     }));
   };
 
@@ -188,16 +199,13 @@ export default function AddStoryPage() {
   const [handleSubmitState, handleSubmit] = useAsyncFn(
     async (
       event: FormEvent<HTMLFormElement>,
-      storyFields: RegisteringStory,
+      storyFields: StoryFields,
       selectedLanguage: LanguageOption
     ): Promise<Result<DBStory, ApiError>> => {
       event.preventDefault();
       setIsSubmittedOnce(true);
 
-      // 1. add translation to story
-      const translatedStory = addTranslationToStory(storyFields);
-
-      // 2. validate fields
+      // 1. validate fields
       const validationResult = await validateStoryFields(
         storyFields,
         selectedLanguage
@@ -206,8 +214,11 @@ export default function AddStoryPage() {
         return err({ errorMessage: "Story fields are not valid" });
       }
 
+      // 2. map story fields to story
+      const mappedStory = mapFieldsToStory(storyFields);
+
       // 3. Create the story
-      const createResult = await serverApiClient.createStory(translatedStory);
+      const createResult = await serverApiClient.createStory(mappedStory);
       if (createResult.isErr()) {
         throw new Error(createResult.error.errorMessage);
       }
@@ -254,9 +265,7 @@ export default function AddStoryPage() {
               />
             </InputContainer>
 
-            <hr />
-
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-3">
               {/* name */}
               <InputContainer
                 label={t("name")}
@@ -272,7 +281,7 @@ export default function AddStoryPage() {
                 />
               </InputContainer>
 
-              {/* date of birth */}
+              {/* age */}
               <InputContainer
                 label={t("age")}
                 error={storyFieldsErrors.ageError}
@@ -283,7 +292,7 @@ export default function AddStoryPage() {
                   name="age"
                   min={consts.minAge}
                   max={consts.maxAge}
-                  value={storyFields.age !== null ? storyFields.age : ""}
+                  value={storyFields.age}
                   onChange={handleChange}
                 />
               </InputContainer>
@@ -321,8 +330,6 @@ export default function AddStoryPage() {
                 />
               </InputContainer>
             </div>
-
-            <hr />
 
             <InputContainer
               label={t("story")}
