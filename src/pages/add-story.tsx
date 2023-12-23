@@ -265,7 +265,7 @@ export default function AddStoryPage() {
               />
             </InputContainer>
 
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div className="grid sm:grid-cols-2 gap-3">
               {/* name */}
               <InputContainer
                 label={t("name")}
