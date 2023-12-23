@@ -21,7 +21,7 @@ export default function ThemeSelect<CustomOption>({
 
   return (
     <Listbox value={selected} onChange={handleChange}>
-      <div className="relative mt-1">
+      <div className="relative">
         {/* {label && (
           <Listbox.Label className={labelClassName}>{label}:</Listbox.Label>
         )} */}
