@@ -1,6 +1,6 @@
 import { DBImage } from "./DBImage";
 
-interface StoryTranslatedFields {
+export interface StoryTranslatedFields {
   protagonist: string;
   city: string;
   story: string;
@@ -13,7 +13,7 @@ export type DBStory = StoryTranslatedFields & {
   isApproved: boolean;
   isHighlighted: boolean;
   isDeleted: boolean;
-  age: number;
+  age: number | null;
   createdAt: string;
   updatedAt: string;
   translations: {
@@ -22,8 +22,8 @@ export type DBStory = StoryTranslatedFields & {
 };
 
 export type RegisteringStory = StoryTranslatedFields & {
-  avatar: DBImage | null;
-  age: number | null;
+  avatar?: DBImage;
+  age?: number;
   translations: {
     [key: string]: StoryTranslatedFields;
   };
