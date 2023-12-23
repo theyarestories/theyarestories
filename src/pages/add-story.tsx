@@ -283,7 +283,7 @@ export default function AddStoryPage() {
                   name="age"
                   min={consts.minAge}
                   max={consts.maxAge}
-                  value={storyFields.age || ""}
+                  value={storyFields.age !== null ? storyFields.age : ""}
                   onChange={handleChange}
                 />
               </InputContainer>
