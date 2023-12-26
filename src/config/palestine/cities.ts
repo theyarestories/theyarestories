@@ -1,12 +1,12 @@
 export const cities = [
   { name: "Gaza" },
-  { name: "Jerusalem" },
+  { name: "Al-Quds" },
   { name: "Beersheba" },
   { name: "Bethlehem" },
-  { name: "Hebron" },
+  { name: "Al-Khalil" },
   { name: "Al Ramla" },
   { name: "Ramallah" },
-  { name: "Jaffa" },
+  { name: "Yaffa" },
   { name: "Nablus" },
   { name: "Tulkarm" },
   { name: "Jinin" },
@@ -15,5 +15,5 @@ export const cities = [
   { name: "Haifa" },
   { name: "Tiberias" },
   { name: "Safad" },
-  { name: "Akre" },
+  { name: "Akka" },
 ];
