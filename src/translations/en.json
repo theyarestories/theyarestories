@@ -45,5 +45,12 @@
   },
   "InputContainer": {
     "not_required": "not required"
+  },
+  "Header": {
+    "add_story": "Add a Story",
+    "all_stories": "All Stories"
+  },
+  "Logo": {
+    "logo": "They are Stories"
   }
 }

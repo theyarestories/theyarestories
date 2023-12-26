@@ -36,6 +36,10 @@ body {
   }
 
   .button {
-    @apply flex items-center justify-center rounded-md py-1.5 px-4 border-gray-300;
+    @apply flex items-center text-sm font-semibold justify-center rounded-md py-1.5 px-4 border-gray-300;
+  }
+
+  .button-primary {
+    @apply bg-green-800 text-white;
   }
 }
