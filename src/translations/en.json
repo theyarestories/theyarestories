@@ -1,5 +1,7 @@
 {
   "IndexPage": {
+    "page_title": "They are stories",
+    "page_description": "",
     "title": "They are stories"
   },
   "StoriesList": {
@@ -45,5 +47,12 @@
   },
   "InputContainer": {
     "not_required": "not required"
+  },
+  "Header": {
+    "add_story": "Add a Story",
+    "all_stories": "All Stories"
+  },
+  "Logo": {
+    "logo": "They are Stories"
   }
 }

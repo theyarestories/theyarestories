@@ -6,6 +6,7 @@ import { ServerApiClient } from "@/apis/ServerApiClient";
 import classNames from "@/helpers/style/classNames";
 import StoriesList from "@/components/stories/StoriesList";
 import Container from "@/components/container/Container";
+import Layout from "@/components/layout/Layout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,16 +16,11 @@ export default function Home({
   const t = useTranslations("IndexPage");
 
   return (
-    <main
-      className={classNames(
-        "flex min-h-screen flex-col items-center justify-between",
-        inter.className
-      )}
-    >
+    <Layout pageTitle={t("page_title")} pageDescription={"page_description"}>
       <Container>
         <StoriesList stories={stories} />
       </Container>
-    </main>
+    </Layout>
   );
 }
 

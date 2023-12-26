@@ -1,5 +1,7 @@
 {
   "IndexPage": {
+    "page_title": "هم قصص",
+    "page_description": "",
     "title": "هم قصص"
   },
   "StoriesList": {
@@ -45,5 +47,12 @@
   },
   "InputContainer": {
     "not_required": "ليس إلزامياً"
+  },
+  "Header": {
+    "add_story": "أضف قصة",
+    "all_stories": "جميع القصص"
+  },
+  "Logo": {
+    "logo": "هم قصص"
   }
 }
