@@ -10,7 +10,7 @@ type Props = {};
 function Header({}: Props) {
   const t = useTranslations("Header");
   return (
-    <header className="pt-14">
+    <header style={{ paddingTop: consts.headerHeightInRems + "rem" }}>
       <div className="fixed top-0 left-0 right-0 bg-white">
         <Container className="!py-0">
           <div
