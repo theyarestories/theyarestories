@@ -5,7 +5,7 @@ import InputContainer from "@/components/input/InputContainer";
 import Layout from "@/components/layout/Layout";
 import ThemeMDEditor from "@/components/md-editor/ThemeMDEditor";
 import ThemeSelect from "@/components/select/ThemeSelect";
-import allLanguages from "@/config/languages/allLanguages";
+import allLanguages from "@/config/all-languages/allLanguages";
 import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
 import { ApiError } from "@/interfaces/api-client/Error";
 import {

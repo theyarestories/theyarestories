@@ -4,8 +4,6 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import ModalContainer from "../modal/ModalContainer";
-import classNames from "@/helpers/style/classNames";
-import useIsRtl from "@/hooks/useIsRtl";
 
 type Props = {
   story: DBStory;
@@ -21,7 +19,6 @@ const Markdown = dynamic(
 
 function StoryItem({ story }: Props) {
   const t = useTranslations("StoryItem");
-  const isRtl = useIsRtl();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 

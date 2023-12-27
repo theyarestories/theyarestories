@@ -10,18 +10,20 @@ type Props<CustomOption> = {
   options: Option<CustomOption>[];
   selected: Option<CustomOption>;
   handleChange(option: Option<CustomOption>): void;
+  className?: string;
 };
 
 export default function ThemeSelect<CustomOption>({
   options,
   selected,
   handleChange,
+  className = "",
 }: Props<CustomOption>) {
   const isRtl = useIsRtl();
 
   return (
     <Listbox value={selected} onChange={handleChange}>
-      <div className="relative">
+      <div className={classNames("relative", className)}>
         <Listbox.Button
           className={classNames(
             "relative w-full input cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 text-start"
