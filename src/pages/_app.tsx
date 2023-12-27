@@ -1,3 +1,5 @@
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
 import useIsRtl from "@/hooks/useIsRtl";
 import "@/styles/globals.css";
 import { NextIntlProvider } from "next-intl";

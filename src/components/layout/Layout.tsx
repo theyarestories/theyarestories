@@ -1,9 +1,6 @@
-import { Inter } from "next/font/google";
 import Head from "next/head";
 import { ReactNode } from "react";
 import Header from "../header/Header";
-
-const inter = Inter({ subsets: ["latin"] });
 
 type Props = {
   pageTitle: string;
@@ -21,7 +18,7 @@ function Layout({ pageTitle, pageDescription, children }: Props) {
 
       <Header />
 
-      <main className={inter.className}>{children}</main>
+      <main>{children}</main>
     </>
   );
 }

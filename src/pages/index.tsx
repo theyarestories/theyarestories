@@ -1,4 +1,3 @@
-import { Inter } from "next/font/google";
 import { useTranslations } from "next-intl";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { DBStory } from "@/interfaces/database/Story";
@@ -7,8 +6,6 @@ import classNames from "@/helpers/style/classNames";
 import StoriesList from "@/components/stories/StoriesList";
 import Container from "@/components/container/Container";
 import Layout from "@/components/layout/Layout";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home({
   stories,
