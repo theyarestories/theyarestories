@@ -55,3 +55,19 @@ body {
   line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+
+/* MD Editor */
+.md-editor-rtl {
+  direction: rtl;
+  text-align: right;
+}
+.md-editor-rtl .w-md-editor-preview {
+  box-shadow: none !important;
+  border-right: 1px solid var(--color-border-default);
+  right: unset !important;
+  left: 0;
+  text-align: right !important;
+}
+.md-editor-rtl .w-md-editor-text {
+  text-align: right !important;
+}
