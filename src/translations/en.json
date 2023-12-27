@@ -57,6 +57,11 @@
   },
   "StoryItem": {
     "age": "Age: {age}",
-    "city": "City: {city}"
+    "age_bold": "<b>Age</b>: {age}",
+    "city": "City: {city}",
+    "city_bold": "<b>City</b>: {city}",
+    "job": "Job: {job}",
+    "job_bold": "<b>Job</b>: {job}",
+    "read_my_story": "Read my story"
   }
 }

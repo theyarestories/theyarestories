@@ -57,6 +57,11 @@
   },
   "StoryItem": {
     "age": "العمر: {age}",
-    "city": "من {city}"
+    "age_bold": "<b>العمر</b>: {age}",
+    "city": "المدينة: {city}",
+    "city_bold": "<b>المدينة</b>: {city}",
+    "job": "الوظيفة: {job}",
+    "job_bold": "<b>الوظيفة</b>: {job}",
+    "read_my_story": "اقرأ قصتي"
   }
 }
