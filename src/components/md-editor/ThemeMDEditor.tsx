@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import rehypeSanitize from "rehype-sanitize";
 import { useMedia } from "react-use";
+import useIsRtl from "@/hooks/useIsRtl";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor").then((mod) => mod.default),
@@ -28,13 +29,15 @@ type Props = {
 
 export default function ThemeMDEditor({ value, onChange }: Props) {
   const isWide = useMedia("(min-width: 768px)", false);
+  const isRtl = useIsRtl();
 
   return (
     <div
-      dir="ltr"
-      // data-color-mode="dark"
+    // dir="ltr"
+    // data-color-mode="dark"
     >
       <MDEditor
+        className={isRtl ? "md-editor-rtl" : ""}
         value={value}
         onChange={(value) => onChange(value || "")}
         previewOptions={{

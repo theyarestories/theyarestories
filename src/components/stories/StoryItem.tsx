@@ -4,6 +4,8 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import ModalContainer from "../modal/ModalContainer";
+import classNames from "@/helpers/style/classNames";
+import useIsRtl from "@/hooks/useIsRtl";
 
 type Props = {
   story: DBStory;
@@ -19,6 +21,7 @@ const Markdown = dynamic(
 
 function StoryItem({ story }: Props) {
   const t = useTranslations("StoryItem");
+  const isRtl = useIsRtl();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -65,8 +68,8 @@ function StoryItem({ story }: Props) {
                   className="object-cover rounded-full"
                   src={story.avatar.url}
                   alt=""
-                  width={175}
-                  height={175}
+                  width={120}
+                  height={120}
                   crop="fill"
                   gravity="auto"
                 />
@@ -82,7 +85,7 @@ function StoryItem({ story }: Props) {
                   )}
                   {story.job && (
                     <p className="">
-                      {t.rich("job", {
+                      {t.rich("job_bold", {
                         job: story.job,
                         b: (value) => <b className="font-medium">{value}</b>,
                       })}
@@ -99,7 +102,9 @@ function StoryItem({ story }: Props) {
 
               <hr />
 
-              <Markdown className="!font-serif" source={story.story} />
+              <div className="max-h-52 overflow-auto">
+                <Markdown className="!font-serif" source={story.story} />
+              </div>
             </div>
           </ModalContainer>
         </div>

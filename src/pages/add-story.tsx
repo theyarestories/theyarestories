@@ -45,7 +45,11 @@ type CityOption = {
   value: string;
 };
 
-type StoryFields = StoryTranslatedFields & {
+type StoryFields = {
+  protagonist: string;
+  city: CityOption;
+  story: string;
+  job?: string;
   avatar: DBImage | null;
   age: string;
 };
@@ -63,12 +67,17 @@ const languageDetectorApiClient = new LanguageDetectorApiClient();
 
 export default function AddStoryPage() {
   const t = useTranslations("AddStoryPage");
-
   const [selectedLanguage, setSelectedLanguage] = useState(languagesOptions[0]);
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
+  const cityOptions = useRef(
+    cities.map((city) => ({
+      name: t(city.name),
+      value: city.name,
+    }))
+  );
   const [storyFields, setStoryFields] = useState<StoryFields>({
     protagonist: "",
-    city: "Gaza",
+    city: cityOptions.current[0],
     story: "",
     avatar: null,
     job: "",
@@ -84,12 +93,6 @@ export default function AddStoryPage() {
     ageError: "",
     languageError: "",
   });
-  const cityOptions = useRef(
-    cities.map((city) => ({
-      name: t(city.name),
-      value: city.name,
-    }))
-  );
 
   const validateStoryFields = async (
     storyFields: StoryFields,
@@ -151,12 +154,12 @@ export default function AddStoryPage() {
   const mapFieldsToStory = (storyFields: StoryFields): RegisteringStory => {
     const story: RegisteringStory = {
       protagonist: storyFields.protagonist,
-      city: storyFields.city,
+      city: storyFields.city.name,
       story: storyFields.story,
       translations: {
         [selectedLanguage.code]: {
           protagonist: storyFields.protagonist,
-          city: storyFields.city,
+          city: storyFields.city.name,
           story: storyFields.story,
           job: storyFields.job,
         },
@@ -305,13 +308,9 @@ export default function AddStoryPage() {
               >
                 <ThemeSelect<CityOption>
                   options={cityOptions.current}
-                  selected={
-                    cityOptions.current.find(
-                      (city) => city.value === storyFields.city
-                    ) || cityOptions.current[0]
-                  }
+                  selected={storyFields.city}
                   handleChange={(option) =>
-                    setStoryFields((prev) => ({ ...prev, city: option.name }))
+                    setStoryFields((prev) => ({ ...prev, city: option }))
                   }
                 />
               </InputContainer>

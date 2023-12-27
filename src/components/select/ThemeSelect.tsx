@@ -4,12 +4,12 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import classNames from "@/helpers/style/classNames";
 import useIsRtl from "@/hooks/useIsRtl";
 
-type Option<CustomOption> = { name: string } & CustomOption;
+export type Option<CustomOption> = { name: string } & CustomOption;
 
 type Props<CustomOption> = {
   options: Option<CustomOption>[];
   selected: Option<CustomOption>;
-  handleChange: Dispatch<SetStateAction<Option<CustomOption>>>;
+  handleChange(option: Option<CustomOption>): void;
 };
 
 export default function ThemeSelect<CustomOption>({
