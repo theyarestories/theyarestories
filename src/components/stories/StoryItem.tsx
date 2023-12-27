@@ -1,28 +1,50 @@
-import Image from "next/image";
 import { DBStory } from "@/interfaces/database/Story";
+import { CldImage } from "next-cloudinary";
+import { useTranslations } from "next-intl";
+import dynamic from "next/dynamic";
 
 type Props = {
   story: DBStory;
 };
 
+const Markdown = dynamic(
+  () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
+  {
+    ssr: false,
+    loading: () => <div className="h-20 bg-gray-300 animate-pulse" />,
+  }
+);
+
 function StoryItem({ story }: Props) {
+  const t = useTranslations("StoryItem");
+
   return (
-    <article>
-      <div className="flex gap-2">
-        <Image
-          className="w-24 h-24 object-cover object-center"
+    <article className="">
+      <div className="flex gap-2 items-start">
+        <CldImage
+          className="object-cover rounded-sm"
           src={story.avatar.url}
           alt=""
-          width={0}
-          height={0}
-          sizes="1000px"
+          width={175}
+          height={175}
+          crop="fill"
+          gravity="auto"
         />
-        <h3 suppressHydrationWarning className="font-semibold text-sm">
-          {story.protagonist}
-        </h3>
+        <div className="flex flex-col gap-1 self-stretch">
+          <h3 className="font-semibold text-sm">{story.protagonist}</h3>
+          <p className="text-sm text-gray-600">
+            {t("age", { age: story.age })}
+          </p>
+          <hr className="my-1" />
+          <Markdown
+            className="truncatee !text-sm !font-serif"
+            source={story.story}
+          />
+          <button className="button button-primary mt-auto">
+            Read my story
+          </button>
+        </div>
       </div>
-
-      <p suppressHydrationWarning>{story.story}</p>
     </article>
   );
 }
