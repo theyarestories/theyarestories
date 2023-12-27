@@ -22,10 +22,6 @@ export default function ThemeSelect<CustomOption>({
   return (
     <Listbox value={selected} onChange={handleChange}>
       <div className="relative">
-        {/* {label && (
-          <Listbox.Label className={labelClassName}>{label}:</Listbox.Label>
-        )} */}
-        {/* rounded-lg bg-white py-2 pl-3 pr-10 text-left sm:text-sm shadow-md */}
         <Listbox.Button
           className={classNames(
             "relative w-full input cursor-default focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 text-start"
