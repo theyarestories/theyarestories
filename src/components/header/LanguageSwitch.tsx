@@ -8,8 +8,9 @@ type Props = {};
 
 function LanguageSwitch({}: Props) {
   const router = useRouter();
-  const [selectedLanguage, setSelectedLanguage] =
-    useState<SupportedLanguage | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>(
+    supportedLanguages[0]
+  );
 
   useEffect(() => {
     if (router.locale) {
@@ -27,8 +28,6 @@ function LanguageSwitch({}: Props) {
       { locale: language.locale }
     );
   };
-
-  if (!selectedLanguage) return;
 
   return (
     <ThemeSelect<SupportedLanguage>
