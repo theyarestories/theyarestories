@@ -18,7 +18,7 @@ function Header({}: Props) {
 
   return (
     <header style={{ paddingTop: consts.headerHeightInRems + "rem" }}>
-      <div className="fixed top-0 left-0 right-0 bg-white">
+      <div className="fixed top-0 left-0 right-0 bg-white z-10">
         <Container className="!py-0">
           <nav
             className="border-b flex items-center justify-between"

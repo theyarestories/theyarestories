@@ -61,12 +61,12 @@
     "job": "الوظيفة: {job}",
     "read_my_story": "اقرأ قصتي"
   },
-  "StoryModal": {
+  "ShareStory": {
+    "share": "انشر القصة"
+  },
+  "StoryPage": {
     "age_bold": "<b>العمر</b>: {age}",
     "city_bold": "<b>المدينة</b>: {city}",
     "job_bold": "<b>الوظيفة</b>: {job}"
-  },
-  "ShareStory": {
-    "share": "انشر القصة"
   }
 }
