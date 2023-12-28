@@ -57,11 +57,16 @@
   },
   "StoryItem": {
     "age": "Age: {age}",
-    "age_bold": "<b>Age</b>: {age}",
     "city": "City: {city}",
-    "city_bold": "<b>City</b>: {city}",
     "job": "Job: {job}",
-    "job_bold": "<b>Job</b>: {job}",
     "read_my_story": "Read my story"
+  },
+  "StoryModal": {
+    "age_bold": "<b>Age</b>: {age}",
+    "city_bold": "<b>City</b>: {city}",
+    "job_bold": "<b>Job</b>: {job}"
+  },
+  "ShareStory": {
+    "share": "Share the story ♥"
   }
 }

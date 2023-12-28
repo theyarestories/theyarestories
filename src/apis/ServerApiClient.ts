@@ -1,7 +1,11 @@
 import { ApiError } from "@/interfaces/api-client/Error";
 import ApiClient from "@/helpers/api-client/apiClient";
 import { Result, err, ok } from "neverthrow";
-import { DBStory, RegisteringStory } from "@/interfaces/database/Story";
+import {
+  DBStory,
+  RegisteringStory,
+  SharePlatform,
+} from "@/interfaces/database/Story";
 import { ServerAdvancedResponse } from "@/interfaces/server/ServerAdvancedResponse";
 import { ServerApiResponse } from "@/interfaces/server/ServerApiResponse";
 
@@ -31,6 +35,21 @@ export class ServerApiClient {
       RegisteringStory,
       ServerApiResponse<DBStory>
     >(`${this.apiBaseUrl}/v${this.apiVersion}/stories`, story);
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value.data);
+  }
+
+  async incrementStoryShares(storyId: string, platform: SharePlatform) {
+    const result = await this.serverApiClient.put<
+      { platform: SharePlatform },
+      ServerApiResponse<DBStory>
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/share`, {
+      platform,
+    });
 
     if (result.isErr()) {
       return err(result.error);
