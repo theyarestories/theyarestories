@@ -69,7 +69,7 @@ function StoryModal({ story, isModalOpen, setIsModalOpen }: Props) {
           </div>
 
           {/* Share */}
-          <div className="flex-1 bg-green-500 self-stretch justify-end flex items-start">
+          <div className="flex-1 self-stretch justify-end flex items-start">
             <ShareStory story={story} />
           </div>
         </div>
