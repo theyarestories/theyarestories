@@ -1,5 +1,11 @@
 import { DBImage } from "./DBImage";
 
+export enum SharePlatform {
+  twitter = "twitter",
+  whatsapp = "whatsapp",
+  telegram = "telegram",
+}
+
 export interface StoryTranslatedFields {
   protagonist: string;
   city: string;
@@ -16,6 +22,9 @@ export type DBStory = StoryTranslatedFields & {
   age: number | null;
   createdAt: string;
   updatedAt: string;
+  shares: {
+    [key in SharePlatform]?: number;
+  };
   translations: {
     [key: string]: StoryTranslatedFields;
   };
