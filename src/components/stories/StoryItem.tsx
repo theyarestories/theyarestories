@@ -2,8 +2,8 @@ import { DBStory } from "@/interfaces/database/Story";
 import { CldImage } from "next-cloudinary";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useState } from "react";
-import StoryModal from "./StoryModal";
 
 type Props = {
   story: DBStory;
@@ -19,8 +19,6 @@ const Markdown = dynamic(
 
 function StoryItem({ story }: Props) {
   const t = useTranslations("StoryItem");
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <article className="">
@@ -46,19 +44,12 @@ function StoryItem({ story }: Props) {
             className="truncatee !text-sm !font-serif"
             source={story.story}
           />
-          <button
-            type="button"
+          <Link
+            href={`/stories/${story._id}`}
             className="button button-primary mt-auto"
-            onClick={() => setIsModalOpen(true)}
           >
             {t("read_my_story")}
-          </button>
-
-          <StoryModal
-            story={story}
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-          />
+          </Link>
         </div>
       </div>
     </article>

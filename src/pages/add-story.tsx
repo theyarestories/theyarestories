@@ -8,11 +8,7 @@ import ThemeSelect from "@/components/select/ThemeSelect";
 import allLanguages from "@/config/all-languages/allLanguages";
 import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
 import { ApiError } from "@/interfaces/api-client/Error";
-import {
-  DBStory,
-  RegisteringStory,
-  StoryTranslatedFields,
-} from "@/interfaces/database/Story";
+import { DBStory, RegisteringStory } from "@/interfaces/database/Story";
 import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
 import {
@@ -247,7 +243,7 @@ export default function AddStoryPage() {
   }, []);
 
   return (
-    <Layout pageTitle={t("page_title")} pageDescription={"page_description"}>
+    <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
         <div className="space-y-4">
           <h1 className="title-1">{t("heading")}</h1>

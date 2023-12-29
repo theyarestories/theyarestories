@@ -1,7 +1,7 @@
 export default function getUrlOrigin(): string {
   let result = "";
 
-  if (window) {
+  if (typeof window !== "undefined") {
     result = window.location.origin;
   }
 

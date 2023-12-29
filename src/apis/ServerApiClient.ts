@@ -28,6 +28,18 @@ export class ServerApiClient {
     return ok(result.value.data);
   }
 
+  async getStoryById(storyId: string): Promise<Result<DBStory, ApiError>> {
+    const result = await this.serverApiClient.get<ServerApiResponse<DBStory>>(
+      `${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}`
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value.data);
+  }
+
   async createStory(
     story: RegisteringStory
   ): Promise<Result<DBStory, ApiError>> {

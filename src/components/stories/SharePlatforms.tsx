@@ -1,6 +1,7 @@
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import consts from "@/config/consts";
 import threeDots from "@/helpers/string/threeDots";
+import classNames from "@/helpers/style/classNames";
 import getUrlOrigin from "@/helpers/url/getUrlOrigin";
 import { DBStory, SharePlatform } from "@/interfaces/database/Story";
 import { useTranslations } from "next-intl";
@@ -15,12 +16,13 @@ import {
 
 type Props = {
   story: DBStory;
+  className?: string;
 };
 
 const serverApiClient = new ServerApiClient();
 
-function ShareStory({ story }: Props) {
-  const t = useTranslations("ShareStory");
+function SharePlatforms({ story, className = "" }: Props) {
+  const t = useTranslations("SharePlatforms");
   const shareUrl = `${getUrlOrigin()}/stories/${story._id}`;
 
   const platforms = [
@@ -45,32 +47,27 @@ function ShareStory({ story }: Props) {
   ];
 
   return (
-    <div className="space-y-2">
-      <p className="text-sm">{t("share")}</p>
-
-      <div className="flex gap-1">
-        {platforms.map(({ platform, Button, Icon, title }) => (
-          <div className="flex flex-col items-center relative">
-            <div
-              className="flex"
-              onClick={() =>
-                serverApiClient.incrementStoryShares(story._id, platform)
-              }
-            >
-              <Button url={shareUrl} title={title} className="">
-                <Icon size={32} round />
-              </Button>
-              {typeof story.shares[platform] === "number" && (
-                <span className="absolute top-0 right-0 flex bg-white w-4 h-4 justify-center items-center rounded-full text-sm border translate-x-1.5 -translate-y-1.5 cursor-default font-medium">
-                  {story.shares[platform]}
-                </span>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    <ul className={classNames("flex gap-1", className)}>
+      {platforms.map(({ platform, Button, Icon, title }) => (
+        <li
+          key={platform}
+          className="flex relative"
+          onClick={() =>
+            serverApiClient.incrementStoryShares(story._id, platform)
+          }
+        >
+          <Button url={shareUrl} title={title} className="">
+            <Icon size={40} round />
+          </Button>
+          {typeof story.shares[platform] === "number" && (
+            <span className="absolute top-0 right-0 flex bg-white p-0.5 aspect-square h-5 justify-center items-center rounded-full text-sm border translate-x-1.5 -translate-y-0 cursor-default font-medium">
+              {story.shares[platform]}
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
   );
 }
 
-export default ShareStory;
+export default SharePlatforms;
