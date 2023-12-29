@@ -69,5 +69,9 @@
     "city_bold": "<b>المدينة</b>: {city}",
     "job_bold": "<b>الوظيفة</b>: {job}",
     "translate": "ترجم"
+  },
+  "BottomNavigation": {
+    "add_story": "أضف قصة",
+    "all_stories": "جميع القصص"
   }
 }

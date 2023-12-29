@@ -35,6 +35,7 @@ function LanguageSwitch({}: Props) {
       selected={selectedLanguage}
       handleChange={handleLanguageChange}
       className="w-24"
+      withOptionTick={false}
     />
   );
 }

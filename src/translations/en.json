@@ -69,5 +69,9 @@
     "city_bold": "<b>City</b>: {city}",
     "job_bold": "<b>Job</b>: {job}",
     "translate": "Translate"
+  },
+  "BottomNavigation": {
+    "add_story": "Add a Story",
+    "all_stories": "All Stories"
   }
 }
