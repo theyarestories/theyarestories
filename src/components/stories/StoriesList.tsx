@@ -14,7 +14,7 @@ function StoriesList({ stories }: Props) {
     <section className="space-y-4">
       <h2 className="font-bold">{t("stories")}</h2>
 
-      <div className="grid grid-cols-2 gap-10">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 lg:gap-10 gap-4">
         {stories.map((story) => (
           <StoryItem key={story._id} story={getTranslatedData(story)} />
         ))}
