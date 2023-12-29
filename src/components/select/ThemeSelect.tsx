@@ -11,6 +11,7 @@ type Props<CustomOption> = {
   selected: Option<CustomOption>;
   handleChange(option: Option<CustomOption>): void;
   className?: string;
+  withOptionTick?: boolean;
 };
 
 export default function ThemeSelect<CustomOption>({
@@ -18,6 +19,7 @@ export default function ThemeSelect<CustomOption>({
   selected,
   handleChange,
   className = "",
+  withOptionTick = true,
 }: Props<CustomOption>) {
   const isRtl = useIsRtl();
 
@@ -53,23 +55,31 @@ export default function ThemeSelect<CustomOption>({
               <Listbox.Option
                 key={optionIdx}
                 className={({ active }) =>
-                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                    active ? "bg-amber-100 text-amber-900" : "text-gray-900"
-                  }`
+                  classNames(
+                    "relative cursor-default select-none py-2 pe-4",
+                    withOptionTick ? "ps-10" : "ps-4",
+                    active ? "bg-green-100 text-green-900" : "text-gray-900"
+                  )
                 }
                 value={option}
               >
                 {({ selected }) => (
                   <>
                     <span
-                      className={`block truncate ${
+                      className={classNames(
+                        "block truncate",
                         selected ? "font-medium" : "font-normal"
-                      }`}
+                      )}
                     >
                       {option.name}
                     </span>
-                    {selected ? (
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                    {selected && withOptionTick ? (
+                      <span
+                        className={classNames(
+                          "absolute inset-y-0 flex items-center ps-3 text-green-600",
+                          isRtl ? "right-0" : "left-0"
+                        )}
+                      >
                         <CheckIcon className="h-5 w-5" aria-hidden="true" />
                       </span>
                     ) : null}

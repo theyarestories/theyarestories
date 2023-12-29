@@ -1,14 +1,21 @@
 import Head from "next/head";
 import { ReactNode } from "react";
 import Header from "../header/Header";
+import BottomNavigation from "../bottom-navigation/BottomNavigation";
 
 type Props = {
   pageTitle: string;
   pageDescription: string;
   children: ReactNode;
+  withStickyFooter?: boolean;
 };
 
-function Layout({ pageTitle, pageDescription, children }: Props) {
+function Layout({
+  pageTitle,
+  pageDescription,
+  children,
+  withStickyFooter = true,
+}: Props) {
   return (
     <>
       <Head>
@@ -19,6 +26,12 @@ function Layout({ pageTitle, pageDescription, children }: Props) {
       <Header />
 
       <main>{children}</main>
+
+      {withStickyFooter && (
+        <div className="sm:hidden">
+          <BottomNavigation />
+        </div>
+      )}
     </>
   );
 }

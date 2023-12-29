@@ -1,5 +1,6 @@
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import Container from "@/components/container/Container";
+import StickyBar from "@/components/container/StickyBar";
 import Layout from "@/components/layout/Layout";
 import SharePlatforms from "@/components/stories/SharePlatforms";
 import ShareStory from "@/components/stories/SharePlatforms";
@@ -39,6 +40,7 @@ function StoryPage({ story }: InferGetStaticPropsType<typeof getStaticProps>) {
         removeMarkdown(translatedStory.story),
         consts.metaDescriptionMaxLetters
       )}
+      withStickyFooter={false}
     >
       <Container>
         <div className="space-y-4">
@@ -90,33 +92,26 @@ function StoryPage({ story }: InferGetStaticPropsType<typeof getStaticProps>) {
         </div>
       </Container>
 
-      <div style={{ paddingBottom: consts.headerHeightInRems + "rem" }}>
-        <div className="fixed bottom-0 w-full bg-white">
-          <Container className="!py-0">
-            <div
-              className="border-t grid grid-cols-2 w-full"
-              style={{ height: consts.headerHeightInRems + "rem" }}
-            >
-              <SharePlatforms
-                story={translatedStory}
-                className="justify-center !gap-2 border-e"
-              />
-              <Link
-                className="flex items-center gap-2 justify-center font-bold"
-                href={`/translate/${story._id}`}
-              >
-                <Image
-                  src={"/images/icons/translate.svg"}
-                  alt={""}
-                  width={40}
-                  height={40}
-                />
-                {t("translate")}
-              </Link>
-            </div>
-          </Container>
+      <StickyBar isStickyTop={false}>
+        <div className="h-full grid grid-cols-2">
+          <SharePlatforms
+            story={translatedStory}
+            className="justify-center !gap-2 border-e"
+          />
+          <Link
+            className="flex items-center gap-2 justify-center font-bold"
+            href={`/translate/${story._id}`}
+          >
+            <Image
+              src={"/images/icons/translate.svg"}
+              alt={""}
+              width={40}
+              height={40}
+            />
+            {t("translate")}
+          </Link>
         </div>
-      </div>
+      </StickyBar>
     </Layout>
   );
 }
