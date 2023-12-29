@@ -67,6 +67,7 @@
   "StoryPage": {
     "age_bold": "<b>العمر</b>: {age}",
     "city_bold": "<b>المدينة</b>: {city}",
-    "job_bold": "<b>الوظيفة</b>: {job}"
+    "job_bold": "<b>الوظيفة</b>: {job}",
+    "translate": "ترجم"
   }
 }

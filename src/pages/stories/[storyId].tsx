@@ -8,10 +8,13 @@ import getTranslatedData from "@/helpers/database/getTranslatedData";
 import removeMarkdown from "@/helpers/string/removeMarkdown";
 import sliceAtEndOfWord from "@/helpers/string/sliceAtEndOfWord";
 import { DBStory } from "@/interfaces/database/Story";
+import { LanguageIcon } from "@heroicons/react/24/outline";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { CldImage } from "next-cloudinary";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 
 const serverApiClient = new ServerApiClient();
@@ -79,11 +82,6 @@ function StoryPage({ story }: InferGetStaticPropsType<typeof getStaticProps>) {
                 })}
               </p>
             </div>
-
-            {/* Share */}
-            {/* <div className="flex-1 self-stretch justify-end flex items-start">
-              <ShareStory story={translatedStory} />
-            </div> */}
           </div>
 
           <hr />
@@ -92,10 +90,32 @@ function StoryPage({ story }: InferGetStaticPropsType<typeof getStaticProps>) {
         </div>
       </Container>
 
-      <div className="flex border-t fixed bottom-0 w-full bg-white">
-        <Container>
-          <SharePlatforms story={translatedStory} />
-        </Container>
+      <div style={{ paddingBottom: consts.headerHeightInRems + "rem" }}>
+        <div className="fixed bottom-0 w-full bg-white">
+          <Container className="!py-0">
+            <div
+              className="border-t grid grid-cols-2 w-full"
+              style={{ height: consts.headerHeightInRems + "rem" }}
+            >
+              <SharePlatforms
+                story={translatedStory}
+                className="justify-center !gap-2 border-e"
+              />
+              <Link
+                className="flex items-center gap-2 justify-center font-bold"
+                href={`/translate/${story._id}`}
+              >
+                <Image
+                  src={"/images/icons/translate.svg"}
+                  alt={""}
+                  width={40}
+                  height={40}
+                />
+                {t("translate")}
+              </Link>
+            </div>
+          </Container>
+        </div>
       </div>
     </Layout>
   );
