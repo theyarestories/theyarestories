@@ -189,6 +189,15 @@ function TranslateStoryPage({
     [router.query, languagesOptions]
   );
 
+  useEffect(
+    function validateFieldsOnChange() {
+      if (isSubmittedOnce) {
+        validateTranslationFields(translationFields, toLanguage);
+      }
+    },
+    [isSubmittedOnce, translationFields, toLanguage]
+  );
+
   return (
     <Layout
       pageTitle={t("page_title", { protagonist: translatedStory.protagonist })}
