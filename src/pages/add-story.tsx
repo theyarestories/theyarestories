@@ -6,7 +6,6 @@ import Layout from "@/components/layout/Layout";
 import ThemeMDEditor from "@/components/md-editor/ThemeMDEditor";
 import ThemeSelect from "@/components/select/ThemeSelect";
 import allLanguages from "@/config/all-languages/allLanguages";
-import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
 import { ApiError } from "@/interfaces/api-client/Error";
 import { DBStory, RegisteringStory } from "@/interfaces/database/Story";
 import { Result, err, ok } from "neverthrow";
@@ -32,6 +31,7 @@ import consts from "@/config/consts";
 import { DBImage } from "@/interfaces/database/DBImage";
 import { storyTags } from "@/config/story-tags/storyTags";
 import classNames from "@/helpers/style/classNames";
+import { useRouter } from "next/router";
 
 type LanguageOption = {
   name: string;
@@ -65,6 +65,7 @@ const serverApiClient = new ServerApiClient();
 const languageDetectorApiClient = new LanguageDetectorApiClient();
 
 export default function AddStoryPage() {
+  const router = useRouter();
   const t = useTranslations("AddStoryPage");
   const [selectedLanguage, setSelectedLanguage] = useState(languagesOptions[0]);
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
@@ -261,12 +262,17 @@ export default function AddStoryPage() {
     [isSubmittedOnce, storyFields, selectedLanguage]
   );
 
-  useEffect(function setInitialLanguage() {
-    const initialLanguage = languagesOptions.find(
-      (language) => language.code === getHomeLanguage()
-    );
-    if (initialLanguage) setSelectedLanguage(initialLanguage);
-  }, []);
+  useEffect(
+    function setInitialLanguage() {
+      if (router.locale) {
+        const initialLanguage = languagesOptions.find(
+          (language) => language.code === router.locale
+        );
+        if (initialLanguage) setSelectedLanguage(initialLanguage);
+      }
+    },
+    [router.locale]
+  );
 
   return (
     <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
