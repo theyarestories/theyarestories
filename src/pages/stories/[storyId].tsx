@@ -118,7 +118,7 @@ function StoryPage({
             className="justify-center !gap-2 border-e"
           />
           <Link
-            className="flex items-center gap-2 justify-center font-bold"
+            className="flex items-center gap-2 justify-center font-bold text-sm sm:text-base"
             href={`/translate/${story._id}?lang=${translationLanguage}`}
           >
             <Image
