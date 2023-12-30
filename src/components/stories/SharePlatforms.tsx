@@ -5,8 +5,8 @@ import classNames from "@/helpers/style/classNames";
 import getUrlOrigin from "@/helpers/url/getUrlOrigin";
 import { DBStory, SharePlatform } from "@/interfaces/database/Story";
 import {
-  TelegramIcon,
-  TelegramShareButton,
+  FacebookIcon,
+  FacebookShareButton,
   TwitterShareButton,
   WhatsappIcon,
   WhatsappShareButton,
@@ -31,9 +31,9 @@ function SharePlatforms({ story, className = "" }: Props) {
       title: threeDots(story.story, consts.twitterMaxLetters),
     },
     {
-      platform: SharePlatform.telegram,
-      Button: TelegramShareButton,
-      Icon: TelegramIcon,
+      platform: SharePlatform.facebook,
+      Button: FacebookShareButton,
+      Icon: FacebookIcon,
       title: story.story,
     },
     {
