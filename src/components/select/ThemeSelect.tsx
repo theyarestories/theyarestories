@@ -8,10 +8,11 @@ export type Option<CustomOption> = { name: string } & CustomOption;
 
 type Props<CustomOption> = {
   options: Option<CustomOption>[];
-  selected: Option<CustomOption>;
+  selected: Option<CustomOption> | null;
   handleChange(option: Option<CustomOption>): void;
   className?: string;
   withOptionTick?: boolean;
+  placeholder?: string;
 };
 
 export default function ThemeSelect<CustomOption>({
@@ -20,6 +21,7 @@ export default function ThemeSelect<CustomOption>({
   handleChange,
   className = "",
   withOptionTick = true,
+  placeholder = "",
 }: Props<CustomOption>) {
   const isRtl = useIsRtl();
 
@@ -31,7 +33,9 @@ export default function ThemeSelect<CustomOption>({
             "relative w-full input cursor-default text-start"
           )}
         >
-          <span className="block truncate">{selected.name}</span>
+          <span className="block truncate">
+            {selected ? selected.name : placeholder}
+          </span>
           <span
             className={classNames(
               "pointer-events-none absolute inset-y-0 flex items-center pe-2",

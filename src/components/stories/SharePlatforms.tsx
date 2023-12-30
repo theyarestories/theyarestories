@@ -3,7 +3,7 @@ import consts from "@/config/consts";
 import threeDots from "@/helpers/string/threeDots";
 import classNames from "@/helpers/style/classNames";
 import getUrlOrigin from "@/helpers/url/getUrlOrigin";
-import { DBStory, SharePlatform } from "@/interfaces/database/Story";
+import { DBStory, SharePlatform } from "@/interfaces/database/DBStory";
 import {
   FacebookIcon,
   FacebookShareButton,

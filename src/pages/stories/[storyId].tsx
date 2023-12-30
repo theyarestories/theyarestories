@@ -4,12 +4,12 @@ import StickyBar from "@/components/container/StickyBar";
 import Layout from "@/components/layout/Layout";
 import SharePlatforms from "@/components/stories/SharePlatforms";
 import consts from "@/config/consts";
-import getTranslatedData from "@/helpers/database/getTranslatedData";
 import removeMarkdown from "@/helpers/string/removeMarkdown";
 import sliceAtEndOfWord from "@/helpers/string/sliceAtEndOfWord";
 import classNames from "@/helpers/style/classNames";
 import useIsRtl from "@/hooks/useIsRtl";
-import { DBStory } from "@/interfaces/database/Story";
+import useTranslatedStory from "@/hooks/useTranslatedStory";
+import { DBStory } from "@/interfaces/database/DBStory";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { CldImage } from "next-cloudinary";
 import { useTranslations } from "next-intl";
@@ -33,7 +33,7 @@ function StoryPage({ story }: InferGetStaticPropsType<typeof getStaticProps>) {
   const isRtl = useIsRtl();
   const t = useTranslations("StoryPage");
 
-  const translatedStory = getTranslatedData(story);
+  const { translatedStory, translationLanguage } = useTranslatedStory(story);
 
   useEffect(() => {
     serverApiClient.incrementStoryViews(story._id);
@@ -118,7 +118,7 @@ function StoryPage({ story }: InferGetStaticPropsType<typeof getStaticProps>) {
           />
           <Link
             className="flex items-center gap-2 justify-center font-bold"
-            href={`/translate/${story._id}`}
+            href={`/translate/${story._id}?lang=${translationLanguage}`}
           >
             <Image
               src={"/images/icons/translate.svg"}

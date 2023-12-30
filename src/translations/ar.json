@@ -88,5 +88,28 @@
   "BottomNavigation": {
     "add_story": "أضف قصة",
     "all_stories": "جميع القصص"
+  },
+  "TranslateStoryPage": {
+    "page_title": "ترجم | {protagonist}",
+    "page_description": "ترجم قصة {protagonist} للعالم.",
+    "heading": "ترجم قصة <b>{protagonist}</b>",
+    "from_language": "من",
+    "to_language": "إلى",
+    "select_language": "اختر لغة",
+    "name": "الاسم",
+    "job": "الوظيفة",
+    "story": "القصة",
+    "name_placeholder": "الاسم بلغة {language}",
+    "name_placeholder_fallback": "الاسم مترجم",
+    "job_placeholder": "الاسم بلغة {language}",
+    "job_placeholder_fallback": "الوظيفة مترجمة",
+    "name_required": "رجاءاً، أضف الاسم",
+    "job_required": "رجاءاً، أضف الوظيفة",
+    "story_required": "رجاءاً، أضف القصة",
+    "language_required": "رجاءاً، اختر لغة الترجمة",
+    "wrong_language": "عذراً، اللغة المستخدمة لا تتطابق مع اللغة المختارة بالأعلى، اذا كنت تظن أن هذا غير صحيح، رجاءاً، تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "submit": "إضافة",
+    "submit_success": "شكراً لك ♥. سنقوم بمراجعة ونشر الترجمة خلال {reviewHours} ساعة كحدٍ أقصى.",
+    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي."
   }
 }

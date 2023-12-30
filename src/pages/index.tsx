@@ -1,11 +1,11 @@
 import { useTranslations } from "next-intl";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { DBStory } from "@/interfaces/database/Story";
+import { DBStory } from "@/interfaces/database/DBStory";
 import { ServerApiClient } from "@/apis/ServerApiClient";
-import classNames from "@/helpers/style/classNames";
 import StoriesList from "@/components/stories/StoriesList";
 import Container from "@/components/container/Container";
 import Layout from "@/components/layout/Layout";
+import sortStoriesByLanguage from "@/helpers/stories/sortStoriesByLanguage";
 
 export default function Home({
   stories,
@@ -29,7 +29,15 @@ export const getServerSideProps = (async (context) => {
       props: { stories: [] },
     };
   }
-  return { props: { stories: storiesResult.value } };
+
+  // sort stories by user's preferred language
+  const homeLanguage = context.req.cookies.home_language;
+  let stories = storiesResult.value;
+  if (homeLanguage) {
+    stories = sortStoriesByLanguage(stories, homeLanguage);
+  }
+
+  return { props: { stories } };
 }) satisfies GetServerSideProps<{
   stories: DBStory[];
 }>;
