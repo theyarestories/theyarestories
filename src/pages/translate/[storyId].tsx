@@ -207,12 +207,15 @@ function TranslateStoryPage({
     >
       <Container>
         <div className="space-y-4">
-          <h1 className="title-1 !font-normal">
-            {t.rich("heading", {
-              protagonist: translatedStory.protagonist,
-              b: (value) => <b className="font-semibold">{value}</b>,
-            })}
-          </h1>
+          <div className="space-y-1">
+            <h1 className="title-1 !font-normal leading-6">
+              {t.rich("heading", {
+                protagonist: translatedStory.protagonist,
+                b: (value) => <b className="font-semibold">{value}</b>,
+              })}
+            </h1>
+            <p className="text-gray-600">{t("subheading")}</p>
+          </div>
 
           <form
             className="space-y-3"

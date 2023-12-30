@@ -93,6 +93,7 @@
     "page_title": "ترجم | {protagonist}",
     "page_description": "ترجم قصة {protagonist} للعالم.",
     "heading": "ترجم قصة <b>{protagonist}</b>",
+    "subheading": "شاركنا بنشر قصصمهم للعالم!",
     "from_language": "من",
     "to_language": "إلى",
     "select_language": "اختر لغة",

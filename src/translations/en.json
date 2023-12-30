@@ -93,6 +93,7 @@
     "page_title": "Translate | {protagonist}",
     "page_description": "Translate {protagonist}'s story to the world.",
     "heading": "Translate <b>{protagonist}</b>'s story",
+    "subheading": "Let's share their stories to the world!",
     "from_language": "From",
     "to_language": "To",
     "select_language": "Select language",

@@ -28,7 +28,7 @@ body {
 
 @layer components {
   .title-1 {
-    @apply text-lg lg:text-xl font-semibold;
+    @apply text-lg lg:text-xl font-semibold leading-6;
   }
 
   .input {
