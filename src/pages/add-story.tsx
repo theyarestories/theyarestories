@@ -74,7 +74,7 @@ export default function AddStoryPage() {
       value: city.name,
     }))
   );
-  const [storyFields, setStoryFields] = useState<StoryFields>({
+  const storyFieldsInitalState = {
     protagonist: "",
     city: cityOptions.current[0],
     story: "",
@@ -82,7 +82,10 @@ export default function AddStoryPage() {
     job: "",
     age: "",
     tags: [],
-  });
+  };
+  const [storyFields, setStoryFields] = useState<StoryFields>(
+    storyFieldsInitalState
+  );
   console.log(storyFields);
   const [storyFieldsErrors, setStoryFieldsErrors] = useState({
     protagonistError: "",
@@ -241,6 +244,9 @@ export default function AddStoryPage() {
       if (createResult.isErr()) {
         throw new Error(createResult.error.errorMessage);
       }
+
+      // 4. Reset all fields
+      setStoryFields(storyFieldsInitalState);
 
       return ok(createResult.value);
     }
