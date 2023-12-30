@@ -4,7 +4,6 @@ import threeDots from "@/helpers/string/threeDots";
 import classNames from "@/helpers/style/classNames";
 import getUrlOrigin from "@/helpers/url/getUrlOrigin";
 import { DBStory, SharePlatform } from "@/interfaces/database/Story";
-import { useTranslations } from "next-intl";
 import {
   TelegramIcon,
   TelegramShareButton,
@@ -22,7 +21,6 @@ type Props = {
 const serverApiClient = new ServerApiClient();
 
 function SharePlatforms({ story, className = "" }: Props) {
-  const t = useTranslations("SharePlatforms");
   const shareUrl = `${getUrlOrigin()}/stories/${story._id}`;
 
   const platforms = [

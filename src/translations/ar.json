@@ -63,9 +63,6 @@
     "job": "الوظيفة: {job}",
     "read_my_story": "اقرأ قصتي"
   },
-  "ShareStory": {
-    "share": "انشر القصة"
-  },
   "StoryPage": {
     "age_bold": "<b>العمر</b>: {age}",
     "city_bold": "<b>المدينة</b>: {city}",

@@ -63,9 +63,6 @@
     "job": "Job: {job}",
     "read_my_story": "Read my story"
   },
-  "ShareStory": {
-    "share": "Share the story ♥"
-  },
   "StoryPage": {
     "age_bold": "<b>Age</b>: {age}",
     "city_bold": "<b>City</b>: {city}",
