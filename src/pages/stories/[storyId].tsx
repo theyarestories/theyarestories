@@ -10,7 +10,7 @@ import classNames from "@/helpers/style/classNames";
 import useIsRtl from "@/hooks/useIsRtl";
 import useTranslatedStory from "@/hooks/useTranslatedStory";
 import { DBStory } from "@/interfaces/database/DBStory";
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { CldImage } from "next-cloudinary";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
@@ -29,7 +29,9 @@ const Markdown = dynamic(
   }
 );
 
-function StoryPage({ story }: InferGetStaticPropsType<typeof getStaticProps>) {
+function StoryPage({
+  story,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const isRtl = useIsRtl();
   const t = useTranslations("StoryPage");
 
@@ -134,14 +136,7 @@ function StoryPage({ story }: InferGetStaticPropsType<typeof getStaticProps>) {
   );
 }
 
-export const getStaticPaths = (async () => {
-  return {
-    paths: [],
-    fallback: "blocking",
-  };
-}) satisfies GetStaticPaths;
-
-export const getStaticProps = (async ({ params }) => {
+export const getServerSideProps = (async ({ params }) => {
   const storyResult = await serverApiClient.getStoryById(
     params?.storyId as string
   );
@@ -153,7 +148,7 @@ export const getStaticProps = (async ({ params }) => {
   }
 
   return { props: { story: storyResult.value } };
-}) satisfies GetStaticProps<{
+}) satisfies GetServerSideProps<{
   story: DBStory;
 }>;
 

@@ -10,14 +10,13 @@ import allLanguages from "@/config/all-languages/allLanguages";
 import consts from "@/config/consts";
 import getTranslatedStory from "@/helpers/stories/getTranslatedStory";
 import mapLanguageCodesToOptions from "@/helpers/stories/mapLanguageCodesToOptions";
-import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
 import getLanguageByCode from "@/helpers/translations/getLanguageByCode";
 import mapLanguagesToOptions from "@/helpers/translations/mapLanguagesToOptions";
 import { ApiError } from "@/interfaces/api-client/Error";
 import { DBStory } from "@/interfaces/database/DBStory";
 import { LanguageOption } from "@/interfaces/languages/LanguageOption";
 import { Result, err, ok } from "neverthrow";
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -46,7 +45,7 @@ const languagesOptions = mapLanguagesToOptions(allLanguages);
 
 function TranslateStoryPage({
   story,
-}: InferGetStaticPropsType<typeof getStaticProps>) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
   const t = useTranslations("TranslateStoryPage");
 
@@ -348,14 +347,7 @@ function TranslateStoryPage({
   );
 }
 
-export const getStaticPaths = (async () => {
-  return {
-    paths: [],
-    fallback: "blocking",
-  };
-}) satisfies GetStaticPaths;
-
-export const getStaticProps = (async ({ params }) => {
+export const getServerSideProps = (async ({ params }) => {
   const storyResult = await serverApiClient.getStoryById(
     params?.storyId as string
   );
@@ -367,7 +359,7 @@ export const getStaticProps = (async ({ params }) => {
   }
 
   return { props: { story: storyResult.value } };
-}) satisfies GetStaticProps<{
+}) satisfies GetServerSideProps<{
   story: DBStory;
 }>;
 
