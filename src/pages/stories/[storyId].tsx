@@ -55,12 +55,11 @@ function StoryPage({
           {story.viewsCount > 0 && (
             <p
               className={classNames(
-                "absolute text-gray-500 top-0 text-sm flex items-center gap-1",
+                "absolute text-gray-500 top-0 text-sm items-center gap-1 hidden lg:flex",
                 isRtl ? "left-0" : "right-0"
               )}
             >
               {t("views_count", { count: story.viewsCount })}
-              {/* {story.viewsCount} */}
             </p>
           )}
 
