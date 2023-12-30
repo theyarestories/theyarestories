@@ -155,7 +155,10 @@ export default function AddStoryPage() {
     else return err(false);
   };
 
-  const mapFieldsToStory = (storyFields: StoryFields): RegisteringStory => {
+  const mapFieldsToStory = (
+    storyFields: StoryFields,
+    selectedLanguage: LanguageOption
+  ): RegisteringStory => {
     const story: RegisteringStory = {
       protagonist: storyFields.protagonist,
       city: storyFields.city.name,
@@ -238,7 +241,7 @@ export default function AddStoryPage() {
       }
 
       // 2. map story fields to story
-      const mappedStory = mapFieldsToStory(storyFields);
+      const mappedStory = mapFieldsToStory(storyFields, selectedLanguage);
 
       // 3. Create the story
       const createResult = await serverApiClient.createStory(mappedStory);
@@ -247,6 +250,7 @@ export default function AddStoryPage() {
       }
 
       // 4. Reset all fields
+      setIsSubmittedOnce(false);
       setStoryFields(storyFieldsInitalState);
 
       return ok(createResult.value);
@@ -439,7 +443,7 @@ export default function AddStoryPage() {
                     onClick={() => handleTagClick(tag)}
                     // tabIndex={0}
                   >
-                    {tag}
+                    {t(tag)}
                   </button>
                 ))}
               </div>
