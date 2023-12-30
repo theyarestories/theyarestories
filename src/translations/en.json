@@ -88,5 +88,28 @@
   "BottomNavigation": {
     "add_story": "Add a Story",
     "all_stories": "All Stories"
+  },
+  "TranslateStoryPage": {
+    "page_title": "Translate | {protagonist}",
+    "page_description": "Translate {protagonist}'s story to the world.",
+    "heading": "Translate <b>{protagonist}</b>'s story",
+    "from_language": "From",
+    "to_language": "To",
+    "select_language": "Select language",
+    "name": "Name",
+    "job": "Job",
+    "story": "Story",
+    "name_placeholder": "Name in {language}",
+    "name_placeholder_fallback": "Translated name",
+    "job_placeholder": "Job in {language}",
+    "job_placeholder_fallback": "Translated job",
+    "name_required": "Please, add the name",
+    "job_required": "Please, add the job",
+    "story_required": "Please, add the story",
+    "language_required": "Please, select a translation language",
+    "wrong_language": "Sorry, we detected the story is written in another language than the selected one. If that's not the case, please reach us through any of our social media channels.",
+    "submit": "Submit",
+    "submit_success": "Thank you for your effort ♥. We will review and share your translation in a maximum of {reviewHours} hours.",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels."
   }
 }

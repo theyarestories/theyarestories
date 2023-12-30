@@ -7,7 +7,7 @@ import ThemeMDEditor from "@/components/md-editor/ThemeMDEditor";
 import ThemeSelect from "@/components/select/ThemeSelect";
 import allLanguages from "@/config/all-languages/allLanguages";
 import { ApiError } from "@/interfaces/api-client/Error";
-import { DBStory, RegisteringStory } from "@/interfaces/database/Story";
+import { DBStory, RegisteringStory } from "@/interfaces/database/DBStory";
 import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
 import {
@@ -32,11 +32,8 @@ import { DBImage } from "@/interfaces/database/DBImage";
 import { storyTags } from "@/config/story-tags/storyTags";
 import classNames from "@/helpers/style/classNames";
 import { useRouter } from "next/router";
-
-type LanguageOption = {
-  name: string;
-  code: string;
-};
+import { LanguageOption } from "@/interfaces/languages/LanguageOption";
+import mapLanguagesToOptions from "@/helpers/translations/mapLanguagesToOptions";
 
 type CityOption = {
   name: string;
@@ -53,13 +50,7 @@ type StoryFields = {
   tags: string[];
 };
 
-const languagesOptions = allLanguages.map((language) => ({
-  name:
-    language.name === language.nativeName
-      ? language.name
-      : `${language.name} (${language.nativeName})`,
-  code: language.code,
-}));
+const languagesOptions = mapLanguagesToOptions(allLanguages);
 
 const serverApiClient = new ServerApiClient();
 const languageDetectorApiClient = new LanguageDetectorApiClient();
@@ -166,7 +157,6 @@ export default function AddStoryPage() {
       translations: {
         [selectedLanguage.code]: {
           protagonist: storyFields.protagonist,
-          city: storyFields.city.name,
           story: storyFields.story,
           job: storyFields.job,
         },
@@ -180,9 +170,7 @@ export default function AddStoryPage() {
     return story;
   };
 
-  const handleChange: ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  > = (event) => {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setStoryFields((prevFields) => ({
       ...prevFields,
       [event.target.name]: event.target.value,

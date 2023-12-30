@@ -4,8 +4,9 @@ import { Result, err, ok } from "neverthrow";
 import {
   DBStory,
   RegisteringStory,
+  RegisteringTranslatedFields,
   SharePlatform,
-} from "@/interfaces/database/Story";
+} from "@/interfaces/database/DBStory";
 import { ServerAdvancedResponse } from "@/interfaces/server/ServerAdvancedResponse";
 import { ServerApiResponse } from "@/interfaces/server/ServerApiResponse";
 
@@ -75,6 +76,29 @@ export class ServerApiClient {
       {},
       ServerApiResponse<DBStory>
     >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/view`, {});
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value.data);
+  }
+
+  async translateStory(
+    storyId: string,
+    language: string,
+    translatedFields: RegisteringTranslatedFields
+  ) {
+    const result = await this.serverApiClient.put<
+      {
+        language: string;
+        translatedFields: RegisteringTranslatedFields;
+      },
+      ServerApiResponse<DBStory>
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/view`, {
+      language,
+      translatedFields,
+    });
 
     if (result.isErr()) {
       return err(result.error);
