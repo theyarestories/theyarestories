@@ -69,4 +69,17 @@ export class ServerApiClient {
 
     return ok(result.value.data);
   }
+
+  async incrementStoryViews(storyId: string) {
+    const result = await this.serverApiClient.put<
+      {},
+      ServerApiResponse<DBStory>
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/view`, {});
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value.data);
+  }
 }
