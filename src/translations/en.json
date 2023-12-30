@@ -40,6 +40,8 @@
     "age": "Age",
     "age_error": "Sorry, The age can only be between {minAge} and {maxAge}.",
     "story_required": "Please, add the story",
+    "tags": "Tags",
+    "tags_description": "You can add more than one",
     "submit": "Submit",
     "submit_success": "Thank you for your effort ♥. We will review and share your story in a maximum of {reviewHours} hours.",
     "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",

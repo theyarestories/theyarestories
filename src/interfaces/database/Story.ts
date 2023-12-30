@@ -25,6 +25,7 @@ export type DBStory = StoryTranslatedFields & {
   shares: {
     [key in SharePlatform]?: number;
   };
+  tags: string[];
   translations: {
     [key: string]: StoryTranslatedFields;
   };
@@ -33,6 +34,7 @@ export type DBStory = StoryTranslatedFields & {
 export type RegisteringStory = StoryTranslatedFields & {
   avatar?: DBImage;
   age?: number;
+  tags?: string[];
   translations: {
     [key: string]: StoryTranslatedFields;
   };

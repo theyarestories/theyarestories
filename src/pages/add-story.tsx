@@ -30,6 +30,8 @@ import { CloudArrowUpIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { cities } from "@/config/palestine/cities";
 import consts from "@/config/consts";
 import { DBImage } from "@/interfaces/database/DBImage";
+import { storyTags } from "@/config/story-tags/storyTags";
+import classNames from "@/helpers/style/classNames";
 
 type LanguageOption = {
   name: string;
@@ -48,6 +50,7 @@ type StoryFields = {
   job?: string;
   avatar: DBImage | null;
   age: string;
+  tags: string[];
 };
 
 const languagesOptions = allLanguages.map((language) => ({
@@ -78,6 +81,7 @@ export default function AddStoryPage() {
     avatar: null,
     job: "",
     age: "",
+    tags: [],
   });
   console.log(storyFields);
   const [storyFieldsErrors, setStoryFieldsErrors] = useState({
@@ -160,6 +164,7 @@ export default function AddStoryPage() {
           job: storyFields.job,
         },
       },
+      tags: storyFields.tags,
       ...(storyFields.avatar && { avatar: storyFields.avatar }),
       ...(storyFields.job && { job: storyFields.job }),
       ...(storyFields.age && { age: Number(storyFields.age) }),
@@ -189,6 +194,21 @@ export default function AddStoryPage() {
         };
       });
     }
+  };
+
+  const handleTagClick = (tag: string) => {
+    setStoryFields((prevStoryFields) => {
+      let newTags: string[] = [];
+      if (prevStoryFields.tags.includes(tag)) {
+        newTags = prevStoryFields.tags.filter((prevTag) => prevTag !== tag);
+      } else {
+        newTags = prevStoryFields.tags.concat([tag]);
+      }
+      return {
+        ...prevStoryFields,
+        tags: newTags,
+      };
+    });
   };
 
   const removeImage = () => {
@@ -263,6 +283,8 @@ export default function AddStoryPage() {
                 handleChange={setSelectedLanguage}
               />
             </InputContainer>
+
+            <hr />
 
             <div className="grid sm:grid-cols-2 gap-3">
               {/* name */}
@@ -339,7 +361,6 @@ export default function AddStoryPage() {
               />
             </InputContainer>
 
-            {/* <div className="space-y-1"> */}
             <InputContainer label={t("upload_image")}>
               <CldUploadWidget
                 signatureEndpoint="/api/cloudinary/sign-cloudinary-params"
@@ -387,6 +408,30 @@ export default function AddStoryPage() {
                 />
               </div>
             )}
+
+            <InputContainer
+              label={t("tags")}
+              description={t("tags_description")}
+            >
+              <div role="group" className="flex flex-wrap gap-1">
+                {storyTags.map((tag) => (
+                  <button
+                    type="button"
+                    key={tag}
+                    role="checkbox"
+                    aria-checked={storyFields.tags.includes(tag)}
+                    className={classNames(
+                      "py-1 px-2 border rounded-3xl cursor-pointer",
+                      storyFields.tags.includes(tag) ? "bg-green-200" : ""
+                    )}
+                    onClick={() => handleTagClick(tag)}
+                    // tabIndex={0}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            </InputContainer>
 
             <ThemeButton
               className="w-full"
