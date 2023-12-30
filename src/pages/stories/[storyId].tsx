@@ -2,13 +2,20 @@ import { ServerApiClient } from "@/apis/ServerApiClient";
 import Container from "@/components/container/Container";
 import StickyBar from "@/components/container/StickyBar";
 import Layout from "@/components/layout/Layout";
+import Logo from "@/components/logo/Logo";
+import ThemeSelect from "@/components/select/ThemeSelect";
 import SharePlatforms from "@/components/stories/SharePlatforms";
+import allLanguages from "@/config/all-languages/allLanguages";
 import consts from "@/config/consts";
+import getTranslatedStory from "@/helpers/stories/getTranslatedStory";
+import mapLanguageCodesToOptions from "@/helpers/stories/mapLanguageCodesToOptions";
+import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
 import removeMarkdown from "@/helpers/string/removeMarkdown";
 import sliceAtEndOfWord from "@/helpers/string/sliceAtEndOfWord";
 import classNames from "@/helpers/style/classNames";
+import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
+import mapLanguagesToOptions from "@/helpers/translations/mapLanguagesToOptions";
 import useIsRtl from "@/hooks/useIsRtl";
-import useTranslatedStory from "@/hooks/useTranslatedStory";
 import { DBStory } from "@/interfaces/database/DBStory";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { CldImage } from "next-cloudinary";
@@ -16,7 +23,8 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
 const serverApiClient = new ServerApiClient();
@@ -29,13 +37,29 @@ const Markdown = dynamic(
   }
 );
 
+const languagesOptions = mapLanguagesToOptions(allLanguages);
+
 function StoryPage({
   story,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const isRtl = useIsRtl();
+  const router = useRouter();
   const t = useTranslations("StoryPage");
 
-  const { translatedStory, translationLanguage } = useTranslatedStory(story);
+  const [translationLanguage, setTranslationLanguage] = useState(
+    Object.keys(story.translations)[0]
+  );
+  const translatedStory = getTranslatedStory(story, translationLanguage);
+
+  useEffect(() => {
+    const homeLanguage = getHomeLanguage();
+    if (homeLanguage && storyHasLanguage(story, homeLanguage)) {
+      return setTranslationLanguage(homeLanguage);
+    }
+    if (router.locale && storyHasLanguage(story, router.locale)) {
+      return setTranslationLanguage(router.locale);
+    }
+  }, [router.locale]);
 
   useEffect(() => {
     serverApiClient.incrementStoryViews(story._id);
@@ -49,7 +73,29 @@ function StoryPage({
         consts.metaDescriptionMaxLetters
       )}
       withStickyFooter={false}
+      withHeader={false}
     >
+      <StickyBar isStickyTop>
+        <div className="flex h-full items-center justify-between">
+          <Logo />
+
+          <ThemeSelect
+            className="max-w-[10rem]"
+            options={mapLanguageCodesToOptions(
+              Object.keys(story.translations),
+              languagesOptions
+            )}
+            selected={
+              languagesOptions.find(
+                (lang) => lang.code === translationLanguage
+              ) || null
+            }
+            handleChange={(language) => setTranslationLanguage(language.code)}
+            withOptionTick={false}
+          />
+        </div>
+      </StickyBar>
+
       <Container>
         <div className="flex flex-col gap-y-4 relative">
           {story.viewsCount > 0 && (

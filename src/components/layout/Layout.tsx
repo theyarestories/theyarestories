@@ -8,6 +8,7 @@ type Props = {
   pageDescription: string;
   children: ReactNode;
   withStickyFooter?: boolean;
+  withHeader?: boolean;
 };
 
 function Layout({
@@ -15,6 +16,7 @@ function Layout({
   pageDescription,
   children,
   withStickyFooter = true,
+  withHeader = true,
 }: Props) {
   return (
     <>
@@ -23,7 +25,7 @@ function Layout({
         <meta name="description" content={pageDescription} key="desc" />
       </Head>
 
-      <Header />
+      {withHeader && <Header />}
 
       <main>{children}</main>
 

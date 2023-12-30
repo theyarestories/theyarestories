@@ -34,7 +34,7 @@ function LanguageSwitch({}: Props) {
       options={supportedLanguages}
       selected={selectedLanguage}
       handleChange={handleLanguageChange}
-      className="w-24"
+      className="max-w-[10rem]"
       withOptionTick={false}
     />
   );
