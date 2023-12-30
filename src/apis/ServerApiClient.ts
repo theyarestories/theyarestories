@@ -95,7 +95,7 @@ export class ServerApiClient {
         translatedFields: RegisteringTranslatedFields;
       },
       ServerApiResponse<DBStory>
-    >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/view`, {
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/translate`, {
       language,
       translatedFields,
     });
