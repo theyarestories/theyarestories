@@ -82,7 +82,7 @@
     "age_bold": "<b>العمر</b>: {age}",
     "city_bold": "<b>المدينة</b>: {city}",
     "job_bold": "<b>الوظيفة</b>: {job}",
-    "translate": "ترجم",
+    "translate": "أضف ترجمة",
     "views_count": "{count} رؤية للقصة"
   },
   "BottomNavigation": {
