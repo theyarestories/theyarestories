@@ -7,6 +7,8 @@ import consts from "@/config/consts";
 import getTranslatedData from "@/helpers/database/getTranslatedData";
 import removeMarkdown from "@/helpers/string/removeMarkdown";
 import sliceAtEndOfWord from "@/helpers/string/sliceAtEndOfWord";
+import classNames from "@/helpers/style/classNames";
+import useIsRtl from "@/hooks/useIsRtl";
 import { DBStory } from "@/interfaces/database/Story";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import { CldImage } from "next-cloudinary";
@@ -14,6 +16,7 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 
 const serverApiClient = new ServerApiClient();
@@ -27,9 +30,14 @@ const Markdown = dynamic(
 );
 
 function StoryPage({ story }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const isRtl = useIsRtl();
   const t = useTranslations("StoryPage");
 
   const translatedStory = getTranslatedData(story);
+
+  useEffect(() => {
+    serverApiClient.incrementStoryViews(story._id);
+  }, [story]);
 
   return (
     <Layout
@@ -41,7 +49,19 @@ function StoryPage({ story }: InferGetStaticPropsType<typeof getStaticProps>) {
       withStickyFooter={false}
     >
       <Container>
-        <div className="space-y-4">
+        <div className="flex flex-col gap-y-4 relative">
+          {story.viewsCount > 0 && (
+            <p
+              className={classNames(
+                "absolute text-gray-500 top-0 text-sm flex items-center gap-1",
+                isRtl ? "left-0" : "right-0"
+              )}
+            >
+              {t("views_count", { count: story.viewsCount })}
+              {/* {story.viewsCount} */}
+            </p>
+          )}
+
           <div className="flex gap-8 items-center">
             {/* Image */}
             <CldImage

@@ -20,15 +20,16 @@ export type DBStory = StoryTranslatedFields & {
   isHighlighted: boolean;
   isDeleted: boolean;
   age: number | null;
-  createdAt: string;
-  updatedAt: string;
   shares: {
     [key in SharePlatform]?: number;
   };
   tags: string[];
+  viewsCount: number;
   translations: {
     [key: string]: StoryTranslatedFields;
   };
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type RegisteringStory = StoryTranslatedFields & {
