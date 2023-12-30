@@ -2,8 +2,8 @@ import { DBImage } from "./DBImage";
 
 export enum SharePlatform {
   twitter = "twitter",
+  facebook = "facebook",
   whatsapp = "whatsapp",
-  telegram = "telegram",
 }
 
 export interface StoryTranslatedFields {
