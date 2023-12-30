@@ -80,7 +80,7 @@ function StoryPage({
           <Logo />
 
           <ThemeSelect
-            className="w-40"
+            className="max-w-[10rem]"
             options={mapLanguageCodesToOptions(
               Object.keys(story.translations),
               languagesOptions
