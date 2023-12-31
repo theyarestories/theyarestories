@@ -31,11 +31,12 @@ function LanguageSwitch({}: Props) {
 
   return (
     <ThemeSelect<SupportedLanguage>
+      className="max-w-[10rem]"
+      panelClassName="!w-auto max-w-[15rem]"
       options={supportedLanguages}
       selected={selectedLanguage}
       handleChange={handleLanguageChange}
-      className="max-w-[10rem]"
-      withOptionTick={false}
+      withBorder={false}
     />
   );
 }

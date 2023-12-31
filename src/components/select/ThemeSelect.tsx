@@ -1,8 +1,9 @@
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { CheckIcon } from "@heroicons/react/20/solid";
 import classNames from "@/helpers/style/classNames";
 import useIsRtl from "@/hooks/useIsRtl";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 export type Option<CustomOption> = { name: string } & CustomOption;
 
@@ -13,6 +14,8 @@ type Props<CustomOption> = {
   className?: string;
   withOptionTick?: boolean;
   placeholder?: string;
+  withBorder?: boolean;
+  panelClassName?: string;
 };
 
 export default function ThemeSelect<CustomOption>({
@@ -22,6 +25,8 @@ export default function ThemeSelect<CustomOption>({
   className = "",
   withOptionTick = true,
   placeholder = "",
+  withBorder = true,
+  panelClassName = "",
 }: Props<CustomOption>) {
   const isRtl = useIsRtl();
 
@@ -30,7 +35,8 @@ export default function ThemeSelect<CustomOption>({
       <div className={classNames("relative", className)}>
         <Listbox.Button
           className={classNames(
-            "relative w-full input cursor-pointer text-start pe-10"
+            "relative w-full cursor-pointer p-2 text-start",
+            withBorder ? "input pe-8" : "pe-6"
           )}
         >
           <span className="block truncate">
@@ -38,12 +44,13 @@ export default function ThemeSelect<CustomOption>({
           </span>
           <span
             className={classNames(
-              "pointer-events-none absolute inset-y-0 flex items-center pe-2",
-              isRtl ? "left-0" : "right-0"
+              "pointer-events-none absolute inset-y-0 flex items-center",
+              isRtl ? "left-0" : "right-0",
+              withBorder ? "pe-2" : ""
             )}
           >
-            <ChevronUpDownIcon
-              className="h-5 w-5 text-gray-400"
+            <ChevronDownIcon
+              className="h-4 w-4 text-gray-600"
               aria-hidden="true"
             />
           </span>
@@ -54,7 +61,14 @@ export default function ThemeSelect<CustomOption>({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+          {/* w-full */}
+          <Listbox.Options
+            className={classNames(
+              "absolute z-10 mt-1 max-h-60 overflow-auto rounded-sm bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none w-full",
+              isRtl ? "left-0" : "right-0",
+              panelClassName
+            )}
+          >
             {options.map((option, optionIdx) => (
               <Listbox.Option
                 key={optionIdx}

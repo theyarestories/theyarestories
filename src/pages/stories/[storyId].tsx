@@ -79,20 +79,24 @@ function StoryPage({
         <div className="flex h-full items-center justify-between">
           <Logo />
 
-          <ThemeSelect
-            className="max-w-[10rem]"
-            options={mapLanguageCodesToOptions(
-              Object.keys(story.translations),
-              languagesOptions
-            )}
-            selected={
-              languagesOptions.find(
-                (lang) => lang.code === translationLanguage
-              ) || null
-            }
-            handleChange={(language) => setTranslationLanguage(language.code)}
-            withOptionTick={false}
-          />
+          <div className="flex items-center">
+            <span className="text-gray-400">{t("language_label")}</span>
+            <ThemeSelect
+              className="max-w-[10rem]"
+              panelClassName="!w-auto max-w-[15rem]"
+              options={mapLanguageCodesToOptions(
+                Object.keys(story.translations),
+                languagesOptions
+              )}
+              selected={
+                languagesOptions.find(
+                  (lang) => lang.code === translationLanguage
+                ) || null
+              }
+              handleChange={(language) => setTranslationLanguage(language.code)}
+              withBorder={false}
+            />
+          </div>
         </div>
       </StickyBar>
 
