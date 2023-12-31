@@ -15,6 +15,7 @@ type Props<CustomOption> = {
   withOptionTick?: boolean;
   placeholder?: string;
   withBorder?: boolean;
+  panelClassName?: string;
 };
 
 export default function ThemeSelect<CustomOption>({
@@ -25,6 +26,7 @@ export default function ThemeSelect<CustomOption>({
   withOptionTick = true,
   placeholder = "",
   withBorder = true,
+  panelClassName = "",
 }: Props<CustomOption>) {
   const isRtl = useIsRtl();
 
@@ -33,8 +35,8 @@ export default function ThemeSelect<CustomOption>({
       <div className={classNames("relative", className)}>
         <Listbox.Button
           className={classNames(
-            "relative w-full cursor-pointer p-2 text-start pe-6",
-            withBorder ? "input" : ""
+            "relative w-full cursor-pointer p-2 text-start",
+            withBorder ? "input pe-8" : "pe-6"
           )}
         >
           <span className="block truncate">
@@ -43,7 +45,8 @@ export default function ThemeSelect<CustomOption>({
           <span
             className={classNames(
               "pointer-events-none absolute inset-y-0 flex items-center",
-              isRtl ? "left-0" : "right-0"
+              isRtl ? "left-0" : "right-0",
+              withBorder ? "pe-2" : ""
             )}
           >
             <ChevronDownIcon
@@ -61,8 +64,9 @@ export default function ThemeSelect<CustomOption>({
           {/* w-full */}
           <Listbox.Options
             className={classNames(
-              "absolute z-10 mt-1 max-h-60 overflow-auto rounded-sm bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none",
-              isRtl ? "left-0" : "right-0"
+              "absolute z-10 mt-1 max-h-60 overflow-auto rounded-sm bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none w-full",
+              isRtl ? "left-0" : "right-0",
+              panelClassName
             )}
           >
             {options.map((option, optionIdx) => (

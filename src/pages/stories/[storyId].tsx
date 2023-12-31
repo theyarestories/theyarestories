@@ -83,6 +83,7 @@ function StoryPage({
             <span className="text-gray-400">{t("language_label")}</span>
             <ThemeSelect
               className="max-w-[10rem]"
+              panelClassName="!w-auto max-w-[15rem]"
               options={mapLanguageCodesToOptions(
                 Object.keys(story.translations),
                 languagesOptions
