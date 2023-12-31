@@ -1,19 +1,25 @@
-import { useTranslations } from "next-intl";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { DBStory } from "@/interfaces/database/DBStory";
 import { ServerApiClient } from "@/apis/ServerApiClient";
-import StoriesList from "@/components/stories/StoriesList";
 import Container from "@/components/container/Container";
 import Layout from "@/components/layout/Layout";
+import StoriesList from "@/components/stories/StoriesList";
 import sortStoriesByLanguage from "@/helpers/stories/sortStoriesByLanguage";
+import { DBStory } from "@/interfaces/database/DBStory";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
-export default function Home({
-  stories,
+const serverApiClient = new ServerApiClient();
+
+export default function AllStoriesPage({
+  stories: serverStories,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const t = useTranslations("IndexPage");
+  const t = useTranslations("AllStoriesPage");
+
+  const [stories, setStories] = useState(serverStories);
+  const [selectedTag, setSelectedTag] = useState("");
 
   return (
-    <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
+    <Layout pageTitle={t("page_title")} pageDescription={"page_description"}>
       <Container>
         <StoriesList stories={stories} />
       </Container>
@@ -22,7 +28,6 @@ export default function Home({
 }
 
 export const getServerSideProps = (async (context) => {
-  const serverApiClient = new ServerApiClient();
   const storiesResult = await serverApiClient.getStories();
   if (storiesResult.isErr()) {
     return {

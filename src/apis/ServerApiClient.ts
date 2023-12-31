@@ -15,12 +15,45 @@ export class ServerApiClient {
   private readonly apiVersion = 1;
   private readonly serverApiClient = new ApiClient();
 
-  async getStories(): Promise<Result<DBStory[], ApiError>> {
+  async getStories(
+    {
+      limit = 50,
+      isApproved,
+      isAscending = false,
+      isHighlighted,
+      tags,
+    }: {
+      limit?: number;
+      isApproved?: boolean;
+      isAscending?: boolean;
+      isHighlighted?: boolean;
+      tags?: string[];
+    } = {
+      limit: 50,
+      isAscending: false,
+    }
+  ): Promise<Result<DBStory[], ApiError>> {
+    // Build the query
+    let query = [];
+    if (typeof isAscending === "boolean") {
+      query.push(`sort=${isAscending ? "" : "-"}_id`);
+    }
+    if (typeof isApproved === "boolean") {
+      query.push(`isApproved=${String(isApproved)}`);
+    }
+    if (typeof isHighlighted === "boolean") {
+      query.push(`isHighlighted=${String(isHighlighted)}`);
+    }
+    if (limit) {
+      query.push(`limit=${limit}`);
+    }
+    if (tags) {
+      query.push(`tags[in]=${tags.join(",")}`);
+    }
+
     const result = await this.serverApiClient.get<
       ServerAdvancedResponse<DBStory[]>
-    >(
-      `${this.apiBaseUrl}/v${this.apiVersion}/stories?isApproved=false&sort=-_id&limit=50`
-    );
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/stories?${query.join("&")}`);
 
     if (result.isErr()) {
       return err(result.error);
