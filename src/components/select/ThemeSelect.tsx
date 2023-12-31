@@ -14,7 +14,7 @@ type Props<CustomOption> = {
   className?: string;
   withOptionTick?: boolean;
   placeholder?: string;
-  withUnderline?: boolean;
+  withBorder?: boolean;
 };
 
 export default function ThemeSelect<CustomOption>({
@@ -24,7 +24,7 @@ export default function ThemeSelect<CustomOption>({
   className = "",
   withOptionTick = true,
   placeholder = "",
-  withUnderline = false,
+  withBorder = true,
 }: Props<CustomOption>) {
   const isRtl = useIsRtl();
 
@@ -34,7 +34,7 @@ export default function ThemeSelect<CustomOption>({
         <Listbox.Button
           className={classNames(
             "relative w-full cursor-pointer p-2 text-start pe-6",
-            withUnderline ? "" : "input"
+            withBorder ? "input" : ""
           )}
         >
           <span className="block truncate">
