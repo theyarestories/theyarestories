@@ -94,7 +94,6 @@ function StoryPage({
                 ) || null
               }
               handleChange={(language) => setTranslationLanguage(language.code)}
-              withOptionTick={false}
               withBorder={false}
             />
           </div>
