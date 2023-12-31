@@ -31,6 +31,7 @@ function LanguageSwitch({}: Props) {
 
   return (
     <ThemeSelect<SupportedLanguage>
+      withUnderline
       options={supportedLanguages}
       selected={selectedLanguage}
       handleChange={handleLanguageChange}

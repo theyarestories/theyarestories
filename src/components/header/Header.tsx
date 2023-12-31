@@ -31,7 +31,7 @@ function Header({}: Props) {
           </li>
           <li>
             <Link
-              className="button button-primary flex gap-1"
+              className="button button-reverse flex gap-1"
               href={"/add-story"}
             >
               <PlusIcon className="w-5" />

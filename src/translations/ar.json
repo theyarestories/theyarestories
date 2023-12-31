@@ -83,7 +83,8 @@
     "city_bold": "<b>المدينة</b>: {city}",
     "job_bold": "<b>الوظيفة</b>: {job}",
     "translate": "أضف ترجمة",
-    "views_count": "{count} رؤية للقصة"
+    "views_count": "{count} رؤية للقصة",
+    "language_label": "اقرأ بال"
   },
   "BottomNavigation": {
     "add_story": "أضف قصة",

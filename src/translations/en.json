@@ -83,7 +83,8 @@
     "city_bold": "<b>City</b>: {city}",
     "job_bold": "<b>Job</b>: {job}",
     "translate": "Add translation",
-    "views_count": "Viewed: {count} times"
+    "views_count": "Viewed: {count} times",
+    "language_label": "Read in"
   },
   "BottomNavigation": {
     "add_story": "Add a Story",
