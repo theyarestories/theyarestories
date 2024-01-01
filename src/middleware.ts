@@ -27,6 +27,16 @@ function getHomeLanguage(request: NextRequest): string {
 export function middleware(request: NextRequest) {
   let response = NextResponse.next();
 
+  // Add query param "page" to all-stories page of non exists
+  if (request.nextUrl.pathname.includes("all-stories")) {
+    const pageParam = Number(request.nextUrl.searchParams.get("page"));
+    if (isNaN(pageParam) || pageParam < 1) {
+      response = NextResponse.redirect(
+        new URL(`${request.nextUrl.pathname}?page=1`, request.url)
+      );
+    }
+  }
+
   // get preferred language to pass it to frontend to customize the experience
   const homeLanguage = getHomeLanguage(request);
   response.cookies.set("home_language", homeLanguage);

@@ -17,22 +17,25 @@ export class ServerApiClient {
 
   async getStories(
     {
-      limit = 50,
+      page = 1,
+      limit = 1,
       isApproved,
       isAscending = false,
       isHighlighted,
       tags,
     }: {
+      page?: number;
       limit?: number;
       isApproved?: boolean;
       isAscending?: boolean;
       isHighlighted?: boolean;
       tags?: string[];
     } = {
-      limit: 50,
+      page: 1,
+      limit: 1,
       isAscending: false,
     }
-  ): Promise<Result<DBStory[], ApiError>> {
+  ): Promise<Result<ServerAdvancedResponse<DBStory[]>, ApiError>> {
     // Build the query
     let query = [];
     if (typeof isAscending === "boolean") {
@@ -47,6 +50,9 @@ export class ServerApiClient {
     if (limit) {
       query.push(`limit=${limit}`);
     }
+    if (page) {
+      query.push(`page=${page}`);
+    }
     if (tags) {
       query.push(`tags[in]=${tags.join(",")}`);
     }
@@ -59,7 +65,7 @@ export class ServerApiClient {
       return err(result.error);
     }
 
-    return ok(result.value.data);
+    return ok(result.value);
   }
 
   async getStoryById(storyId: string): Promise<Result<DBStory, ApiError>> {

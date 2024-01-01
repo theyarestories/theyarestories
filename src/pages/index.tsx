@@ -32,7 +32,7 @@ export const getServerSideProps = (async (context) => {
 
   // sort stories by user's preferred language
   const homeLanguage = context.req.cookies.home_language;
-  let stories = storiesResult.value;
+  let stories = storiesResult.value.data;
   if (homeLanguage) {
     stories = sortStoriesByLanguage(stories, homeLanguage);
   }
