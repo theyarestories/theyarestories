@@ -13,9 +13,9 @@ import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
 import removeMarkdown from "@/helpers/string/removeMarkdown";
 import sliceAtEndOfWord from "@/helpers/string/sliceAtEndOfWord";
 import classNames from "@/helpers/style/classNames";
-import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
 import mapLanguagesToOptions from "@/helpers/translations/mapLanguagesToOptions";
 import useIsRtl from "@/hooks/useIsRtl";
+import useTranslatedStory from "@/hooks/useTranslatedStory";
 import { DBStory } from "@/interfaces/database/DBStory";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { CldImage } from "next-cloudinary";
@@ -23,8 +23,7 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 
 const serverApiClient = new ServerApiClient();
@@ -43,23 +42,10 @@ function StoryPage({
   story,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const isRtl = useIsRtl();
-  const router = useRouter();
   const t = useTranslations("StoryPage");
 
-  const [translationLanguage, setTranslationLanguage] = useState(
-    Object.keys(story.translations)[0]
-  );
-  const translatedStory = getTranslatedStory(story, translationLanguage);
-
-  useEffect(() => {
-    const homeLanguage = getHomeLanguage();
-    if (homeLanguage && storyHasLanguage(story, homeLanguage)) {
-      return setTranslationLanguage(homeLanguage);
-    }
-    if (router.locale && storyHasLanguage(story, router.locale)) {
-      return setTranslationLanguage(router.locale);
-    }
-  }, [router.locale]);
+  const { translatedStory, translationLanguage, setTranslationLanguage } =
+    useTranslatedStory(story);
 
   useEffect(() => {
     serverApiClient.incrementStoryViews(story._id);
@@ -185,7 +171,7 @@ function StoryPage({
   );
 }
 
-export const getServerSideProps = (async ({ params }) => {
+export const getServerSideProps = (async ({ params, req, locale }) => {
   const storyResult = await serverApiClient.getStoryById(
     params?.storyId as string
   );
@@ -196,7 +182,20 @@ export const getServerSideProps = (async ({ params }) => {
     };
   }
 
-  return { props: { story: storyResult.value } };
+  // translate
+  const homeLanguage = req.cookies.home_language;
+  let translationLanguage = storyResult.value.translationLanguage;
+  if (homeLanguage && storyHasLanguage(storyResult.value, homeLanguage)) {
+    translationLanguage = homeLanguage;
+  } else if (locale && storyHasLanguage(storyResult.value, locale)) {
+    translationLanguage = locale;
+  }
+  const translatedStory = getTranslatedStory(
+    storyResult.value,
+    translationLanguage
+  );
+
+  return { props: { story: translatedStory } };
 }) satisfies GetServerSideProps<{
   story: DBStory;
 }>;
