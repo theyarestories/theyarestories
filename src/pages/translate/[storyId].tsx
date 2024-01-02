@@ -158,11 +158,10 @@ function TranslateStoryPage({
       }
 
       // 2. Submit the translation
-      const translateResult = await serverApiClient.translateStory(
-        storyId,
-        toLanguage?.code || "",
-        { ...translationFields, translationLanguage: toLanguage?.code || "" }
-      );
+      const translateResult = await serverApiClient.translateStory(storyId, {
+        ...translationFields,
+        translationLanguage: toLanguage?.code || "",
+      });
       if (translateResult.isErr()) {
         throw new Error(translateResult.error.errorMessage);
       }
@@ -252,7 +251,8 @@ function TranslateStoryPage({
                 >
                   <ThemeSelect<LanguageOption>
                     options={languagesOptions.filter(
-                      (lang) => lang.code !== fromLanguage?.code
+                      (lang) =>
+                        !Object.keys(story.translations).includes(lang.code)
                     )}
                     selected={toLanguage}
                     handleChange={setToLanguage}
