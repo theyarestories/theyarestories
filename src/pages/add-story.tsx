@@ -60,15 +60,16 @@ export default function AddStoryPage() {
   const t = useTranslations("AddStoryPage");
   const [selectedLanguage, setSelectedLanguage] = useState(languagesOptions[0]);
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
-  const cityOptions = useRef(
+  const [cityOptions, setCityOptions] = useState(
     cities.map((city) => ({
       name: t(city.name),
       value: city.name,
     }))
   );
+
   const storyFieldsInitalState = {
     protagonist: "",
-    city: cityOptions.current[0],
+    city: cityOptions[0],
     story: "",
     avatar: null,
     job: "",
@@ -268,6 +269,15 @@ export default function AddStoryPage() {
     [router.locale]
   );
 
+  useEffect(() => {
+    setCityOptions(
+      cities.map((city) => ({
+        name: t(city.name),
+        value: city.name,
+      }))
+    );
+  }, [router.locale, t]);
+
   return (
     <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
@@ -331,8 +341,12 @@ export default function AddStoryPage() {
                 required
               >
                 <ThemeSelect<CityOption>
-                  options={cityOptions.current}
-                  selected={storyFields.city}
+                  options={cityOptions}
+                  selected={
+                    cityOptions.find(
+                      (city) => city.value === storyFields.city.value
+                    ) || null
+                  }
                   handleChange={(option) =>
                     setStoryFields((prev) => ({ ...prev, city: option }))
                   }
