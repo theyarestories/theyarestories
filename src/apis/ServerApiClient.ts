@@ -86,17 +86,12 @@ export class ServerApiClient {
 
   async translateStory(
     storyId: string,
-    language: string,
     translatedFields: RegisteringTranslatedFields
   ) {
     const result = await this.serverApiClient.put<
-      {
-        language: string;
-        translatedFields: RegisteringTranslatedFields;
-      },
+      { translatedFields: RegisteringTranslatedFields },
       ServerApiResponse<DBStory>
     >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/translate`, {
-      language,
       translatedFields,
     });
 
