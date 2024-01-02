@@ -14,6 +14,7 @@ export default function getTranslatedStory(
 
     result = {
       ...story,
+      translationLanguage: translatedFields.translationLanguage,
       protagonist: translatedFields.protagonist,
       story: translatedFields.story,
       job: translatedFields.job,

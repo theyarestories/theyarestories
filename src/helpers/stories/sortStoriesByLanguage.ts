@@ -13,6 +13,12 @@ export default function sortStoriesByLanguage(
     ) {
       return 1;
     }
+    if (
+      storyHasLanguage(storyA, language) &&
+      !storyHasLanguage(storyB, language)
+    ) {
+      return -1;
+    }
     return 0;
   });
 
