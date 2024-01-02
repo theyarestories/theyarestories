@@ -9,6 +9,8 @@ import {
 } from "@/interfaces/database/DBStory";
 import { ServerAdvancedResponse } from "@/interfaces/server/ServerAdvancedResponse";
 import { ServerApiResponse } from "@/interfaces/server/ServerApiResponse";
+import { SignInRequest } from "@/interfaces/server/SignInRequest";
+import { AuthResponse } from "@/interfaces/server/AuthResponse";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
@@ -100,5 +102,18 @@ export class ServerApiClient {
     }
 
     return ok(result.value.data);
+  }
+
+  async signIn(credentials: SignInRequest) {
+    const result = await this.serverApiClient.post<SignInRequest, AuthResponse>(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/login`,
+      credentials
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
   }
 }
