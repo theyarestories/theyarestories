@@ -62,12 +62,13 @@ function TranslateStoryPage({
   }
 
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
+  const initialTranslationFields = {
+    protagonist: "",
+    story: "",
+    job: "",
+  };
   const [translationFields, setTranslationFields] = useState<TranslationFields>(
-    {
-      protagonist: "",
-      story: "",
-      job: "",
-    }
+    initialTranslationFields
   );
   const [translationFieldsErrors, setTranslationFieldsErrors] = useState({
     languageError: "",
@@ -165,6 +166,9 @@ function TranslateStoryPage({
       if (translateResult.isErr()) {
         throw new Error(translateResult.error.errorMessage);
       }
+
+      setTranslationFields(initialTranslationFields);
+      setToLanguage(null);
 
       return ok(translateResult.value);
     }
