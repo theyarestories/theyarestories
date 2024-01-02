@@ -1,15 +1,13 @@
 import { DBStory } from "@/interfaces/database/DBStory";
 import structuredClone from "@ungap/structured-clone";
+import storyHasLanguage from "./storyHasLanguage";
 
 export default function getTranslatedStory(
   story: DBStory,
   translationLanguage: string
 ): DBStory {
   let result = story;
-  if (
-    story.translations &&
-    Object.keys(story.translations).includes(translationLanguage)
-  ) {
+  if (story.translations && storyHasLanguage(story, translationLanguage)) {
     const translatedFields = structuredClone(
       story.translations[translationLanguage]
     );
