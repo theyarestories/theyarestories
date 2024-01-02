@@ -41,8 +41,6 @@ const languagesOptions = mapLanguagesToOptions(allLanguages);
 function StoryPage({
   story,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log("😀", story);
-
   const isRtl = useIsRtl();
   const t = useTranslations("StoryPage");
 
