@@ -271,6 +271,7 @@ function TranslateStoryPage({
                 type="text"
                 value={translatedStory.protagonist}
                 readOnly
+                tabIndex={-1}
               />
               <input
                 className="w-full input"
@@ -298,6 +299,7 @@ function TranslateStoryPage({
                   type="text"
                   value={translatedStory.job}
                   readOnly
+                  tabIndex={-1}
                 />
                 <input
                   className="w-full input"
