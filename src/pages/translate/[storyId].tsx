@@ -248,7 +248,8 @@ function TranslateStoryPage({
                 >
                   <ThemeSelect<LanguageOption>
                     options={languagesOptions.filter(
-                      (lang) => lang.code !== fromLanguage?.code
+                      (lang) =>
+                        !Object.keys(story.translations).includes(lang.code)
                     )}
                     selected={toLanguage}
                     handleChange={setToLanguage}
