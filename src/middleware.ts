@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ServerApiResponse } from "./interfaces/server/ServerApiResponse";
 import { DBUser } from "./interfaces/database/DBUser";
+import isStringPositiveInteger from "./helpers/number/isStringPositiveInteger";
 
 export const config = {
   matcher: [
@@ -57,8 +58,8 @@ export async function middleware(request: NextRequest) {
 
   // Add query param "page" to all-stories page of non exists
   if (request.nextUrl.pathname.includes("all-stories")) {
-    const pageParam = Number(request.nextUrl.searchParams.get("page"));
-    if (isNaN(pageParam) || pageParam < 1) {
+    const pageParam = request.nextUrl.searchParams.get("page");
+    if (!pageParam || !isStringPositiveInteger(pageParam)) {
       response = NextResponse.redirect(
         new URL(`${request.nextUrl.pathname}?page=1`, request.url)
       );
