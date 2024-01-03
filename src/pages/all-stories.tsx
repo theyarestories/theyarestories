@@ -6,15 +6,41 @@ import isStringPositiveInteger from "@/helpers/number/isStringPositiveInteger";
 import sortAndTranslateStories from "@/helpers/stories/sortAndTranslateStories";
 import useIsRtl from "@/hooks/useIsRtl";
 import { DBStory } from "@/interfaces/database/DBStory";
+import { StoryFilters } from "@/interfaces/server/StoryFilters";
 import { ServerAdvancedResponse } from "@/interfaces/server/ServerAdvancedResponse";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { ParsedUrlQuery } from "querystring";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+import classNames from "@/helpers/style/classNames";
 
 const serverApiClient = new ServerApiClient();
+
+function getStoryFiltersFromQuery(query: ParsedUrlQuery): StoryFilters {
+  const filters: StoryFilters = {};
+
+  // Extract params
+  const { page, search } = query;
+
+  // page param
+  if (typeof page === "string" && isStringPositiveInteger(page)) {
+    filters.page = Number(page);
+  }
+
+  // search param
+  if (typeof search === "string") {
+    filters.search = search;
+  }
+
+  return filters;
+}
 
 export default function AllStoriesPage({
   storiesWithPagination: serverStoriesWithPagination,
@@ -33,28 +59,50 @@ export default function AllStoriesPage({
     });
   };
 
-  const updateStoriesWithQuery = async (page: number) => {
+  const handleSearchChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    router.push({ query: { search: event.target.value } }, undefined, {
+      shallow: true,
+    });
+  };
+
+  const updateStoriesWithQuery = async (query: ParsedUrlQuery) => {
+    const filters = getStoryFiltersFromQuery(query);
+
     const storiesResult = await serverApiClient.getStories({
-      page,
+      ...filters,
       limit: storiesWithPagination.pagination.limit,
     });
 
-    if (storiesResult.isOk()) {
+    if (storiesResult.isOk() && storiesResult.value.data.length > 0) {
       setStoriesWithPagination(storiesResult.value);
     }
   };
 
   useEffect(() => {
-    const pageParam = router.query.page;
-    if (typeof pageParam === "string" && isStringPositiveInteger(pageParam)) {
-      updateStoriesWithQuery(Number(pageParam));
-    }
-  }, [router.query.page]);
+    updateStoriesWithQuery(router.query);
+  }, [router.query.page, router.query.search]);
 
   return (
     <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
         <div className="space-y-4">
+          {/* Search form */}
+          <form className="relative flex items-center">
+            <MagnifyingGlassIcon
+              className={classNames(
+                "w-5 text-gray-500 absolute",
+                isRtl ? "right-2" : "left-2"
+              )}
+            />
+            <input
+              className="input w-full ps-9"
+              type="search"
+              onChange={handleSearchChange}
+              placeholder={t("search_stories") + "..."}
+              aria-label={t("search_stories")}
+            />
+          </form>
+
           <StoriesList stories={storiesWithPagination.data} />
 
           {storiesWithPagination.pagination.totalPages > 1 && (
@@ -103,10 +151,10 @@ export default function AllStoriesPage({
 }
 
 export const getServerSideProps = (async ({ req, query, locale }) => {
-  let pageParam = query.page;
-  if (typeof pageParam !== "string") pageParam = "1";
+  const filters = getStoryFiltersFromQuery(query);
+
   const storiesResult = await serverApiClient.getStories({
-    page: Number(pageParam),
+    ...filters,
     limit: 20,
   });
   if (storiesResult.isErr()) {

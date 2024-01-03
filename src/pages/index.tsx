@@ -5,9 +5,6 @@ import { ServerApiClient } from "@/apis/ServerApiClient";
 import StoriesList from "@/components/stories/StoriesList";
 import Container from "@/components/container/Container";
 import Layout from "@/components/layout/Layout";
-import sortStoriesByLanguage from "@/helpers/stories/sortStoriesByLanguage";
-import getTranslatedStory from "@/helpers/stories/getTranslatedStory";
-import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
 import sortAndTranslateStories from "@/helpers/stories/sortAndTranslateStories";
 
 export default function Home({
@@ -26,7 +23,9 @@ export default function Home({
 
 export const getServerSideProps = (async ({ req, locale }) => {
   const serverApiClient = new ServerApiClient();
-  const storiesResult = await serverApiClient.getStories();
+  const storiesResult = await serverApiClient.getStories({
+    isHighlighted: true,
+  });
   if (storiesResult.isErr()) {
     return {
       props: { stories: [] },

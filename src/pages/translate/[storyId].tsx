@@ -166,6 +166,8 @@ function TranslateStoryPage({
         throw new Error(translateResult.error.errorMessage);
       }
 
+      // 3. Reset all fields
+      setIsSubmittedOnce(false);
       setTranslationFields(initialTranslationFields);
       setToLanguage(null);
 

@@ -12,6 +12,7 @@ import { ServerApiResponse } from "@/interfaces/server/ServerApiResponse";
 import { SignInRequest } from "@/interfaces/server/SignInRequest";
 import { AuthResponse } from "@/interfaces/server/AuthResponse";
 import { DBUser } from "@/interfaces/database/DBUser";
+import { StoryFilters } from "@/interfaces/server/StoryFilters";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
@@ -21,21 +22,15 @@ export class ServerApiClient {
   async getStories(
     {
       page = 1,
-      limit = 1,
+      limit = 20,
       isApproved,
       isAscending = false,
       isHighlighted,
       tags,
-    }: {
-      page?: number;
-      limit?: number;
-      isApproved?: boolean;
-      isAscending?: boolean;
-      isHighlighted?: boolean;
-      tags?: string[];
-    } = {
+      search,
+    }: StoryFilters = {
       page: 1,
-      limit: 1,
+      limit: 20,
       isAscending: false,
     }
   ): Promise<Result<ServerAdvancedResponse<DBStory[]>, ApiError>> {
@@ -58,6 +53,9 @@ export class ServerApiClient {
     }
     if (tags) {
       query.push(`tags[in]=${tags.join(",")}`);
+    }
+    if (search) {
+      query.push(`text[search]=${search}`);
     }
 
     const result = await this.serverApiClient.get<
