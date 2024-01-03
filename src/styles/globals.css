@@ -56,16 +56,20 @@ body {
   .storiesPaginator__pageLink,
   .storiesPaginator__prevLink,
   .storiesPaginator__nextLink {
-    @apply flex items-center justify-center border;
+    @apply flex items-center justify-center;
   }
 
   .storiesPaginator__pageLink {
-    @apply w-10 sm:w-12;
+    @apply w-9 sm:w-12;
+  }
+
+  .storiesPaginator__pageLink--active {
+    @apply bg-green-100;
   }
 
   .storiesPaginator__prevLink,
   .storiesPaginator__nextLink {
-    @apply px-4;
+    @apply px-2.5 sm:px-4;
   }
 
   .storiesPaginator__break {

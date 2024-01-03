@@ -117,7 +117,9 @@
   },
   "AllStoriesPage": {
     "page_title": "هم قصص | جميع القصص",
-    "page_description": ""
+    "page_description": "",
+    "previous": "السابق",
+    "next": "التالي"
   },
   "SignInPage": {
     "page_title": "هم قصص | سجل الدخول",

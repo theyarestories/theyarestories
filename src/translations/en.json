@@ -117,7 +117,9 @@
   },
   "AllStoriesPage": {
     "page_title": "They are stories | All Stories",
-    "page_description": ""
+    "page_description": "",
+    "previous": "Previous",
+    "next": "Next"
   },
   "SignInPage": {
     "page_title": "They are Stories | Sign In",

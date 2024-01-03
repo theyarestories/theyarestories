@@ -3,9 +3,11 @@ import Container from "@/components/container/Container";
 import Layout from "@/components/layout/Layout";
 import StoriesList from "@/components/stories/StoriesList";
 import isStringPositiveInteger from "@/helpers/number/isStringPositiveInteger";
-import sortStoriesByLanguage from "@/helpers/stories/sortStoriesByLanguage";
+import sortAndTranslateStories from "@/helpers/stories/sortAndTranslateStories";
+import useIsRtl from "@/hooks/useIsRtl";
 import { DBStory } from "@/interfaces/database/DBStory";
 import { ServerAdvancedResponse } from "@/interfaces/server/ServerAdvancedResponse";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
@@ -18,6 +20,7 @@ export default function AllStoriesPage({
   storiesWithPagination: serverStoriesWithPagination,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const router = useRouter();
+  const isRtl = useIsRtl();
   const t = useTranslations("AllStoriesPage");
 
   const [storiesWithPagination, setStoriesWithPagination] = useState(
@@ -46,7 +49,7 @@ export default function AllStoriesPage({
   }, [router.query.page]);
 
   return (
-    <Layout pageTitle={t("page_title")} pageDescription={"page_description"}>
+    <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
         <div className="space-y-4">
           <StoriesList stories={storiesWithPagination.data} />
@@ -65,7 +68,22 @@ export default function AllStoriesPage({
               previousLinkClassName="storiesPaginator__prevLink"
               nextLinkClassName="storiesPaginator__nextLink"
               breakClassName="storiesPaginator__break"
-              previousLabel={<p>text</p>}
+              previousLabel={
+                isRtl ? (
+                  <ArrowRightIcon className="w-4" />
+                ) : (
+                  <ArrowLeftIcon className="w-4" />
+                )
+              }
+              previousAriaLabel={t("previous")}
+              nextLabel={
+                isRtl ? (
+                  <ArrowLeftIcon className="w-4" />
+                ) : (
+                  <ArrowRightIcon className="w-4" />
+                )
+              }
+              nextAriaLabel={t("next")}
               pageCount={100}
               marginPagesDisplayed={1}
               forcePage={(Number(router.query.page) || 1) - 1}
@@ -79,8 +97,8 @@ export default function AllStoriesPage({
   );
 }
 
-export const getServerSideProps = (async (context) => {
-  let pageParam = context.query.page;
+export const getServerSideProps = (async ({ req, query, locale }) => {
+  let pageParam = query.page;
   if (typeof pageParam !== "string") pageParam = "1";
   const storiesResult = await serverApiClient.getStories({
     page: Number(pageParam),
@@ -90,14 +108,12 @@ export const getServerSideProps = (async (context) => {
   }
 
   // sort stories by user's preferred language
-  const homeLanguage = context.req.cookies.home_language;
-  // let stories = storiesResult.value.data;
-  if (homeLanguage) {
-    storiesResult.value.data = sortStoriesByLanguage(
-      storiesResult.value.data,
-      homeLanguage
-    );
-  }
+  const homeLanguage = req.cookies.home_language;
+  storiesResult.value.data = sortAndTranslateStories(
+    storiesResult.value.data,
+    homeLanguage,
+    locale
+  );
 
   return { props: { storiesWithPagination: storiesResult.value } };
 }) satisfies GetServerSideProps<{
