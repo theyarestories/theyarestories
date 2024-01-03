@@ -41,6 +41,40 @@ body {
   .button-reverse {
     @apply border text-green-700 border-green-500;
   }
+
+  /* Pagination */
+  .storiesPaginator {
+    @apply flex border rounded-sm h-10 sm:h-12;
+  }
+
+  .storiesPaginator__page,
+  .storiesPaginator__prev,
+  .storiesPaginator__next {
+    @apply flex;
+  }
+
+  .storiesPaginator__pageLink,
+  .storiesPaginator__prevLink,
+  .storiesPaginator__nextLink {
+    @apply flex items-center justify-center;
+  }
+
+  .storiesPaginator__pageLink {
+    @apply w-9 sm:w-12;
+  }
+
+  .storiesPaginator__pageLink--active {
+    @apply bg-green-100;
+  }
+
+  .storiesPaginator__prevLink,
+  .storiesPaginator__nextLink {
+    @apply px-2.5 sm:px-4;
+  }
+
+  .storiesPaginator__break {
+    @apply p-2;
+  }
 }
 
 @layer utilities {

@@ -42,6 +42,7 @@
     "story_required": "Please, add the story",
     "tags": "Tags",
     "tags_description": "You can add more than one",
+    "baby": "baby",
     "child": "child",
     "mother": "mother",
     "father": "father",
@@ -113,6 +114,12 @@
     "submit": "Submit",
     "submit_success": "Thank you for your effort ♥. We will review and share your translation in a maximum of {reviewHours} hours.",
     "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels."
+  },
+  "AllStoriesPage": {
+    "page_title": "They are stories | All Stories",
+    "page_description": "",
+    "previous": "Previous",
+    "next": "Next"
   },
   "SignInPage": {
     "page_title": "They are Stories | Sign In",

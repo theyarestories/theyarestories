@@ -8,6 +8,7 @@ import Layout from "@/components/layout/Layout";
 import sortStoriesByLanguage from "@/helpers/stories/sortStoriesByLanguage";
 import getTranslatedStory from "@/helpers/stories/getTranslatedStory";
 import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
+import sortAndTranslateStories from "@/helpers/stories/sortAndTranslateStories";
 
 export default function Home({
   stories,
@@ -15,7 +16,7 @@ export default function Home({
   const t = useTranslations("IndexPage");
 
   return (
-    <Layout pageTitle={t("page_title")} pageDescription={"page_description"}>
+    <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
         <StoriesList stories={stories} />
       </Container>
@@ -34,22 +35,11 @@ export const getServerSideProps = (async ({ req, locale }) => {
 
   // sort stories by user's preferred language
   const homeLanguage = req.cookies.home_language;
-  let stories = storiesResult.value;
-
-  // 1. sort
-  stories = sortStoriesByLanguage(stories, locale || "");
-  stories = sortStoriesByLanguage(stories, homeLanguage || "");
-
-  // 2. translate
-  stories = stories.map((story) => {
-    let translationLanguage = story.translationLanguage;
-    if (homeLanguage && storyHasLanguage(story, homeLanguage)) {
-      translationLanguage = homeLanguage;
-    } else if (locale && storyHasLanguage(story, locale)) {
-      translationLanguage = locale;
-    }
-    return getTranslatedStory(story, translationLanguage);
-  });
+  const stories = sortAndTranslateStories(
+    storiesResult.value.data,
+    homeLanguage,
+    locale
+  );
 
   return { props: { stories } };
 }) satisfies GetServerSideProps<{

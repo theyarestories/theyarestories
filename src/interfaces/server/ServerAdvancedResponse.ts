@@ -1,11 +1,11 @@
 export interface ServerAdvancedResponse<Data> {
   success: boolean;
   count: number;
+  totalCount: number;
   pagination: {
-    [key: string]: {
-      page: number;
-      limit: number;
-    };
+    currentPage: number;
+    totalPages: number;
+    limit: number;
   };
   data: Data;
 }

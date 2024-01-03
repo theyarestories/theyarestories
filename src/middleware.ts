@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ServerApiResponse } from "./interfaces/server/ServerApiResponse";
 import { DBUser } from "./interfaces/database/DBUser";
+import isStringPositiveInteger from "./helpers/number/isStringPositiveInteger";
 
 export const config = {
   matcher: [
@@ -54,6 +55,16 @@ function getHomeLanguage(request: NextRequest): string {
 export async function middleware(request: NextRequest) {
   await isAuthenticated(request);
   let response = NextResponse.next();
+
+  // Add query param "page" to all-stories page of non exists
+  if (request.nextUrl.pathname.includes("all-stories")) {
+    const pageParam = request.nextUrl.searchParams.get("page");
+    if (!pageParam || !isStringPositiveInteger(pageParam)) {
+      response = NextResponse.redirect(
+        new URL(`${request.nextUrl.pathname}?page=1`, request.url)
+      );
+    }
+  }
 
   // get preferred language to pass it to frontend to customize the experience
   const homeLanguage = getHomeLanguage(request);
