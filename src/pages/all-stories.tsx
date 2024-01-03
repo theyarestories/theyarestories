@@ -34,7 +34,10 @@ export default function AllStoriesPage({
   };
 
   const updateStoriesWithQuery = async (page: number) => {
-    const storiesResult = await serverApiClient.getStories({ page });
+    const storiesResult = await serverApiClient.getStories({
+      page,
+      limit: storiesWithPagination.pagination.limit,
+    });
 
     if (storiesResult.isOk()) {
       setStoriesWithPagination(storiesResult.value);
@@ -54,43 +57,45 @@ export default function AllStoriesPage({
         <div className="space-y-4">
           <StoriesList stories={storiesWithPagination.data} />
 
-          <div className="flex justify-center">
-            <ReactPaginate
-              className="storiesPaginator"
-              pageClassName="storiesPaginator__page"
-              pageLinkClassName="storiesPaginator__pageLink"
-              activeClassName="storiesPaginator__page--active"
-              disabledClassName="storiesPaginator__page--disabled"
-              activeLinkClassName="storiesPaginator__pageLink--active"
-              disabledLinkClassName="storiesPaginator__pageLink--disabled"
-              previousClassName="storiesPaginator__prev"
-              nextClassName="storiesPaginator__next"
-              previousLinkClassName="storiesPaginator__prevLink"
-              nextLinkClassName="storiesPaginator__nextLink"
-              breakClassName="storiesPaginator__break"
-              previousLabel={
-                isRtl ? (
-                  <ArrowRightIcon className="w-4" />
-                ) : (
-                  <ArrowLeftIcon className="w-4" />
-                )
-              }
-              previousAriaLabel={t("previous")}
-              nextLabel={
-                isRtl ? (
-                  <ArrowLeftIcon className="w-4" />
-                ) : (
-                  <ArrowRightIcon className="w-4" />
-                )
-              }
-              nextAriaLabel={t("next")}
-              pageCount={100}
-              marginPagesDisplayed={1}
-              forcePage={(Number(router.query.page) || 1) - 1}
-              onPageChange={handlePaginationChange}
-              renderOnZeroPageCount={null}
-            />
-          </div>
+          {storiesWithPagination.pagination.totalPages > 1 && (
+            <div className="flex justify-center">
+              <ReactPaginate
+                className="storiesPaginator"
+                pageClassName="storiesPaginator__page"
+                pageLinkClassName="storiesPaginator__pageLink"
+                activeClassName="storiesPaginator__page--active"
+                disabledClassName="storiesPaginator__page--disabled"
+                activeLinkClassName="storiesPaginator__pageLink--active"
+                disabledLinkClassName="storiesPaginator__pageLink--disabled"
+                previousClassName="storiesPaginator__prev"
+                nextClassName="storiesPaginator__next"
+                previousLinkClassName="storiesPaginator__prevLink"
+                nextLinkClassName="storiesPaginator__nextLink"
+                breakClassName="storiesPaginator__break"
+                previousLabel={
+                  isRtl ? (
+                    <ArrowRightIcon className="w-4" />
+                  ) : (
+                    <ArrowLeftIcon className="w-4" />
+                  )
+                }
+                previousAriaLabel={t("previous")}
+                nextLabel={
+                  isRtl ? (
+                    <ArrowLeftIcon className="w-4" />
+                  ) : (
+                    <ArrowRightIcon className="w-4" />
+                  )
+                }
+                nextAriaLabel={t("next")}
+                pageCount={storiesWithPagination.pagination.totalPages}
+                marginPagesDisplayed={1}
+                forcePage={(Number(router.query.page) || 1) - 1}
+                onPageChange={handlePaginationChange}
+                renderOnZeroPageCount={null}
+              />
+            </div>
+          )}
         </div>
       </Container>
     </Layout>
@@ -102,6 +107,7 @@ export const getServerSideProps = (async ({ req, query, locale }) => {
   if (typeof pageParam !== "string") pageParam = "1";
   const storiesResult = await serverApiClient.getStories({
     page: Number(pageParam),
+    limit: 20,
   });
   if (storiesResult.isErr()) {
     throw new Error(storiesResult.error.errorMessage);

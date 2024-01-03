@@ -44,7 +44,7 @@ body {
 
   /* Pagination */
   .storiesPaginator {
-    @apply flex border rounded-sm h-10 sm:w-12;
+    @apply flex border rounded-sm h-10 sm:h-12;
   }
 
   .storiesPaginator__page,
