@@ -118,5 +118,17 @@
   "AllStoriesPage": {
     "page_title": "They are stories | All Stories",
     "page_description": ""
+  },
+  "SignInPage": {
+    "page_title": "They are Stories | Sign In",
+    "page_description": "",
+    "heading": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "sign_in_success": "You have successfully signed in",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "sign_in": "Sign in",
+    "email_required": "Please, add the email",
+    "password_required": "Please, add the password"
   }
 }

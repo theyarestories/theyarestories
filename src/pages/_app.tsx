@@ -7,6 +7,7 @@ import { NextIntlProvider } from "next-intl";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
+import UserProvider from "@/contexts/UserContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   // content direction
@@ -19,8 +20,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <div dir={isRtl ? "rtl" : "ltr"}>
       <NextIntlProvider messages={translations}>
-        <NextNProgress options={{ showSpinner: false }} color="#22c55e" />
-        <Component {...pageProps} />
+        <UserProvider>
+          <NextNProgress options={{ showSpinner: false }} color="#22c55e" />
+          <Component {...pageProps} />
+        </UserProvider>
       </NextIntlProvider>
     </div>
   );

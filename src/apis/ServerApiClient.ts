@@ -9,6 +9,9 @@ import {
 } from "@/interfaces/database/DBStory";
 import { ServerAdvancedResponse } from "@/interfaces/server/ServerAdvancedResponse";
 import { ServerApiResponse } from "@/interfaces/server/ServerApiResponse";
+import { SignInRequest } from "@/interfaces/server/SignInRequest";
+import { AuthResponse } from "@/interfaces/server/AuthResponse";
+import { DBUser } from "@/interfaces/database/DBUser";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
@@ -125,17 +128,12 @@ export class ServerApiClient {
 
   async translateStory(
     storyId: string,
-    language: string,
     translatedFields: RegisteringTranslatedFields
   ) {
     const result = await this.serverApiClient.put<
-      {
-        language: string;
-        translatedFields: RegisteringTranslatedFields;
-      },
+      { translatedFields: RegisteringTranslatedFields },
       ServerApiResponse<DBStory>
     >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/translate`, {
-      language,
       translatedFields,
     });
 
@@ -144,5 +142,31 @@ export class ServerApiClient {
     }
 
     return ok(result.value.data);
+  }
+
+  async signIn(credentials: SignInRequest) {
+    const result = await this.serverApiClient.post<SignInRequest, AuthResponse>(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/login`,
+      credentials
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
+  }
+
+  async getUserByToken(token: string) {
+    const result = await this.serverApiClient.get<ServerApiResponse<DBUser>>(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/me`,
+      { headers: { Cookie: `token=${token}` } }
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
   }
 }

@@ -7,10 +7,14 @@ export enum SharePlatform {
 }
 
 export interface DBTranslatedFields {
+  _id: string;
+  translationLanguage: string; // ar
   protagonist: string;
   story: string;
   job?: string;
   isApproved: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type DBStory = {
@@ -26,6 +30,7 @@ export type DBStory = {
   };
   tags: string[];
   viewsCount: number;
+  translationLanguage: string; // ar
   translations: {
     [key: string]: DBTranslatedFields;
   };
@@ -37,6 +42,7 @@ export type DBStory = {
 };
 
 export type RegisteringTranslatedFields = {
+  translationLanguage: String; // ar
   protagonist: string;
   story: string;
   job?: string;
@@ -50,6 +56,7 @@ export type RegisteringStory = {
   avatar?: DBImage;
   age?: number;
   tags?: string[];
+  translationLanguage: String; // ar
   translations: {
     [key: string]: RegisteringTranslatedFields;
   };

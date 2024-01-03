@@ -10,6 +10,7 @@ import allLanguages from "@/config/all-languages/allLanguages";
 import consts from "@/config/consts";
 import getTranslatedStory from "@/helpers/stories/getTranslatedStory";
 import mapLanguageCodesToOptions from "@/helpers/stories/mapLanguageCodesToOptions";
+import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
 import getLanguageByCode from "@/helpers/translations/getLanguageByCode";
 import mapLanguagesToOptions from "@/helpers/translations/mapLanguagesToOptions";
 import { ApiError } from "@/interfaces/api-client/Error";
@@ -61,12 +62,13 @@ function TranslateStoryPage({
   }
 
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
+  const initialTranslationFields = {
+    protagonist: "",
+    story: "",
+    job: "",
+  };
   const [translationFields, setTranslationFields] = useState<TranslationFields>(
-    {
-      protagonist: "",
-      story: "",
-      job: "",
-    }
+    initialTranslationFields
   );
   const [translationFieldsErrors, setTranslationFieldsErrors] = useState({
     languageError: "",
@@ -156,14 +158,16 @@ function TranslateStoryPage({
       }
 
       // 2. Submit the translation
-      const translateResult = await serverApiClient.translateStory(
-        storyId,
-        toLanguage?.code || "",
-        translationFields
-      );
+      const translateResult = await serverApiClient.translateStory(storyId, {
+        ...translationFields,
+        translationLanguage: toLanguage?.code || "",
+      });
       if (translateResult.isErr()) {
         throw new Error(translateResult.error.errorMessage);
       }
+
+      setTranslationFields(initialTranslationFields);
+      setToLanguage(null);
 
       return ok(translateResult.value);
     }
@@ -240,10 +244,15 @@ function TranslateStoryPage({
                 </InputContainer>
               </div>
               <div className="flex-1">
-                <InputContainer label={t("to_language")} required>
+                <InputContainer
+                  label={t("to_language")}
+                  required
+                  error={translationFieldsErrors.languageError}
+                >
                   <ThemeSelect<LanguageOption>
                     options={languagesOptions.filter(
-                      (lang) => lang.code !== fromLanguage?.code
+                      (lang) =>
+                        !Object.keys(story.translations).includes(lang.code)
                     )}
                     selected={toLanguage}
                     handleChange={setToLanguage}
@@ -266,6 +275,7 @@ function TranslateStoryPage({
                 type="text"
                 value={translatedStory.protagonist}
                 readOnly
+                tabIndex={-1}
               />
               <input
                 className="w-full input"
@@ -293,6 +303,7 @@ function TranslateStoryPage({
                   type="text"
                   value={translatedStory.job}
                   readOnly
+                  tabIndex={-1}
                 />
                 <input
                   className="w-full input"
@@ -350,7 +361,7 @@ function TranslateStoryPage({
   );
 }
 
-export const getServerSideProps = (async ({ params }) => {
+export const getServerSideProps = (async ({ params, query }) => {
   const storyResult = await serverApiClient.getStoryById(
     params?.storyId as string
   );
@@ -361,7 +372,17 @@ export const getServerSideProps = (async ({ params }) => {
     };
   }
 
-  return { props: { story: storyResult.value } };
+  // Translate
+  const langParam = query.lang;
+  let translatedStory = storyResult.value;
+  if (
+    typeof langParam === "string" &&
+    storyHasLanguage(storyResult.value, langParam)
+  ) {
+    translatedStory = getTranslatedStory(storyResult.value, langParam);
+  }
+
+  return { props: { story: translatedStory } };
 }) satisfies GetServerSideProps<{
   story: DBStory;
 }>;

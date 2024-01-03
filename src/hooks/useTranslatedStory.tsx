@@ -9,7 +9,7 @@ export default function useTranslatedStory(story: DBStory) {
   const router = useRouter();
 
   const [translationLanguage, setTranslationLanguage] = useState(
-    Object.keys(story.translations)[0]
+    story.translationLanguage
   );
   const translatedStory = getTranslatedStory(story, translationLanguage);
 
@@ -23,5 +23,5 @@ export default function useTranslatedStory(story: DBStory) {
     }
   }, [router.locale]);
 
-  return { translatedStory, translationLanguage };
+  return { translatedStory, translationLanguage, setTranslationLanguage };
 }
