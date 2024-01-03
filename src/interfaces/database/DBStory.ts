@@ -20,6 +20,7 @@ export interface DBTranslatedFields {
 export type DBStory = {
   _id: string;
   protagonist: string;
+  protagonistTranslations: string[];
   story: string;
   job?: string;
   avatar: DBImage;
@@ -50,6 +51,7 @@ export type RegisteringTranslatedFields = {
 
 export type RegisteringStory = {
   protagonist: string;
+  protagonistTranslations: string[];
   story: string;
   job?: string;
   city: string;

@@ -153,6 +153,7 @@ export default function AddStoryPage() {
   ): RegisteringStory => {
     const story: RegisteringStory = {
       protagonist: storyFields.protagonist,
+      protagonistTranslations: [storyFields.protagonist],
       city: storyFields.city.name,
       story: storyFields.story,
       translationLanguage: selectedLanguage.code,
