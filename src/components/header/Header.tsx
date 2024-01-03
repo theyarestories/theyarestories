@@ -4,10 +4,13 @@ import { useTranslations } from "next-intl";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import LanguageSwitch from "./LanguageSwitch";
 import StickyBar from "../container/StickyBar";
+import { useContext } from "react";
+import { UserContext, UserContextType } from "@/contexts/UserContext";
 
 type Props = {};
 
 function Header({}: Props) {
+  const { user } = useContext(UserContext) as UserContextType;
   const t = useTranslations("Header");
 
   return (
