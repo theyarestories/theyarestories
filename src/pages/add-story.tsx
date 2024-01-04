@@ -420,7 +420,7 @@ export default function AddStoryPage() {
                 </button>
                 <CldImage
                   className="object-cover border rounded-sm"
-                  src={storyFields.avatar.url}
+                  src={storyFields.avatar.cloudinaryId}
                   alt={""}
                   width={160}
                   height={160}

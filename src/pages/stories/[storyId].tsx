@@ -18,7 +18,7 @@ import useIsRtl from "@/hooks/useIsRtl";
 import useTranslatedStory from "@/hooks/useTranslatedStory";
 import { DBStory } from "@/interfaces/database/DBStory";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { CldImage } from "next-cloudinary";
+import { CldImage, CldOgImage } from "next-cloudinary";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -61,6 +61,17 @@ function StoryPage({
       withStickyFooter={false}
       withHeader={false}
     >
+      <CldOgImage
+        src={translatedStory.avatar.cloudinaryId}
+        alt={translatedStory.protagonist}
+        width={2400}
+        height={1200}
+        crop="fill"
+        gravity="auto"
+        title={removeMarkdown(translatedStory.story)}
+        twitterTitle={removeMarkdown(translatedStory.story)}
+      />
+
       <StickyBar isStickyTop>
         <div className="flex h-full items-center justify-between">
           <Logo />
@@ -103,7 +114,7 @@ function StoryPage({
             {/* Image */}
             <CldImage
               className="object-cover rounded-full"
-              src={translatedStory.avatar.url}
+              src={translatedStory.avatar.cloudinaryId}
               alt=""
               width={150}
               height={150}

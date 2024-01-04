@@ -17,7 +17,7 @@ function StoryItem({ story }: Props) {
       <Link href={`/stories/${translatedStory._id}`}>
         <CldImage
           className="object-cover rounded-sm w-full"
-          src={translatedStory.avatar.url}
+          src={translatedStory.avatar.cloudinaryId}
           alt=""
           width={300}
           height={300}
