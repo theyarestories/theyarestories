@@ -1,5 +1,4 @@
 import { DBStory } from "@/interfaces/database/DBStory";
-import structuredClone from "@ungap/structured-clone";
 import storyHasLanguage from "./storyHasLanguage";
 
 export default function getTranslatedStory(
@@ -8,17 +7,19 @@ export default function getTranslatedStory(
 ): DBStory {
   let result = story;
   if (story.translations && storyHasLanguage(story, translationLanguage)) {
-    const translatedFields = structuredClone(
-      story.translations[translationLanguage]
+    const translatedFields = story.translations.find(
+      (translation) => translation.translationLanguage === translationLanguage
     );
 
-    result = {
-      ...story,
-      translationLanguage: translatedFields.translationLanguage,
-      protagonist: translatedFields.protagonist,
-      story: translatedFields.story,
-      job: translatedFields.job,
-    };
+    if (translatedFields) {
+      result = {
+        ...story,
+        translationLanguage: translatedFields.translationLanguage,
+        protagonist: translatedFields.protagonist,
+        story: translatedFields.story,
+        job: translatedFields.job,
+      };
+    }
   }
 
   return result;
