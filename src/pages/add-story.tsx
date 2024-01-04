@@ -159,6 +159,7 @@ export default function AddStoryPage() {
       translationLanguage: selectedLanguage.code,
       translations: {
         [selectedLanguage.code]: {
+          fromLanguage: selectedLanguage.code,
           translationLanguage: selectedLanguage.code,
           protagonist: storyFields.protagonist,
           story: storyFields.story,

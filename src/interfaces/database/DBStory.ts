@@ -9,6 +9,7 @@ export enum SharePlatform {
 export interface DBTranslatedFields {
   _id: string;
   translationLanguage: string; // ar
+  fromLanguage: string;
   protagonist: string;
   story: string;
   job?: string;
@@ -44,6 +45,7 @@ export type DBStory = {
 
 export type RegisteringTranslatedFields = {
   translationLanguage: String; // ar
+  fromLanguage: string;
   protagonist: string;
   story: string;
   job?: string;

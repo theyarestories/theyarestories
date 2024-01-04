@@ -144,6 +144,7 @@ function TranslateStoryPage({
     async (
       event: FormEvent<HTMLFormElement>,
       storyId: string,
+      fromLanguage: LanguageOption | null,
       toLanguage: LanguageOption | null,
       translationFields: TranslationFields
     ): Promise<Result<DBStory, ApiError>> => {
@@ -162,6 +163,7 @@ function TranslateStoryPage({
       // 2. Submit the translation
       const translateResult = await serverApiClient.translateStory(storyId, {
         ...translationFields,
+        fromLanguage: fromLanguage?.code || "",
         translationLanguage: toLanguage?.code || "",
       });
       if (translateResult.isErr()) {
@@ -239,7 +241,13 @@ function TranslateStoryPage({
           <form
             className="space-y-3"
             onSubmit={(event) =>
-              handleSubmit(event, story._id, toLanguage, translationFields)
+              handleSubmit(
+                event,
+                story._id,
+                fromLanguage,
+                toLanguage,
+                translationFields
+              )
             }
             noValidate
           >
