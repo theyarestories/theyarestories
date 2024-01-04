@@ -52,9 +52,8 @@ function TranslateStoryPage({
   const router = useRouter();
   const t = useTranslations("TranslateStoryPage");
 
-  const initialFromLanguage = Object.keys(story.translations)[0];
   const [fromLanguage, setFromLanguage] = useState(
-    getLanguageByCode(languagesOptions, initialFromLanguage)
+    getLanguageByCode(languagesOptions, story.translationLanguage)
   );
   const [toLanguage, setToLanguage] = useState<LanguageOption | null>(null);
 
@@ -187,10 +186,7 @@ function TranslateStoryPage({
           router.query.lang as string
         );
 
-        if (
-          fromLanguage &&
-          Object.keys(story.translations).includes(fromLanguage.code)
-        ) {
+        if (fromLanguage && storyHasLanguage(story, fromLanguage.code)) {
           setFromLanguage(fromLanguage);
         }
       }
@@ -274,8 +270,7 @@ function TranslateStoryPage({
                 >
                   <ThemeSelect<LanguageOption>
                     options={languagesOptions.filter(
-                      (lang) =>
-                        !Object.keys(story.translations).includes(lang.code)
+                      (lang) => !storyHasLanguage(story, lang.code)
                     )}
                     selected={toLanguage}
                     handleChange={setToLanguage}

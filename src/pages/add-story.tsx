@@ -157,15 +157,15 @@ export default function AddStoryPage() {
       city: storyFields.city.name,
       story: storyFields.story,
       translationLanguage: selectedLanguage.code,
-      translations: {
-        [selectedLanguage.code]: {
+      translations: [
+        {
           fromLanguage: selectedLanguage.code,
           translationLanguage: selectedLanguage.code,
           protagonist: storyFields.protagonist,
           story: storyFields.story,
           job: storyFields.job,
         },
-      },
+      ],
       tags: storyFields.tags,
       ...(storyFields.avatar && { avatar: storyFields.avatar }),
       ...(storyFields.job && { job: storyFields.job }),

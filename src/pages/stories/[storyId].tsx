@@ -82,7 +82,9 @@ function StoryPage({
               className="max-w-[10rem]"
               panelClassName="!w-auto max-w-[15rem]"
               options={mapLanguageCodesToOptions(
-                Object.keys(story.translations),
+                story.translations.map(
+                  (translation) => translation.translationLanguage
+                ),
                 languagesOptions
               )}
               selected={
