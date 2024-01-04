@@ -11,6 +11,7 @@ import consts from "@/config/consts";
 import getTranslatedStory from "@/helpers/stories/getTranslatedStory";
 import mapLanguageCodesToOptions from "@/helpers/stories/mapLanguageCodesToOptions";
 import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
+import removeMarkdown from "@/helpers/string/removeMarkdown";
 import getLanguageByCode from "@/helpers/translations/getLanguageByCode";
 import mapLanguagesToOptions from "@/helpers/translations/mapLanguagesToOptions";
 import { ApiError } from "@/interfaces/api-client/Error";
@@ -18,6 +19,7 @@ import { DBStory } from "@/interfaces/database/DBStory";
 import { LanguageOption } from "@/interfaces/languages/LanguageOption";
 import { Result, err, ok } from "neverthrow";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { CldOgImage } from "next-cloudinary";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -211,6 +213,17 @@ function TranslateStoryPage({
       })}
       withStickyFooter={false}
     >
+      <CldOgImage
+        src={translatedStory.avatar.cloudinaryId}
+        alt={translatedStory.protagonist}
+        width={2400}
+        height={1200}
+        crop="fill"
+        gravity="auto"
+        title={removeMarkdown(translatedStory.story)}
+        twitterTitle={removeMarkdown(translatedStory.story)}
+      />
+
       <Container>
         <div className="space-y-4">
           <div className="space-y-1">
