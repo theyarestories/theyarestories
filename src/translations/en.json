@@ -10,7 +10,9 @@
   "AddStoryPage": {
     "page_title": "Add a Story",
     "page_description": "",
-    "heading": "Add a Story",
+    "heading": "Add a Story"
+  },
+  "StoryForm": {
     "language": "Choose story language",
     "name": "Name",
     "city": "City",
@@ -62,6 +64,11 @@
     "submit_success": "Thank you for your effort ♥. We will review and share your story in a maximum of {reviewHours} hours.",
     "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
     "wrong_language": "Sorry, we detected the story is written in another language than the selected one. If that's not the case, please reach us through any of our social media channels."
+  },
+  "ProtagonistCombobox": {
+    "age_bold": "<b>Age</b>: {age}",
+    "city_bold": "<b>City</b>: {city}",
+    "job_bold": "<b>Job</b>: {job}"
   },
   "InputContainer": {
     "not_required": "not required"

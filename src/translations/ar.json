@@ -10,7 +10,9 @@
   "AddStoryPage": {
     "page_title": "أضف قصة",
     "page_description": "",
-    "heading": "أضف قصة",
+    "heading": "أضف قصة"
+  },
+  "StoryForm": {
     "language": "اختر لغة القصة",
     "name": "الاسم",
     "city": "المدينة",
@@ -62,6 +64,11 @@
     "submit_success": "شكراً لك ♥. سنقوم بمراجعة ونشر القصة خلال {reviewHours} ساعة كحدٍ أقصى.",
     "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
     "wrong_language": "عذراً، اللغة المستخدمة لا تتطابق مع اللغة المختارة بالأعلى، اذا كنت تظن أن هذا غير صحيح، رجاءاً، تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي."
+  },
+  "ProtagonistCombobox": {
+    "age_bold": "<b>العمر</b>: {age}",
+    "city_bold": "<b>المدينة</b>: {city}",
+    "job_bold": "<b>الوظيفة</b>: {job}"
   },
   "InputContainer": {
     "not_required": "ليس إلزامياً"
