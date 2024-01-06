@@ -1,7 +1,7 @@
 {
   "IndexPage": {
     "page_title": "They are stories",
-    "page_description": "",
+    "page_description": "Palestinians are not just numbers. They are stories.",
     "title": "They are stories"
   },
   "StoriesList": {
@@ -9,7 +9,7 @@
   },
   "AddStoryPage": {
     "page_title": "Add a Story",
-    "page_description": "",
+    "page_description": "Palestinians are not just numbers. They are stories.",
     "heading": "Add a Story"
   },
   "StoryForm": {
@@ -100,7 +100,7 @@
   },
   "TranslateStoryPage": {
     "page_title": "Translate | {protagonist}",
-    "page_description": "Translate {protagonist}'s story to the world.",
+    "page_description": "Palestinians are not just numbers. They are stories. Translate {protagonist}'s story to the world.",
     "heading": "Translate <b>{protagonist}</b>'s story",
     "subheading": "Let's share their stories to the world!",
     "from_language": "From",
@@ -124,7 +124,7 @@
   },
   "AllStoriesPage": {
     "page_title": "They are stories | All Stories",
-    "page_description": "",
+    "page_description": "Palestinians are not just numbers. They are stories.",
     "previous": "Previous",
     "next": "Next",
     "search_stories": "Search the stories"
