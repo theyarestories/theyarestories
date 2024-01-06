@@ -70,6 +70,11 @@ export async function middleware(request: NextRequest) {
   const homeLanguage = getHomeLanguage(request);
   response.cookies.set("home_language", homeLanguage);
 
+  // get user's information
+  response.cookies.set("country", request.geo?.country || "");
+  response.cookies.set("city", request.geo?.city || "");
+  response.cookies.set("region", request.geo?.region || "");
+
   // Allow access to admin pages only to authenticated users
 
   return response;

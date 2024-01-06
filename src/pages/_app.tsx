@@ -13,12 +13,17 @@ import { ErrorBoundary } from "@/components/error-boundary/ErrorBoundary";
 import { highlightInitConfig } from "@/config/highlight-io/highlightInitConfig";
 import { Open_Sans } from "next/font/google";
 import classNames from "@/helpers/style/classNames";
+import { useEffect } from "react";
+import { ServerApiClient } from "@/apis/ServerApiClient";
+import Cookies from "js-cookie";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
   variable: "--font-open-sans",
   fallback: ["system-ui", "arial"],
 });
+
+const serverApiClient = new ServerApiClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   // content direction
@@ -27,6 +32,18 @@ export default function App({ Component, pageProps }: AppProps) {
   // Translations
   const router = useRouter();
   const translations = require(`@/translations/${router.locale}.json`);
+
+  useEffect(function sendVisitEvent() {
+    serverApiClient.createEvent({
+      type: "visit",
+      metadata: {
+        country: Cookies.get("country") || "",
+        city: Cookies.get("city") || "",
+        region: Cookies.get("region") || "",
+        referrer: document.referrer,
+      },
+    });
+  }, []);
 
   return (
     <div
