@@ -2,7 +2,7 @@ const removeImports = require("next-remove-imports")();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: { esmExternals: "loose" },
+  experimental: { esmExternals: "loose", instrumentationHook: true },
   reactStrictMode: true,
   i18n: {
     locales: ["ar", "en"],
@@ -16,6 +16,7 @@ const nextConfig = {
       },
     ],
   },
+  productionBrowserSourceMaps: true,
 };
 
 module.exports = removeImports(nextConfig);

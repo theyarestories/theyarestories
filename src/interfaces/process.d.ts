@@ -5,5 +5,7 @@ declare namespace NodeJS {
     CLOUDINARY_API_SECRET: string;
     NEXT_PUBLIC_CLOUDINARY_API_KEY: string;
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: string;
+    NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID: string;
+    NEXT_PUBLIC_ENV: "development" | "staging" | "production";
   }
 }
