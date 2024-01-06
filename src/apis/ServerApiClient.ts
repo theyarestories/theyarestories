@@ -13,6 +13,7 @@ import { SignInRequest } from "@/interfaces/server/SignInRequest";
 import { AuthResponse } from "@/interfaces/server/AuthResponse";
 import { DBUser } from "@/interfaces/database/DBUser";
 import { StoryFilters } from "@/interfaces/server/StoryFilters";
+import { DBEvent, RegisteringEvent } from "@/interfaces/database/DBEvent";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
@@ -160,6 +161,19 @@ export class ServerApiClient {
       `${this.apiBaseUrl}/v${this.apiVersion}/auth/me`,
       { headers: { Cookie: `token=${token}` } }
     );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
+  }
+
+  async createEvent(event: RegisteringEvent) {
+    const result = await this.serverApiClient.post<
+      RegisteringEvent,
+      ServerApiResponse<DBEvent>
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/events`, event);
 
     if (result.isErr()) {
       return err(result.error);
