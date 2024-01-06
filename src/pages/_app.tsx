@@ -17,6 +17,7 @@ import classNames from "@/helpers/style/classNames";
 const openSans = Open_Sans({
   subsets: ["latin"],
   variable: "--font-open-sans",
+  fallback: ["system-ui", "arial"],
 });
 
 export default function App({ Component, pageProps }: AppProps) {
