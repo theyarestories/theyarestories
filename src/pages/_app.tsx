@@ -11,6 +11,13 @@ import UserProvider from "@/contexts/UserContext";
 import { HighlightInit } from "@highlight-run/next/client";
 import { ErrorBoundary } from "@/components/error-boundary/ErrorBoundary";
 import { highlightInitConfig } from "@/config/highlight-io/highlightInitConfig";
+import { Open_Sans } from "next/font/google";
+import classNames from "@/helpers/style/classNames";
+
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  variable: "--font-open-sans",
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   // content direction
@@ -21,7 +28,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const translations = require(`@/translations/${router.locale}.json`);
 
   return (
-    <div dir={isRtl ? "rtl" : "ltr"}>
+    <div
+      dir={isRtl ? "rtl" : "ltr"}
+      className={classNames("font-sans", openSans.variable)}
+    >
       <ErrorBoundary>
         <NextIntlProvider messages={translations}>
           <UserProvider>
