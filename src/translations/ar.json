@@ -1,7 +1,7 @@
 {
   "IndexPage": {
     "page_title": "هم قصص",
-    "page_description": "",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
     "title": "هم قصص"
   },
   "StoriesList": {
@@ -9,7 +9,7 @@
   },
   "AddStoryPage": {
     "page_title": "أضف قصة",
-    "page_description": "",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
     "heading": "أضف قصة"
   },
   "StoryForm": {
@@ -100,7 +100,7 @@
   },
   "TranslateStoryPage": {
     "page_title": "ترجم | {protagonist}",
-    "page_description": "ترجم قصة {protagonist} للعالم.",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص. ترجم قصة {protagonist} للعالم.",
     "heading": "ترجم قصة <b>{protagonist}</b>",
     "subheading": "شاركنا بنشر قصصمهم للعالم!",
     "from_language": "من",
@@ -124,7 +124,7 @@
   },
   "AllStoriesPage": {
     "page_title": "هم قصص | جميع القصص",
-    "page_description": "",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
     "previous": "السابق",
     "next": "التالي",
     "search_stories": "ابحث في القصص"
