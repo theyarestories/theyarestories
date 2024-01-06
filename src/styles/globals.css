@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: 30, 30, 30;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
@@ -17,21 +17,94 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  /* background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb)); */
+  color: #333;
+  background-color: #fff;
 }
 
 @layer components {
   .title-1 {
-    @apply text-xl font-semibold;
+    @apply text-lg lg:text-xl font-semibold leading-6;
   }
 
   .input {
-    @apply rounded-sm border p-2 placeholder:text-gray-500;
+    @apply rounded-sm border p-2 placeholder:text-gray-500 border-gray-300;
   }
+
+  .button {
+    @apply flex items-center text-sm font-semibold justify-center rounded-sm py-1.5 px-4;
+  }
+
+  .button-primary {
+    @apply bg-green-800 text-white;
+  }
+
+  .button-reverse {
+    @apply border text-green-700 border-green-500;
+  }
+
+  /* Pagination */
+  .storiesPaginator {
+    @apply flex border rounded-sm h-10 sm:h-12;
+  }
+
+  .storiesPaginator__page,
+  .storiesPaginator__prev,
+  .storiesPaginator__next {
+    @apply flex;
+  }
+
+  .storiesPaginator__pageLink,
+  .storiesPaginator__prevLink,
+  .storiesPaginator__nextLink {
+    @apply flex items-center justify-center;
+  }
+
+  .storiesPaginator__pageLink {
+    @apply w-9 sm:w-12;
+  }
+
+  .storiesPaginator__pageLink--active {
+    @apply bg-green-100;
+  }
+
+  .storiesPaginator__prevLink,
+  .storiesPaginator__nextLink {
+    @apply px-2.5 sm:px-4;
+  }
+
+  .storiesPaginator__break {
+    @apply p-2;
+  }
+}
+
+@layer utilities {
+}
+
+.truncatee {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* MD Editor */
+.md-editor-rtl {
+  direction: rtl;
+  text-align: right;
+}
+.md-editor-rtl .w-md-editor-preview {
+  box-shadow: none !important;
+  border-right: 1px solid var(--color-border-default);
+  right: unset !important;
+  left: 0;
+  text-align: right !important;
+}
+.md-editor-rtl .w-md-editor-text {
+  text-align: right !important;
+}
+:dir(rtl) .wmde-markdown blockquote {
+  border-right: 0.25em solid var(--color-border-default);
+  border-left: none;
 }

@@ -21,16 +21,18 @@ function InputContainer({
 
   return (
     <div className="space-y-1">
-      <label className="flex flex-col">
-        <span className="text-sm">
-          <span className="font-semibold">{label}</span>
-          {!required && (
-            <span className="text-gray-600"> ({t("not_required")})</span>
-          )}
-          {description && (
-            <span className="text-gray-600"> ({description})</span>
-          )}
-          :
+      <label className="flex flex-col gap-0.5">
+        <span className="text-sm flex flex-col">
+          <span className="flex gap-1">
+            <span className="font-semibold">
+              {label}
+              {required ? ":" : ""}
+            </span>
+            {!required && (
+              <span className="text-gray-600"> ({t("not_required")}):</span>
+            )}
+          </span>
+          {description && <span className="text-gray-600">{description}</span>}
         </span>
         {children}
       </label>

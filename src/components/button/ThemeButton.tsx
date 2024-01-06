@@ -1,7 +1,7 @@
 "use-client";
 
 import classNames from "@/helpers/style/classNames";
-import { ReactNode } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 import ErrorMessage from "../alerts/ErrorMessage";
 import SuccessMessage from "../alerts/SuccessMessage";
 import Spinner from "../spinner/Spinner";
@@ -14,6 +14,7 @@ type Props = {
   className?: string;
   loading?: boolean;
   disabled?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
 function ThemeButton({
@@ -24,16 +25,18 @@ function ThemeButton({
   successMessage,
   loading = false,
   disabled = false,
+  onClick = () => {},
 }: Props) {
   return (
     <div className="space-y-1.5">
       <button
         className={classNames(
-          "flex items-center justify-center gap-2 rounded-md bg-teal-600 py-1.5 text-white",
+          "button button-primary gap-2",
           className,
           disabled ? "cursor-not-allowed opacity-50" : ""
         )}
         type={type}
+        onClick={onClick}
       >
         {children}
         {loading && <Spinner className="!h-4 !w-4 fill-teal-600" />}

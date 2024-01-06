@@ -1,5 +1,7 @@
 {
   "IndexPage": {
+    "page_title": "هم قصص",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
     "title": "هم قصص"
   },
   "StoriesList": {
@@ -7,25 +9,136 @@
   },
   "AddStoryPage": {
     "page_title": "أضف قصة",
-    "page_description": "",
-    "heading": "أضف قصة",
-    "language": "اللغة",
-    "language_description": "اختر اللغة التي ستكتب بها القصة",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "heading": "أضف قصة"
+  },
+  "StoryForm": {
+    "language": "اختر لغة القصة",
     "name": "الاسم",
     "city": "المدينة",
-    "date_of_birth": "تاريخ الميلاد",
+    "Gaza": "غزة",
+    "Al-Quds": "القدس",
+    "Bethlehem": "بيت لحم",
+    "Beersheba": "بئر السبع",
+    "Al-Khalil": "الخليل",
+    "Al Ramla": "الرملة",
+    "Ramallah": "رام الله",
+    "Yaffa": "يافا",
+    "Nablus": "نابلس",
+    "Tulkarm": "طولكرم",
+    "Jinin": "جنين",
+    "Baysan": "بيسان",
+    "Nazareth": "الناصرة",
+    "Haifa": "حيفا",
+    "Tiberias": "طبريا",
+    "Safad": "صفد",
+    "Akka": "عكا",
+    "age": "العمر",
     "job": "الوظيفة",
     "story": "القصة",
+    "upload_image": "تحميل صورة",
+    "upload": "تحميل",
     "name_required": "رجاءاً، أضف الاسم",
     "city_required": "رجاءاً، أضف المدينة",
-    "future_date": "عذراً، التاريخ يجب أن يكون بحد أقصى اليوم",
+    "age_error": "عذراً، العمر يجب أن يكون بين {minAge} أو {maxAge} عاماً.",
     "story_required": "رجاءاً، أضف القصة",
+    "tags": "وسوم",
+    "tags_description": "يمكنك إضافة أكثر من وسم",
+    "baby": "رضيع",
+    "child": "طفل",
+    "mother": "أم",
+    "father": "أب",
+    "grandparent": "جد",
+    "man": "رجل",
+    "woman": "امرأة",
+    "boy": "صبي",
+    "girl": "فتاة",
+    "teenager": "مراهق",
+    "elderly": "مسن",
+    "journalist": "صحفي",
+    "teacher": "معلم",
+    "student": "طالب",
+    "doctor": "طبيب",
+    "nurse": "ممرض",
     "submit": "إضافة",
-    "submit_success": "شكراً لك ♥. سنقوم بمراجعة البيانات خلال 48 ساعة كحدٍ أقصى، ونرسل لك إشعاراً بمجرد الإنتهاء.",
+    "submit_success": "شكراً لك ♥. سنقوم بمراجعة ونشر القصة خلال {reviewHours} ساعة كحدٍ أقصى.",
     "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
-    "wrong_language": "عذراً، اللغة المستخدمة لا تتطابق مع اللغة المختارة بالأعلى، اذا كنت تظن أن هذا غير صحيح، رجاءاً، تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي. "
+    "wrong_language": "عذراً، اللغة المستخدمة لا تتطابق مع اللغة المختارة بالأعلى، اذا كنت تظن أن هذا غير صحيح، رجاءاً، تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي."
+  },
+  "ProtagonistCombobox": {
+    "age_bold": "<b>العمر</b>: {age}",
+    "city_bold": "<b>المدينة</b>: {city}",
+    "job_bold": "<b>الوظيفة</b>: {job}"
   },
   "InputContainer": {
     "not_required": "ليس إلزامياً"
+  },
+  "Header": {
+    "add_story": "أضف قصة",
+    "all_stories": "جميع القصص"
+  },
+  "Logo": {
+    "logo": "هم قصص"
+  },
+  "StoryItem": {
+    "age": "العمر: {age}",
+    "city": "المدينة: {city}",
+    "job": "الوظيفة: {job}",
+    "read_my_story": "اقرأ القصة"
+  },
+  "StoryPage": {
+    "age_bold": "<b>العمر</b>: {age}",
+    "city_bold": "<b>المدينة</b>: {city}",
+    "job_bold": "<b>الوظيفة</b>: {job}",
+    "translate": "أضف ترجمة",
+    "views_count": "{count} رؤية للقصة",
+    "language_label": "اقرأ بال"
+  },
+  "BottomNavigation": {
+    "add_story": "أضف قصة",
+    "all_stories": "جميع القصص"
+  },
+  "TranslateStoryPage": {
+    "page_title": "ترجم | {protagonist}",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص. ترجم قصة {protagonist} للعالم.",
+    "heading": "ترجم قصة <b>{protagonist}</b>",
+    "subheading": "شاركنا بنشر قصصمهم للعالم!",
+    "from_language": "من",
+    "to_language": "إلى",
+    "select_language": "اختر لغة",
+    "name": "الاسم",
+    "job": "الوظيفة",
+    "story": "القصة",
+    "name_placeholder": "الاسم بلغة {language}",
+    "name_placeholder_fallback": "الاسم مترجم",
+    "job_placeholder": "الاسم بلغة {language}",
+    "job_placeholder_fallback": "الوظيفة مترجمة",
+    "name_required": "رجاءاً، أضف الاسم",
+    "job_required": "رجاءاً، أضف الوظيفة",
+    "story_required": "رجاءاً، أضف القصة",
+    "language_required": "رجاءاً، اختر لغة الترجمة",
+    "wrong_language": "عذراً، اللغة المستخدمة لا تتطابق مع اللغة المختارة بالأعلى، اذا كنت تظن أن هذا غير صحيح، رجاءاً، تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "submit": "إضافة",
+    "submit_success": "شكراً لك ♥. سنقوم بمراجعة ونشر الترجمة خلال {reviewHours} ساعة كحدٍ أقصى.",
+    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي."
+  },
+  "AllStoriesPage": {
+    "page_title": "هم قصص | جميع القصص",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "previous": "السابق",
+    "next": "التالي",
+    "search_stories": "ابحث في القصص"
+  },
+  "SignInPage": {
+    "page_title": "هم قصص | سجل الدخول",
+    "page_description": "",
+    "heading": "تسجيل الدخول",
+    "email": "البريد الإلكتروني",
+    "password": "رمز المرور",
+    "sign_in_success": "لقد سجلت الدحول بنجاح",
+    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "sign_in": "تسجيل الدخول",
+    "email_required": "رجاءاً، أضف البريد الإلكتروني",
+    "password_required": "رجاءاً، أضف رمز المرور"
   }
 }

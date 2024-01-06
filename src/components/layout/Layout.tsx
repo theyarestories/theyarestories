@@ -1,16 +1,23 @@
-import { Inter } from "next/font/google";
 import Head from "next/head";
 import { ReactNode } from "react";
-
-const inter = Inter({ subsets: ["latin"] });
+import Header from "../header/Header";
+import BottomNavigation from "../bottom-navigation/BottomNavigation";
 
 type Props = {
   pageTitle: string;
   pageDescription: string;
   children: ReactNode;
+  withStickyFooter?: boolean;
+  withHeader?: boolean;
 };
 
-function Layout({ pageTitle, pageDescription, children }: Props) {
+function Layout({
+  pageTitle,
+  pageDescription,
+  children,
+  withStickyFooter = true,
+  withHeader = true,
+}: Props) {
   return (
     <>
       <Head>
@@ -18,7 +25,15 @@ function Layout({ pageTitle, pageDescription, children }: Props) {
         <meta name="description" content={pageDescription} key="desc" />
       </Head>
 
-      <main className={inter.className}>{children}</main>
+      {withHeader && <Header />}
+
+      <main>{children}</main>
+
+      {withStickyFooter && (
+        <div className="sm:hidden">
+          <BottomNavigation />
+        </div>
+      )}
     </>
   );
 }

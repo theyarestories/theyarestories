@@ -3,6 +3,7 @@ import handleApiError from "@/helpers/api-client/handleApiError";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import axiosRetry, { IAxiosRetryConfig } from "axios-retry";
 import { Result, ok } from "neverthrow";
+import { H } from "@highlight-run/next/client";
 
 export default class ApiClient {
   private client: AxiosInstance;
@@ -52,7 +53,7 @@ export default class ApiClient {
       const response = await this.client.get<TResponse>(path, config);
       return ok(response.data);
     } catch (error: any) {
-      return handleApiError<TResponse>(error);
+      return handleApiError<TResponse>(error, { path });
     }
   }
 
@@ -65,7 +66,10 @@ export default class ApiClient {
       const response = await this.client.post<TResponse>(path, payload, config);
       return ok(response.data);
     } catch (error) {
-      return handleApiError<TResponse>(error);
+      return handleApiError<TResponse>(error, {
+        path,
+        payload: JSON.stringify(payload),
+      });
     }
   }
 
@@ -77,7 +81,10 @@ export default class ApiClient {
       const response = await this.client.put<TResponse>(path, payload);
       return ok(response.data);
     } catch (error) {
-      return handleApiError<TResponse>(error);
+      return handleApiError<TResponse>(error, {
+        path,
+        payload: JSON.stringify(payload),
+      });
     }
   }
 
@@ -89,7 +96,7 @@ export default class ApiClient {
       const response = await this.client.delete<TResponse>(path, config);
       return ok(response.data);
     } catch (error) {
-      return handleApiError<TResponse>(error);
+      return handleApiError<TResponse>(error, { path });
     }
   }
 }

@@ -1,13 +1,11 @@
-import { Inter } from "next/font/google";
 import { useTranslations } from "next-intl";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { DBStory } from "@/interfaces/database/Story";
+import { DBStory } from "@/interfaces/database/DBStory";
 import { ServerApiClient } from "@/apis/ServerApiClient";
-import classNames from "@/helpers/style/classNames";
 import StoriesList from "@/components/stories/StoriesList";
 import Container from "@/components/container/Container";
-
-const inter = Inter({ subsets: ["latin"] });
+import Layout from "@/components/layout/Layout";
+import sortAndTranslateStories from "@/helpers/stories/sortAndTranslateStories";
 
 export default function Home({
   stories,
@@ -15,28 +13,34 @@ export default function Home({
   const t = useTranslations("IndexPage");
 
   return (
-    <main
-      className={classNames(
-        "flex min-h-screen flex-col items-center justify-between",
-        inter.className
-      )}
-    >
+    <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
         <StoriesList stories={stories} />
       </Container>
-    </main>
+    </Layout>
   );
 }
 
-export const getServerSideProps = (async (context) => {
+export const getServerSideProps = (async ({ req, locale }) => {
   const serverApiClient = new ServerApiClient();
-  const storiesResult = await serverApiClient.getStories();
+  const storiesResult = await serverApiClient.getStories({
+    isHighlighted: true,
+  });
   if (storiesResult.isErr()) {
     return {
       props: { stories: [] },
     };
   }
-  return { props: { stories: storiesResult.value } };
+
+  // sort stories by user's preferred language
+  const homeLanguage = req.cookies.home_language;
+  const stories = sortAndTranslateStories(
+    storiesResult.value.data,
+    homeLanguage,
+    locale
+  );
+
+  return { props: { stories } };
 }) satisfies GetServerSideProps<{
   stories: DBStory[];
 }>;

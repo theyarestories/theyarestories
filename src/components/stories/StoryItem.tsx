@@ -1,28 +1,44 @@
-import Image from "next/image";
-import { DBStory } from "@/interfaces/database/Story";
+import useTranslatedStory from "@/hooks/useTranslatedStory";
+import { DBStory } from "@/interfaces/database/DBStory";
+import { CldImage } from "next-cloudinary";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 type Props = {
   story: DBStory;
 };
 
 function StoryItem({ story }: Props) {
-  return (
-    <article>
-      <div className="flex gap-2">
-        <Image
-          className="w-24 h-24 object-cover object-center"
-          src={story.avatar}
-          alt=""
-          width={0}
-          height={0}
-          sizes="1000px"
-        />
-        <h3 suppressHydrationWarning className="font-semibold text-sm">
-          {story.protagonist}
-        </h3>
-      </div>
+  const t = useTranslations("StoryItem");
+  const { translatedStory } = useTranslatedStory(story);
 
-      <p suppressHydrationWarning>{story.story}</p>
+  return (
+    <article className="flex flex-col gap-1 relative">
+      <Link href={`/stories/${translatedStory._id}`}>
+        <CldImage
+          className="object-cover rounded-sm w-full"
+          src={translatedStory.avatar.cloudinaryId}
+          alt=""
+          width={300}
+          height={300}
+          crop="fill"
+          gravity="auto"
+        />
+      </Link>
+      <h3 className="font-semibold text-sm">
+        {translatedStory.protagonist}{" "}
+        {translatedStory.age ? (
+          <span className="font-normal">{`(${translatedStory.age})`}</span>
+        ) : (
+          ""
+        )}
+      </h3>
+      <Link
+        href={`/stories/${translatedStory._id}`}
+        className="button button-primary mt-auto"
+      >
+        {t("read_my_story")}
+      </Link>
     </article>
   );
 }

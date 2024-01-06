@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ServerApiResponse } from "./interfaces/server/ServerApiResponse";
+import { DBUser } from "./interfaces/database/DBUser";
+import isStringPositiveInteger from "./helpers/number/isStringPositiveInteger";
 
 export const config = {
   matcher: [
@@ -13,6 +16,31 @@ export const config = {
   ],
 };
 
+async function isAuthenticated(req: NextRequest): Promise<boolean> {
+  // 1. Check if token exists
+  const token = req.cookies.get("token")?.value;
+  if (!token) {
+    return false;
+  }
+
+  // 2. Check if token is valid
+  try {
+    const userByTokenResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/auth/me`,
+      { headers: { Cookie: `token=${token}` } }
+    );
+    const data: ServerApiResponse<DBUser> = await userByTokenResponse.json();
+    if (data.success) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
 function getHomeLanguage(request: NextRequest): string {
   let preferredLanguage = "";
 
@@ -24,12 +52,30 @@ function getHomeLanguage(request: NextRequest): string {
   return preferredLanguage;
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
+  await isAuthenticated(request);
   let response = NextResponse.next();
+
+  // Add query param "page" to all-stories page of non exists
+  if (request.nextUrl.pathname.includes("all-stories")) {
+    const pageParam = request.nextUrl.searchParams.get("page");
+    if (!pageParam || !isStringPositiveInteger(pageParam)) {
+      response = NextResponse.redirect(
+        new URL(`${request.nextUrl.pathname}?page=1`, request.url)
+      );
+    }
+  }
 
   // get preferred language to pass it to frontend to customize the experience
   const homeLanguage = getHomeLanguage(request);
   response.cookies.set("home_language", homeLanguage);
+
+  // get user's information
+  response.cookies.set("country", request.geo?.country || "");
+  response.cookies.set("city", request.geo?.city || "");
+  response.cookies.set("region", request.geo?.region || "");
+
+  // Allow access to admin pages only to authenticated users
 
   return response;
 }

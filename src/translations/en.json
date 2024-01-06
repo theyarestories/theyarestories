@@ -1,5 +1,7 @@
 {
   "IndexPage": {
+    "page_title": "They are stories",
+    "page_description": "Palestinians are not just numbers. They are stories.",
     "title": "They are stories"
   },
   "StoriesList": {
@@ -7,25 +9,136 @@
   },
   "AddStoryPage": {
     "page_title": "Add a Story",
-    "page_description": "",
-    "heading": "Add a Story",
-    "language": "Language",
-    "language_description": "Choose the language you will use to write the story",
+    "page_description": "Palestinians are not just numbers. They are stories.",
+    "heading": "Add a Story"
+  },
+  "StoryForm": {
+    "language": "Choose story language",
     "name": "Name",
     "city": "City",
+    "Gaza": "Gaza",
+    "Al-Quds": "Al-Quds",
+    "Bethlehem": "Bethlehem",
+    "Beersheba": "Beersheba",
+    "Al-Khalil": "Al-Khalil",
+    "Al Ramla": "Al Ramla",
+    "Ramallah": "Ramallah",
+    "Yaffa": "Yaffa",
+    "Nablus": "Nablus",
+    "Tulkarm": "Tulkarm",
+    "Jinin": "Jinin",
+    "Baysan": "Baysan",
+    "Nazareth": "Nazareth",
+    "Haifa": "Haifa",
+    "Tiberias": "Tiberias",
+    "Safad": "Safad",
+    "Akka": "Akka",
     "job": "Job",
     "story": "Story",
+    "upload_image": "Upload a photo",
+    "upload": "Upload",
     "name_required": "Please, add the name",
     "city_required": "Please, add the city",
-    "date_of_birth": "Date of birth",
-    "future_date": "Sorry, The date can't be in the future",
+    "age": "Age",
+    "age_error": "Sorry, The age can only be between {minAge} and {maxAge}.",
     "story_required": "Please, add the story",
+    "tags": "Tags",
+    "tags_description": "You can add more than one",
+    "baby": "baby",
+    "child": "child",
+    "mother": "mother",
+    "father": "father",
+    "grandparent": "grandparent",
+    "man": "man",
+    "woman": "woman",
+    "boy": "boy",
+    "girl": "girl",
+    "teenager": "teenager",
+    "elderly": "elderly",
+    "journalist": "journalist",
+    "teacher": "teacher",
+    "student": "student",
+    "doctor": "doctor",
+    "nurse": "nurse",
     "submit": "Submit",
-    "submit_success": "Thank you for your effort ♥. We'll review it in a maximum of 48 hours and notify you once it's approved.",
+    "submit_success": "Thank you for your effort ♥. We will review and share your story in a maximum of {reviewHours} hours.",
     "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
     "wrong_language": "Sorry, we detected the story is written in another language than the selected one. If that's not the case, please reach us through any of our social media channels."
   },
+  "ProtagonistCombobox": {
+    "age_bold": "<b>Age</b>: {age}",
+    "city_bold": "<b>City</b>: {city}",
+    "job_bold": "<b>Job</b>: {job}"
+  },
   "InputContainer": {
     "not_required": "not required"
+  },
+  "Header": {
+    "add_story": "Add a Story",
+    "all_stories": "All Stories"
+  },
+  "Logo": {
+    "logo": "They are Stories"
+  },
+  "StoryItem": {
+    "age": "Age: {age}",
+    "city": "City: {city}",
+    "job": "Job: {job}",
+    "read_my_story": "Read the story"
+  },
+  "StoryPage": {
+    "age_bold": "<b>Age</b>: {age}",
+    "city_bold": "<b>City</b>: {city}",
+    "job_bold": "<b>Job</b>: {job}",
+    "translate": "Add translation",
+    "views_count": "Viewed: {count} times",
+    "language_label": "Read in"
+  },
+  "BottomNavigation": {
+    "add_story": "Add a Story",
+    "all_stories": "All Stories"
+  },
+  "TranslateStoryPage": {
+    "page_title": "Translate | {protagonist}",
+    "page_description": "Palestinians are not just numbers. They are stories. Translate {protagonist}'s story to the world.",
+    "heading": "Translate <b>{protagonist}</b>'s story",
+    "subheading": "Let's share their stories to the world!",
+    "from_language": "From",
+    "to_language": "To",
+    "select_language": "Select language",
+    "name": "Name",
+    "job": "Job",
+    "story": "Story",
+    "name_placeholder": "Name in {language}",
+    "name_placeholder_fallback": "Translated name",
+    "job_placeholder": "Job in {language}",
+    "job_placeholder_fallback": "Translated job",
+    "name_required": "Please, add the name",
+    "job_required": "Please, add the job",
+    "story_required": "Please, add the story",
+    "language_required": "Please, select a translation language",
+    "wrong_language": "Sorry, we detected the story is written in another language than the selected one. If that's not the case, please reach us through any of our social media channels.",
+    "submit": "Submit",
+    "submit_success": "Thank you for your effort ♥. We will review and share your translation in a maximum of {reviewHours} hours.",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels."
+  },
+  "AllStoriesPage": {
+    "page_title": "They are stories | All Stories",
+    "page_description": "Palestinians are not just numbers. They are stories.",
+    "previous": "Previous",
+    "next": "Next",
+    "search_stories": "Search the stories"
+  },
+  "SignInPage": {
+    "page_title": "They are Stories | Sign In",
+    "page_description": "",
+    "heading": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "sign_in_success": "You have successfully signed in",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "sign_in": "Sign in",
+    "email_required": "Please, add the email",
+    "password_required": "Please, add the password"
   }
 }

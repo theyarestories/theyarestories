@@ -2,7 +2,7 @@ const removeImports = require("next-remove-imports")();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: { esmExternals: "loose" },
+  experimental: { esmExternals: "loose", instrumentationHook: true },
   reactStrictMode: true,
   i18n: {
     locales: ["ar", "en"],
@@ -12,18 +12,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "cloudflare-ipfs.com",
-      },
-      {
-        protocol: "https",
-        hostname: "avatars.githubusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "picsum.photos",
+        hostname: "res.cloudinary.com",
       },
     ],
   },
+  productionBrowserSourceMaps: true,
 };
 
 module.exports = removeImports(nextConfig);

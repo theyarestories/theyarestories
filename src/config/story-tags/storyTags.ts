@@ -1,0 +1,18 @@
+export const storyTags = [
+  "baby",
+  "child",
+  "boy",
+  "girl",
+  "teenager",
+  "man",
+  "woman",
+  "elderly",
+  "mother",
+  "father",
+  "grandparent",
+  "journalist",
+  "teacher",
+  "student",
+  "doctor",
+  "nurse",
+];
