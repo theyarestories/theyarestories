@@ -8,6 +8,9 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
 import UserProvider from "@/contexts/UserContext";
+import { HighlightInit } from "@highlight-run/next/client";
+import { ErrorBoundary } from "@/components/error-boundary/ErrorBoundary";
+import { highlightInitConfig } from "@/config/highlight-io/highlightInitConfig";
 
 export default function App({ Component, pageProps }: AppProps) {
   // content direction
@@ -19,12 +22,17 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <div dir={isRtl ? "rtl" : "ltr"}>
-      <NextIntlProvider messages={translations}>
-        <UserProvider>
-          <NextNProgress options={{ showSpinner: false }} color="#22c55e" />
-          <Component {...pageProps} />
-        </UserProvider>
-      </NextIntlProvider>
+      <ErrorBoundary>
+        <NextIntlProvider messages={translations}>
+          <UserProvider>
+            <NextNProgress options={{ showSpinner: false }} color="#22c55e" />
+            {process.env.NEXT_PUBLIC_ENV === "production" && (
+              <HighlightInit {...highlightInitConfig} />
+            )}
+            <Component {...pageProps} />
+          </UserProvider>
+        </NextIntlProvider>
+      </ErrorBoundary>
     </div>
   );
 }
