@@ -2,14 +2,20 @@
 
 import { ApiError } from "@/interfaces/api-client/Error";
 import { H } from "@highlight-run/next/client";
+import { HttpStatusCode } from "axios";
 import { isBrowser } from "browser-or-node";
 import { Err, err } from "neverthrow";
 
 export default function handleApiError<TResponse>(
   error: any,
-  metadata?: { [key: string]: string }
+  metadata?: { [key: string]: string; path: string }
 ): Err<TResponse, ApiError> {
-  if (isBrowser) {
+  const ignoredErrors = [
+    metadata?.path === "/api/auth/get-user-by-token" &&
+      error?.response?.status === HttpStatusCode.Unauthorized,
+  ];
+
+  if (isBrowser && !ignoredErrors.some(Boolean)) {
     H.consumeError(error, error.message, metadata);
   }
   return err({
