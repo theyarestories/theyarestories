@@ -8,6 +8,7 @@ import ThemeMDEditor from "@/components/md-editor/ThemeMDEditor";
 import ThemeSelect from "@/components/select/ThemeSelect";
 import allLanguages from "@/config/all-languages/allLanguages";
 import consts from "@/config/consts";
+import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 import getTranslatedStory from "@/helpers/stories/getTranslatedStory";
 import mapLanguageCodesToOptions from "@/helpers/stories/mapLanguageCodesToOptions";
 import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
@@ -26,6 +27,7 @@ import { useRouter } from "next/router";
 import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useAsyncFn } from "react-use";
+import { H as HNode } from "@highlight-run/node";
 
 const Markdown = dynamic(
   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
@@ -380,11 +382,22 @@ function TranslateStoryPage({
 }
 
 export const getServerSideProps = (async ({ params, query }) => {
+  initHighlightNode();
+
   const storyResult = await serverApiClient.getStoryById(
     params?.storyId as string
   );
 
   if (storyResult.isErr()) {
+    HNode.consumeError(
+      {
+        name: "Error",
+        message: storyResult.error.errorMessage || "",
+      },
+      undefined,
+      undefined,
+      { payload: JSON.stringify(storyResult.error) }
+    );
     return {
       notFound: true,
     };

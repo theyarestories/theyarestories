@@ -48,9 +48,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <NextIntlProvider messages={translations}>
           <UserProvider>
             <NextNProgress options={{ showSpinner: false }} color="#22c55e" />
-            {/* {process.env.NEXT_PUBLIC_ENV === "production" && (
-              <HighlightInit {...highlightNextConfig} />
-            )} */}
+            <HighlightInit {...highlightNextConfig} />
             <Component {...pageProps} />
           </UserProvider>
         </NextIntlProvider>

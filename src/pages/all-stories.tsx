@@ -20,6 +20,8 @@ import { ParsedUrlQuery } from "querystring";
 import { ChangeEventHandler, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import classNames from "@/helpers/style/classNames";
+import initHighlightNode from "@/helpers/highlight/initHighlightNode";
+import { H as HNode } from "@highlight-run/node";
 
 const serverApiClient = new ServerApiClient();
 
@@ -151,6 +153,7 @@ export default function AllStoriesPage({
 }
 
 export const getServerSideProps = (async ({ req, query, locale }) => {
+  initHighlightNode();
   const filters = getStoryFiltersFromQuery(query);
 
   const storiesResult = await serverApiClient.getStories({
@@ -158,6 +161,15 @@ export const getServerSideProps = (async ({ req, query, locale }) => {
     limit: 20,
   });
   if (storiesResult.isErr()) {
+    HNode.consumeError(
+      {
+        name: "Error",
+        message: storiesResult.error.errorMessage || "",
+      },
+      undefined,
+      undefined,
+      { payload: JSON.stringify(storiesResult.error) }
+    );
     throw new Error(storiesResult.error.errorMessage);
   }
 

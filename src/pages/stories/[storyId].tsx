@@ -7,6 +7,7 @@ import ThemeSelect from "@/components/select/ThemeSelect";
 import SharePlatforms from "@/components/stories/SharePlatforms";
 import allLanguages from "@/config/all-languages/allLanguages";
 import consts from "@/config/consts";
+import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 import getTranslatedStory from "@/helpers/stories/getTranslatedStory";
 import mapLanguageCodesToOptions from "@/helpers/stories/mapLanguageCodesToOptions";
 import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
@@ -25,6 +26,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
+import { H as HNode } from "@highlight-run/node";
 
 const serverApiClient = new ServerApiClient();
 
@@ -185,11 +187,22 @@ function StoryPage({
 }
 
 export const getServerSideProps = (async ({ params, req, locale }) => {
+  initHighlightNode();
+
   const storyResult = await serverApiClient.getStoryById(
     params?.storyId as string
   );
 
   if (storyResult.isErr()) {
+    HNode.consumeError(
+      {
+        name: "Error",
+        message: storyResult.error.errorMessage || "",
+      },
+      undefined,
+      undefined,
+      { payload: JSON.stringify(storyResult.error) }
+    );
     return {
       notFound: true,
     };
