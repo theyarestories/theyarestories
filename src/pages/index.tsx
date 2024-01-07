@@ -6,6 +6,7 @@ import StoriesList from "@/components/stories/StoriesList";
 import Container from "@/components/container/Container";
 import Layout from "@/components/layout/Layout";
 import sortAndTranslateStories from "@/helpers/stories/sortAndTranslateStories";
+import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 
 export default function Home({
   stories,
@@ -22,6 +23,8 @@ export default function Home({
 }
 
 export const getServerSideProps = (async ({ req, locale }) => {
+  initHighlightNode();
+
   if (2 + 2 === 4) {
     throw new Error("test");
   }
