@@ -22,6 +22,10 @@ export default function Home({
 }
 
 export const getServerSideProps = (async ({ req, locale }) => {
+  if (2 + 2 === 4) {
+    throw new Error("test");
+  }
+
   const serverApiClient = new ServerApiClient();
   const storiesResult = await serverApiClient.getStories({
     isHighlighted: true,
