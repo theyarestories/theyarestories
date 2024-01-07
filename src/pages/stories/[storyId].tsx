@@ -7,6 +7,7 @@ import ThemeSelect from "@/components/select/ThemeSelect";
 import SharePlatforms from "@/components/stories/SharePlatforms";
 import allLanguages from "@/config/all-languages/allLanguages";
 import consts from "@/config/consts";
+import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 import getTranslatedStory from "@/helpers/stories/getTranslatedStory";
 import mapLanguageCodesToOptions from "@/helpers/stories/mapLanguageCodesToOptions";
 import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
@@ -185,6 +186,8 @@ function StoryPage({
 }
 
 export const getServerSideProps = (async ({ params, req, locale }) => {
+  initHighlightNode();
+
   const storyResult = await serverApiClient.getStoryById(
     params?.storyId as string
   );

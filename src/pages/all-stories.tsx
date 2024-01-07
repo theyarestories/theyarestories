@@ -20,6 +20,7 @@ import { ParsedUrlQuery } from "querystring";
 import { ChangeEventHandler, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import classNames from "@/helpers/style/classNames";
+import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 
 const serverApiClient = new ServerApiClient();
 
@@ -151,6 +152,7 @@ export default function AllStoriesPage({
 }
 
 export const getServerSideProps = (async ({ req, query, locale }) => {
+  initHighlightNode();
   const filters = getStoryFiltersFromQuery(query);
 
   const storiesResult = await serverApiClient.getStories({
