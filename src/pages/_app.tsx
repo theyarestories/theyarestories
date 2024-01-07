@@ -15,7 +15,6 @@ import { Open_Sans } from "next/font/google";
 import classNames from "@/helpers/style/classNames";
 import { useEffect } from "react";
 import { ServerApiClient } from "@/apis/ServerApiClient";
-import Cookies from "js-cookie";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -36,12 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(function sendVisitEvent() {
     serverApiClient.createEvent({
       type: "visit",
-      metadata: {
-        country: Cookies.get("country") || "",
-        city: Cookies.get("city") || "",
-        region: Cookies.get("region") || "",
-        referrer: document.referrer,
-      },
+      metadata: {},
     });
   }, []);
 
