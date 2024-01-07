@@ -3,7 +3,6 @@ import handleApiError from "@/helpers/api-client/handleApiError";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import axiosRetry, { IAxiosRetryConfig } from "axios-retry";
 import { Result, ok } from "neverthrow";
-import { H } from "@highlight-run/next/client";
 
 export default class ApiClient {
   private client: AxiosInstance;
