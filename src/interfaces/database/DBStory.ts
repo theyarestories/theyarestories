@@ -14,6 +14,7 @@ export interface DBTranslatedFields {
   story: string;
   job?: string;
   isApproved: boolean;
+  approvedBy: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -35,6 +36,7 @@ export type DBStory = {
   translationLanguage: string; // ar
   translations: DBTranslatedFields[];
   isApproved: boolean;
+  approvedBy: string | null;
   isHighlighted: boolean;
   isDeleted: boolean;
   createdAt: string;
