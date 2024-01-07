@@ -16,6 +16,7 @@ function Logo({}: Props) {
         alt={t("logo")}
         width={0}
         height={0}
+        priority
       />
     </Link>
   );
