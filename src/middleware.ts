@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ServerApiResponse } from "./interfaces/server/ServerApiResponse";
+import { DBUser } from "./interfaces/database/DBUser";
 import isStringPositiveInteger from "./helpers/number/isStringPositiveInteger";
-import initHighlightNode from "./helpers/highlight/initHighlightNode";
-import { ServerApiClient } from "./apis/ServerApiClient";
 
 export const config = {
   matcher: [
@@ -16,8 +16,6 @@ export const config = {
   ],
 };
 
-const serverApiClient = new ServerApiClient();
-
 async function isAuthenticated(req: NextRequest): Promise<boolean> {
   // 1. Check if token exists
   const token = req.cookies.get("token")?.value;
@@ -26,11 +24,19 @@ async function isAuthenticated(req: NextRequest): Promise<boolean> {
   }
 
   // 2. Check if token is valid
-  const userResult = await serverApiClient.getUserByToken(token);
-
-  if (userResult.isOk() && userResult.value.success) {
-    return true;
-  } else {
+  try {
+    const userByTokenResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/auth/me`,
+      { headers: { Cookie: `token=${token}` } }
+    );
+    const data: ServerApiResponse<DBUser> = await userByTokenResponse.json();
+    if (data.success) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error(error);
     return false;
   }
 }
@@ -47,8 +53,6 @@ function getHomeLanguage(request: NextRequest): string {
 }
 
 export async function middleware(request: NextRequest) {
-  initHighlightNode();
-
   await isAuthenticated(request);
   let response = NextResponse.next();
 

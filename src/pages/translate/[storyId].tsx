@@ -27,6 +27,7 @@ import { useRouter } from "next/router";
 import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useAsyncFn } from "react-use";
+import { H as HNode } from "@highlight-run/node";
 
 const Markdown = dynamic(
   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
@@ -388,6 +389,15 @@ export const getServerSideProps = (async ({ params, query }) => {
   );
 
   if (storyResult.isErr()) {
+    HNode.consumeError(
+      {
+        name: "Error",
+        message: storyResult.error.errorMessage || "",
+      },
+      undefined,
+      undefined,
+      { payload: JSON.stringify(storyResult.error) }
+    );
     return {
       notFound: true,
     };

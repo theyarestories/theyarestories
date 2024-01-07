@@ -21,6 +21,7 @@ import { ChangeEventHandler, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import classNames from "@/helpers/style/classNames";
 import initHighlightNode from "@/helpers/highlight/initHighlightNode";
+import { H as HNode } from "@highlight-run/node";
 
 const serverApiClient = new ServerApiClient();
 
@@ -160,6 +161,15 @@ export const getServerSideProps = (async ({ req, query, locale }) => {
     limit: 20,
   });
   if (storiesResult.isErr()) {
+    HNode.consumeError(
+      {
+        name: "Error",
+        message: storiesResult.error.errorMessage || "",
+      },
+      undefined,
+      undefined,
+      { payload: JSON.stringify(storiesResult.error) }
+    );
     throw new Error(storiesResult.error.errorMessage);
   }
 

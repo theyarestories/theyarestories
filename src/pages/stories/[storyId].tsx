@@ -26,6 +26,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
+import { H as HNode } from "@highlight-run/node";
 
 const serverApiClient = new ServerApiClient();
 
@@ -193,6 +194,15 @@ export const getServerSideProps = (async ({ params, req, locale }) => {
   );
 
   if (storyResult.isErr()) {
+    HNode.consumeError(
+      {
+        name: "Error",
+        message: storyResult.error.errorMessage || "",
+      },
+      undefined,
+      undefined,
+      { payload: JSON.stringify(storyResult.error) }
+    );
     return {
       notFound: true,
     };

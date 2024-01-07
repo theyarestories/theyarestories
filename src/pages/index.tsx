@@ -7,6 +7,7 @@ import Container from "@/components/container/Container";
 import Layout from "@/components/layout/Layout";
 import sortAndTranslateStories from "@/helpers/stories/sortAndTranslateStories";
 import initHighlightNode from "@/helpers/highlight/initHighlightNode";
+import { H as HNode } from "@highlight-run/node";
 
 export default function Home({
   stories,
@@ -30,6 +31,15 @@ export const getServerSideProps = (async ({ req, locale }) => {
     isHighlighted: true,
   });
   if (storiesResult.isErr()) {
+    HNode.consumeError(
+      {
+        name: "Error",
+        message: storiesResult.error.errorMessage || "",
+      },
+      undefined,
+      undefined,
+      { payload: JSON.stringify(storiesResult.error) }
+    );
     return {
       props: { stories: [] },
     };
