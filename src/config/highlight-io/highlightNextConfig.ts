@@ -10,4 +10,5 @@ export const highlightNextConfig: HighlightInitProps = {
     recordHeadersAndBody: true,
     urlBlocklist: [],
   },
+  disableSessionRecording: true,
 };
