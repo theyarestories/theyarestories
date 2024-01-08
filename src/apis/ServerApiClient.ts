@@ -24,7 +24,7 @@ export class ServerApiClient {
     {
       page = 1,
       limit = 20,
-      isApproved = true,
+      isApproved,
       isTranslationApproved,
       isAscending = false,
       isHighlighted,
