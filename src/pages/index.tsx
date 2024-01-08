@@ -23,12 +23,14 @@ export default function Home({
   );
 }
 
-export const getServerSideProps = (async ({ req, locale }) => {
+export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
   initHighlightNode();
 
   const serverApiClient = new ServerApiClient();
   const storiesResult = await serverApiClient.getStories({
     isHighlighted: true,
+    isApproved: true,
+    limit: 6,
   });
   if (storiesResult.isErr()) {
     HNode.consumeError(
@@ -38,7 +40,7 @@ export const getServerSideProps = (async ({ req, locale }) => {
       },
       undefined,
       undefined,
-      { payload: JSON.stringify(storiesResult.error) }
+      { payload: JSON.stringify(storiesResult.error), resolvedUrl }
     );
     return {
       props: { stories: [] },

@@ -125,8 +125,6 @@
   "AllStoriesPage": {
     "page_title": "هم قصص | جميع القصص",
     "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
-    "previous": "السابق",
-    "next": "التالي",
     "search_stories": "ابحث في القصص"
   },
   "SignInPage": {
@@ -140,5 +138,20 @@
     "sign_in": "تسجيل الدخول",
     "email_required": "رجاءاً، أضف البريد الإلكتروني",
     "password_required": "رجاءاً، أضف رمز المرور"
+  },
+  "AdminPage": {
+    "page_title": "هم قصص | الإدارة",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "approve_stories": "راجع القصص"
+  },
+  "Pagination": {
+    "previous": "السابق",
+    "next": "التالي"
+  },
+  "UnapprovedStoryItem": {
+    "age": "العمر: {age}",
+    "city": "المدينة: {city}",
+    "job": "الوظيفة: {job}",
+    "read_my_story": "مراجعة"
   }
 }
