@@ -24,7 +24,8 @@ export class ServerApiClient {
     {
       page = 1,
       limit = 20,
-      isApproved,
+      isApproved = true,
+      isTranslationApproved,
       isAscending = false,
       isHighlighted,
       tags,
@@ -42,6 +43,9 @@ export class ServerApiClient {
     }
     if (typeof isApproved === "boolean") {
       query.push(`isApproved=${String(isApproved)}`);
+    }
+    if (typeof isTranslationApproved === "boolean") {
+      query.push(`translations.isApproved=${String(isTranslationApproved)}`);
     }
     if (typeof isHighlighted === "boolean") {
       query.push(`isHighlighted=${String(isHighlighted)}`);

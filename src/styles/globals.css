@@ -34,6 +34,10 @@ body {
     @apply flex items-center text-sm font-semibold justify-center rounded-sm py-1.5 px-4;
   }
 
+  .stories-grid {
+    @apply grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 lg:gap-10 gap-4;
+  }
+
   .button-primary {
     @apply bg-green-800 text-white;
   }

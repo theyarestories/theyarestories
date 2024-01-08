@@ -125,8 +125,6 @@
   "AllStoriesPage": {
     "page_title": "They are stories | All Stories",
     "page_description": "Palestinians are not just numbers. They are stories.",
-    "previous": "Previous",
-    "next": "Next",
     "search_stories": "Search the stories"
   },
   "SignInPage": {
@@ -140,5 +138,20 @@
     "sign_in": "Sign in",
     "email_required": "Please, add the email",
     "password_required": "Please, add the password"
+  },
+  "AdminPage": {
+    "page_title": "They are stories | Administration",
+    "page_description": "Palestinians are not just numbers. They are stories.",
+    "approve_stories": "Approve stories"
+  },
+  "Pagination": {
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "UnapprovedStoryItem": {
+    "age": "Age: {age}",
+    "city": "City: {city}",
+    "job": "Job: {job}",
+    "review": "Review"
   }
 }
