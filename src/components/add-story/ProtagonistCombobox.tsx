@@ -60,6 +60,7 @@ function ProtagonistCombobox({
         <Combobox.Input
           className="input w-full"
           value={value}
+          displayValue={(_) => value}
           onChange={(event) => {
             onChange(event);
             fetchSuggestions(event);
