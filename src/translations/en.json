@@ -4,6 +4,10 @@
     "page_description": "Palestinians are not just numbers. They are stories.",
     "title": "They are stories"
   },
+  "Banner": {
+    "not_number": "They are not Just Number.",
+    "but_stories": "They are Stories."
+  },
   "StoriesList": {
     "stories": "Stories"
   },

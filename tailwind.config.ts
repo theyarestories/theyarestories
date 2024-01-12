@@ -15,6 +15,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-open-sans)"],
+        display: ["var(--font-dm-serif)"],
       },
     },
   },
