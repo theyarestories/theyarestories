@@ -8,6 +8,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { ServerAdvancedResponse } from "@/interfaces/server/ServerAdvancedResponse";
 import { DBStory } from "@/interfaces/database/DBStory";
 import UnapprovedStoriesList from "@/components/unapproved-stories/UnapprovedStoriesList";
+import UnapprovedTranslationsList from "@/components/unapproved-translations/UnapprovedTranslationsList";
 
 const serverApiClient = new ServerApiClient();
 
@@ -22,7 +23,20 @@ function AdminHomePage({
       <Container>
         <section className="space-y-4">
           <h2 className="title-1">{t("approve_stories")}</h2>
+          {unapprovedStories.data.length === 0 && (
+            <p className="text-gray-600">{t("no_stories")}</p>
+          )}
           <UnapprovedStoriesList storiesWithPagination={unapprovedStories} />
+
+          <hr />
+
+          <h2 className="title-1">{t("approve_translations")}</h2>
+          {unapprovedTranslations.data.length === 0 && (
+            <p className="text-gray-600">{t("no_translations")}</p>
+          )}
+          <UnapprovedTranslationsList
+            storiesWithPagination={unapprovedTranslations}
+          />
         </section>
       </Container>
     </Layout>
@@ -53,6 +67,7 @@ export const getServerSideProps = (async ({ resolvedUrl }) => {
 
   // 2. unapproved translations
   const unapprovedTranslations = await serverApiClient.getStories({
+    isApproved: true,
     isTranslationApproved: false,
     limit: 4,
   });

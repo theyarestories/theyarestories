@@ -27,6 +27,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { H as HNode } from "@highlight-run/node";
+import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
 
 const serverApiClient = new ServerApiClient();
 
@@ -213,18 +214,18 @@ export const getServerSideProps = (async ({
     };
   }
 
+  // filter out unapproved translations
+  let story = filterApprovedTranslations([storyResult.value])[0];
+
   // translate
   const homeLanguage = req.cookies.home_language;
-  let translationLanguage = storyResult.value.translationLanguage;
-  if (homeLanguage && storyHasLanguage(storyResult.value, homeLanguage)) {
+  let translationLanguage = story.translationLanguage;
+  if (homeLanguage && storyHasLanguage(story, homeLanguage)) {
     translationLanguage = homeLanguage;
-  } else if (locale && storyHasLanguage(storyResult.value, locale)) {
+  } else if (locale && storyHasLanguage(story, locale)) {
     translationLanguage = locale;
   }
-  const translatedStory = getTranslatedStory(
-    storyResult.value,
-    translationLanguage
-  );
+  const translatedStory = getTranslatedStory(story, translationLanguage);
 
   return { props: { story: translatedStory } };
 }) satisfies GetServerSideProps<{

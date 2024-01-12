@@ -1,5 +1,4 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import StoryForm from "@/components/add-story/StoryForm";
 import Container from "@/components/container/Container";
 import Layout from "@/components/layout/Layout";
 import { useTranslations } from "next-intl";
@@ -7,13 +6,23 @@ import { ServerApiClient } from "@/apis/ServerApiClient";
 import { H as HNode } from "@highlight-run/node";
 import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 import { DBStory } from "@/interfaces/database/DBStory";
+import TranslateForm from "@/components/translate/TranslateForm";
 
 const serverApiClient = new ServerApiClient();
 
-function ApproveStoryPage({
+function ApproveTranslationPage({
   story,
+  fromLanguage,
+  toLanguage,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const t = useTranslations("ApproveStoryPage");
+  const t = useTranslations("ApproveTranslationPage");
+
+  const unapprovedTranslation = story.translations.find(
+    (translation) =>
+      (translation.fromLanguage === fromLanguage &&
+        translation.translationLanguage === toLanguage) ||
+      !translation.isApproved
+  );
 
   return (
     <Layout
@@ -28,14 +37,18 @@ function ApproveStoryPage({
               b: (value) => <b>{value}</b>,
             })}
           </h1>
-          <StoryForm mode="approve" unapprovedStory={story} />
+          <TranslateForm
+            story={story}
+            mode="approve"
+            unapprovedTranslation={unapprovedTranslation}
+          />
         </div>
       </Container>
     </Layout>
   );
 }
 
-export const getServerSideProps = (async ({ params, resolvedUrl }) => {
+export const getServerSideProps = (async ({ params, resolvedUrl, query }) => {
   initHighlightNode();
 
   const storyResult = await serverApiClient.getStoryById(
@@ -57,9 +70,17 @@ export const getServerSideProps = (async ({ params, resolvedUrl }) => {
     };
   }
 
-  return { props: { story: storyResult.value } };
+  return {
+    props: {
+      story: storyResult.value,
+      fromLanguage: query.from as string,
+      toLanguage: query.to as string,
+    },
+  };
 }) satisfies GetServerSideProps<{
   story: DBStory;
+  fromLanguage: string;
+  toLanguage: string;
 }>;
 
-export default ApproveStoryPage;
+export default ApproveTranslationPage;

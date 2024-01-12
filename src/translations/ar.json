@@ -109,7 +109,14 @@
     "page_title": "ترجم | {protagonist}",
     "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص. ترجم قصة {protagonist} للعالم.",
     "heading": "ترجم قصة <b>{protagonist}</b>",
-    "subheading": "شاركنا بنشر قصصمهم للعالم!",
+    "subheading": "شاركنا بنشر قصصمهم للعالم!"
+  },
+  "ApproveTranslationPage": {
+    "page_title": "مراجعة ترجمة | {protagonist}",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "heading": "مراجعة الترجمة لقصة <b>{protagonist}</b>"
+  },
+  "TranslateForm": {
     "from_language": "من",
     "to_language": "إلى",
     "select_language": "اختر لغة",
@@ -127,7 +134,9 @@
     "wrong_language": "عذراً، اللغة المستخدمة لا تتطابق مع اللغة المختارة بالأعلى، اذا كنت تظن أن هذا غير صحيح، رجاءاً، تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
     "submit": "إضافة",
     "submit_success": "شكراً لك ♥. سنقوم بمراجعة ونشر الترجمة خلال {reviewHours} ساعة كحدٍ أقصى.",
-    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي."
+    "approve_success": "شكراً لك. تم نشر الترجمة.",
+    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "approve": "تأكيد"
   },
   "AllStoriesPage": {
     "page_title": "هم قصص | جميع القصص",
@@ -149,13 +158,22 @@
   "AdminPage": {
     "page_title": "هم قصص | الإدارة",
     "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
-    "approve_stories": "راجع القصص"
+    "approve_stories": "راجع القصص",
+    "approve_translations": "راجع التراجم",
+    "no_stories": "لا توجد قصص للمراجعة بعد",
+    "no_translations": "لا توجد تراجم للترجمة بعد"
   },
   "Pagination": {
     "previous": "السابق",
     "next": "التالي"
   },
   "UnapprovedStoryItem": {
+    "age": "العمر: {age}",
+    "city": "المدينة: {city}",
+    "job": "الوظيفة: {job}",
+    "read_my_story": "مراجعة"
+  },
+  "UnapprovedTranslationItem": {
     "age": "العمر: {age}",
     "city": "المدينة: {city}",
     "job": "الوظيفة: {job}",
