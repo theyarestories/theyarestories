@@ -1,7 +1,8 @@
 import getLanguageByCode from "@/helpers/translations/getLanguageByCode";
+import useIsRtl from "@/hooks/useIsRtl";
 import useTranslatedStory from "@/hooks/useTranslatedStory";
 import { DBStory } from "@/interfaces/database/DBStory";
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { CldImage } from "next-cloudinary";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -12,6 +13,7 @@ type Props = {
 
 function UnapprovedTranslationItem({ story }: Props) {
   const t = useTranslations("UnapprovedTranslationItem");
+  const isRtl = useIsRtl();
   const { translatedStory } = useTranslatedStory(story);
   const unapprovedTranslation = translatedStory.translations.find(
     (translation) => !translation.isApproved
@@ -59,7 +61,11 @@ function UnapprovedTranslationItem({ story }: Props) {
       </h3>
       <p className="text-gray-600 text-sm flex gap-1 justify-center">
         {fromLanguage}
-        <ArrowRightIcon className="w-4" />
+        {isRtl ? (
+          <ArrowLeftIcon className="w-4" />
+        ) : (
+          <ArrowRightIcon className="w-4" />
+        )}
         {toLanguage}
       </p>
       <Link
