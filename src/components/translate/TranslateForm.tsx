@@ -183,6 +183,7 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
         toLanguage
       );
       if (validationResult.isErr()) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
         return err({ errorMessage: "Story fields are not valid" });
       }
 
@@ -387,10 +388,7 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
       {/* story */}
       <InputContainer
         label={t("story")}
-        error={
-          translationFieldsErrors.storyError ||
-          translationFieldsErrors.languageError
-        }
+        error={translationFieldsErrors.storyError}
         required
       >
         <Markdown

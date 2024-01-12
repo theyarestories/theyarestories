@@ -113,3 +113,7 @@
   border-right: 0.25em solid var(--color-border-default);
   border-left: none;
 }
+.wmde-markdown img {
+  display: block;
+  max-width: 20rem;
+}
