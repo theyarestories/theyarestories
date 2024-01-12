@@ -47,7 +47,6 @@ function Paginator({ pageCount, page, onPageChange }: Props) {
       marginPagesDisplayed={1}
       forcePage={page}
       onPageChange={onPageChange}
-      renderOnZeroPageCount={null}
     />
   );
 }
