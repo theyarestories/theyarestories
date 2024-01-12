@@ -18,6 +18,7 @@ import classNames from "@/helpers/style/classNames";
 import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 import { H as HNode } from "@highlight-run/node";
 import Paginator from "@/components/pagination/Paginator";
+import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
 
 const serverApiClient = new ServerApiClient();
 
@@ -145,6 +146,11 @@ export const getServerSideProps = (async ({
     );
     throw new Error(storiesResult.error.errorMessage);
   }
+
+  // filter out unapproved translations
+  storiesResult.value.data = filterApprovedTranslations(
+    storiesResult.value.data
+  );
 
   // sort stories by user's preferred language
   const homeLanguage = req.cookies.home_language;

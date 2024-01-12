@@ -8,6 +8,7 @@ import Layout from "@/components/layout/Layout";
 import sortAndTranslateStories from "@/helpers/stories/sortAndTranslateStories";
 import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 import { H as HNode } from "@highlight-run/node";
+import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
 
 export default function Home({
   stories,
@@ -47,13 +48,12 @@ export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
     };
   }
 
+  // filter out unapproved translations
+  let stories = filterApprovedTranslations(storiesResult.value.data);
+
   // sort stories by user's preferred language
   const homeLanguage = req.cookies.home_language;
-  const stories = sortAndTranslateStories(
-    storiesResult.value.data,
-    homeLanguage,
-    locale
-  );
+  stories = sortAndTranslateStories(stories, homeLanguage, locale);
 
   return { props: { stories } };
 }) satisfies GetServerSideProps<{

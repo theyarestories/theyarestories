@@ -28,6 +28,7 @@ import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useAsyncFn } from "react-use";
 import { H as HNode } from "@highlight-run/node";
+import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
 
 const Markdown = dynamic(
   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
@@ -403,17 +404,16 @@ export const getServerSideProps = (async ({ params, query, resolvedUrl }) => {
     };
   }
 
+  // filter out unapproved translations
+  let story = filterApprovedTranslations([storyResult.value])[0];
+
   // Translate
   const langParam = query.lang;
-  let translatedStory = storyResult.value;
-  if (
-    typeof langParam === "string" &&
-    storyHasLanguage(storyResult.value, langParam)
-  ) {
-    translatedStory = getTranslatedStory(storyResult.value, langParam);
+  if (typeof langParam === "string" && storyHasLanguage(story, langParam)) {
+    story = getTranslatedStory(story, langParam);
   }
 
-  return { props: { story: translatedStory } };
+  return { props: { story: story } };
 }) satisfies GetServerSideProps<{
   story: DBStory;
 }>;

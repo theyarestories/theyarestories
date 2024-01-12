@@ -149,7 +149,8 @@
   "AdminPage": {
     "page_title": "هم قصص | الإدارة",
     "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
-    "approve_stories": "راجع القصص"
+    "approve_stories": "راجع القصص",
+    "approve_translations": "راجع التراجم"
   },
   "Pagination": {
     "previous": "السابق",

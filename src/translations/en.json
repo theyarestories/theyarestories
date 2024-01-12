@@ -149,7 +149,8 @@
   "AdminPage": {
     "page_title": "They are stories | Administration",
     "page_description": "Palestinians are not just numbers. They are stories.",
-    "approve_stories": "Approve stories"
+    "approve_stories": "Approve stories",
+    "approve_translations": "Approve Translations"
   },
   "Pagination": {
     "previous": "Previous",

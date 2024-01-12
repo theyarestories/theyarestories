@@ -23,6 +23,11 @@ function AdminHomePage({
         <section className="space-y-4">
           <h2 className="title-1">{t("approve_stories")}</h2>
           <UnapprovedStoriesList storiesWithPagination={unapprovedStories} />
+
+          <hr />
+
+          <h2 className="title-1">{t("approve_translations")}</h2>
+          <UnapprovedStoriesList storiesWithPagination={unapprovedStories} />
         </section>
       </Container>
     </Layout>
