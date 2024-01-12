@@ -27,7 +27,7 @@ function StoryItem({ story }: Props) {
       </Link>
       <h3 className="font-semibold text-sm">
         {translatedStory.protagonist}{" "}
-        {translatedStory.age ? (
+        {Number.isInteger(translatedStory.age) ? (
           <span className="font-normal">{`(${translatedStory.age})`}</span>
         ) : (
           ""

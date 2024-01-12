@@ -104,7 +104,7 @@ function ProtagonistCombobox({
                       <figcaption className="text-sm">
                         {/* name */}
                         <p className="font-bold">{story.protagonist}</p>
-                        {story.age && (
+                        {Number.isInteger(story.age) && (
                           <p className="">
                             {t.rich("age_bold", {
                               age: story.age,

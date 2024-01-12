@@ -96,7 +96,9 @@ function StoryForm({ mode, unapprovedStory }: Props) {
       story: unapprovedStory.story,
       avatar: unapprovedStory.avatar,
       job: unapprovedStory.job,
-      age: unapprovedStory.age ? String(unapprovedStory.age) : "",
+      age: Number.isInteger(unapprovedStory.age)
+        ? String(unapprovedStory.age)
+        : "",
       tags: unapprovedStory.tags,
     };
   }
