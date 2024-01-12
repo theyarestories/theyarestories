@@ -260,6 +260,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
         selectedLanguage
       );
       if (validationResult.isErr()) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
         return err({ errorMessage: "Story fields are not valid" });
       }
 
@@ -439,7 +440,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
 
       <InputContainer
         label={t("story")}
-        error={storyFieldsErrors.storyError || storyFieldsErrors.languageError}
+        error={storyFieldsErrors.storyError}
         required
       >
         <ThemeMDEditor
