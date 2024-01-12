@@ -175,12 +175,12 @@
     "age": "العمر: {age}",
     "city": "المدينة: {city}",
     "job": "الوظيفة: {job}",
-    "read_my_story": "مراجعة"
+    "review": "مراجعة"
   },
   "UnapprovedTranslationItem": {
     "age": "العمر: {age}",
     "city": "المدينة: {city}",
     "job": "الوظيفة: {job}",
-    "read_my_story": "مراجعة"
+    "review": "مراجعة"
   }
 }
