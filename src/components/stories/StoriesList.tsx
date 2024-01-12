@@ -7,7 +7,7 @@ type Props = {
 
 function StoriesList({ stories }: Props) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 lg:gap-10 gap-4">
+    <div className="stories-grid">
       {stories.map((story) => (
         <StoryItem key={story._id} story={story} />
       ))}

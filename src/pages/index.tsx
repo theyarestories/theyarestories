@@ -8,6 +8,8 @@ import Layout from "@/components/layout/Layout";
 import sortAndTranslateStories from "@/helpers/stories/sortAndTranslateStories";
 import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 import { H as HNode } from "@highlight-run/node";
+import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
+import Banner from "@/components/banner/Banner";
 
 export default function Home({
   stories,
@@ -17,18 +19,21 @@ export default function Home({
   return (
     <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
+        <Banner />
         <StoriesList stories={stories} />
       </Container>
     </Layout>
   );
 }
 
-export const getServerSideProps = (async ({ req, locale }) => {
+export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
   initHighlightNode();
 
   const serverApiClient = new ServerApiClient();
   const storiesResult = await serverApiClient.getStories({
     isHighlighted: true,
+    isApproved: true,
+    limit: 6,
   });
   if (storiesResult.isErr()) {
     HNode.consumeError(
@@ -38,20 +43,19 @@ export const getServerSideProps = (async ({ req, locale }) => {
       },
       undefined,
       undefined,
-      { payload: JSON.stringify(storiesResult.error) }
+      { payload: JSON.stringify(storiesResult.error), resolvedUrl }
     );
     return {
       props: { stories: [] },
     };
   }
 
+  // filter out unapproved translations
+  let stories = filterApprovedTranslations(storiesResult.value.data);
+
   // sort stories by user's preferred language
   const homeLanguage = req.cookies.home_language;
-  const stories = sortAndTranslateStories(
-    storiesResult.value.data,
-    homeLanguage,
-    locale
-  );
+  stories = sortAndTranslateStories(stories, homeLanguage, locale);
 
   return { props: { stories } };
 }) satisfies GetServerSideProps<{

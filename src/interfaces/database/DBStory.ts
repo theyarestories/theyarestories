@@ -6,7 +6,7 @@ export enum SharePlatform {
   whatsapp = "whatsapp",
 }
 
-export interface DBTranslatedFields {
+export interface DBTranslation {
   _id: string;
   translationLanguage: string; // ar
   fromLanguage: string;
@@ -14,6 +14,7 @@ export interface DBTranslatedFields {
   story: string;
   job?: string;
   isApproved: boolean;
+  approvedBy: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -33,15 +34,16 @@ export type DBStory = {
   tags: string[];
   viewsCount: number;
   translationLanguage: string; // ar
-  translations: DBTranslatedFields[];
+  translations: DBTranslation[];
   isApproved: boolean;
+  approvedBy: string | null;
   isHighlighted: boolean;
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
 };
 
-export type RegisteringTranslatedFields = {
+export type RegisteringTranslation = {
   translationLanguage: String; // ar
   fromLanguage: string;
   protagonist: string;
@@ -59,5 +61,5 @@ export type RegisteringStory = {
   age?: number;
   tags?: string[];
   translationLanguage: String; // ar
-  translations: RegisteringTranslatedFields[];
+  translations: RegisteringTranslation[];
 };

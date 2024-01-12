@@ -27,6 +27,7 @@ import { useRouter } from "next/router";
 import { LanguageOption } from "@/interfaces/languages/LanguageOption";
 import mapLanguagesToOptions from "@/helpers/translations/mapLanguagesToOptions";
 import ProtagonistCombobox from "./ProtagonistCombobox";
+import ApiClient from "@/helpers/api-client/apiClient";
 
 type CityOption = {
   name: string;
@@ -45,20 +46,31 @@ type StoryFields = {
 
 type Props = {
   mode: "add" | "edit" | "approve";
+  unapprovedStory?: DBStory;
 };
 
 const languagesOptions = mapLanguagesToOptions(allLanguages);
 
 const serverApiClient = new ServerApiClient();
+const apiClient = new ApiClient();
 const languageDetectorApiClient = new LanguageDetectorApiClient();
 
-function StoryForm({ mode }: Props) {
+function StoryForm({ mode, unapprovedStory }: Props) {
   // Dependencies
   const router = useRouter();
   const t = useTranslations("StoryForm");
 
   // States
-  const [selectedLanguage, setSelectedLanguage] = useState(languagesOptions[0]);
+  let initialSelectedLanguage = languagesOptions[0];
+  if (mode === "approve" && unapprovedStory) {
+    const storyLanguage = languagesOptions.find(
+      (option) => option.code === unapprovedStory.translationLanguage
+    );
+    if (storyLanguage) initialSelectedLanguage = storyLanguage;
+  }
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    initialSelectedLanguage
+  );
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [cityOptions, setCityOptions] = useState(
     cities.map((city) => ({
@@ -66,7 +78,7 @@ function StoryForm({ mode }: Props) {
       value: city.name,
     }))
   );
-  const storyFieldsInitalState = {
+  let storyFieldsInitalState: StoryFields = {
     protagonist: "",
     city: cityOptions[0],
     story: "",
@@ -75,10 +87,22 @@ function StoryForm({ mode }: Props) {
     age: "",
     tags: [],
   };
+  if (mode === "approve" && unapprovedStory) {
+    storyFieldsInitalState = {
+      protagonist: unapprovedStory.protagonist,
+      city:
+        cityOptions.find((option) => option.name === unapprovedStory.city) ||
+        cityOptions[0],
+      story: unapprovedStory.story,
+      avatar: unapprovedStory.avatar,
+      job: unapprovedStory.job,
+      age: unapprovedStory.age ? String(unapprovedStory.age) : "",
+      tags: unapprovedStory.tags,
+    };
+  }
   const [storyFields, setStoryFields] = useState<StoryFields>(
     storyFieldsInitalState
   );
-  console.log(storyFields);
   const [storyFieldsErrors, setStoryFieldsErrors] = useState({
     protagonistError: "",
     cityError: "",
@@ -88,6 +112,7 @@ function StoryForm({ mode }: Props) {
     ageError: "",
     languageError: "",
   });
+  const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 
   // Helpers
   const validateStoryFields = async (
@@ -218,11 +243,14 @@ function StoryForm({ mode }: Props) {
   const [handleSubmitState, handleSubmit] = useAsyncFn(
     async (
       event: FormEvent<HTMLFormElement>,
+      mode: Props["mode"],
       storyFields: StoryFields,
-      selectedLanguage: LanguageOption
+      selectedLanguage: LanguageOption,
+      story?: DBStory
     ): Promise<Result<DBStory, ApiError>> => {
       event.preventDefault();
       setIsSubmittedOnce(true);
+      setIsSubmitSuccess(false);
 
       // 1. validate fields
       const validationResult = await validateStoryFields(
@@ -236,17 +264,44 @@ function StoryForm({ mode }: Props) {
       // 2. map story fields to story
       const mappedStory = mapFieldsToStory(storyFields, selectedLanguage);
 
-      // 3. Create the story
-      const createResult = await serverApiClient.createStory(mappedStory);
-      if (createResult.isErr()) {
-        throw new Error(createResult.error.errorMessage);
+      switch (mode) {
+        case "add": {
+          // 3. create the story
+          const createResult = await serverApiClient.createStory(mappedStory);
+          if (createResult.isErr()) {
+            throw new Error(createResult.error.errorMessage);
+          }
+
+          // 4. Reset all fields
+          setIsSubmitSuccess(true);
+          setIsSubmittedOnce(false);
+          setStoryFields(storyFieldsInitalState);
+          return ok(createResult.value);
+        }
+        case "approve": {
+          // 3. approve the story
+          const approveResult = await apiClient.put<
+            {
+              storyId: string;
+              story: RegisteringStory;
+            },
+            { success: boolean; data: DBStory }
+          >("/api/stories/approve-story", {
+            storyId: story?._id || "",
+            story: mappedStory,
+          });
+          if (approveResult.isErr()) {
+            throw new Error(approveResult.error.errorMessage);
+          }
+
+          setIsSubmitSuccess(true);
+          router.push("/admin");
+          return ok(approveResult.value.data);
+        }
+        default: {
+          throw new Error(`Story form is submitted with unknown mode: ${mode}`);
+        }
       }
-
-      // 4. Reset all fields
-      setIsSubmittedOnce(false);
-      setStoryFields(storyFieldsInitalState);
-
-      return ok(createResult.value);
     }
   );
 
@@ -262,14 +317,14 @@ function StoryForm({ mode }: Props) {
 
   useEffect(
     function setInitialLanguage() {
-      if (router.locale) {
+      if (router.locale && mode === "add") {
         const initialLanguage = languagesOptions.find(
           (language) => language.code === router.locale
         );
         if (initialLanguage) setSelectedLanguage(initialLanguage);
       }
     },
-    [router.locale]
+    [router.locale, mode]
   );
 
   useEffect(() => {
@@ -281,10 +336,33 @@ function StoryForm({ mode }: Props) {
     );
   }, [router.locale, t]);
 
+  // Success message
+  let successMessage = "";
+  if (isSubmitSuccess) {
+    switch (mode) {
+      case "add":
+        successMessage = t("submit_success", {
+          reviewHours: consts.reviewHours,
+        });
+        break;
+      case "approve":
+        successMessage = t("approve_success");
+        break;
+    }
+  }
+
   return (
     <form
       className="space-y-3"
-      onSubmit={(event) => handleSubmit(event, storyFields, selectedLanguage)}
+      onSubmit={(event) =>
+        handleSubmit(
+          event,
+          mode,
+          storyFields,
+          selectedLanguage,
+          unapprovedStory
+        )
+      }
       noValidate
     >
       {/* Language select */}
@@ -359,7 +437,7 @@ function StoryForm({ mode }: Props) {
 
       <InputContainer
         label={t("story")}
-        error={storyFieldsErrors.storyError}
+        error={storyFieldsErrors.storyError || storyFieldsErrors.languageError}
         required
       >
         <ThemeMDEditor
@@ -444,19 +522,11 @@ function StoryForm({ mode }: Props) {
         type="submit"
         loading={handleSubmitState.loading}
         disabled={handleSubmitState.loading}
-        successMessage={
-          handleSubmitState.value && handleSubmitState.value.isOk()
-            ? t("submit_success", { reviewHours: consts.reviewHours })
-            : ""
-        }
+        successMessage={successMessage}
         errorMessage={handleSubmitState.error ? t("something_went_wrong") : ""}
       >
-        {t("submit")}
+        {mode === "approve" ? t("approve") : t("submit")}
       </ThemeButton>
-
-      {storyFieldsErrors.languageError && (
-        <ErrorMessage message={storyFieldsErrors.languageError} />
-      )}
     </form>
   );
 }

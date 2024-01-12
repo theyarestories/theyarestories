@@ -4,7 +4,7 @@ import { Result, err, ok } from "neverthrow";
 import {
   DBStory,
   RegisteringStory,
-  RegisteringTranslatedFields,
+  RegisteringTranslation,
   SharePlatform,
 } from "@/interfaces/database/DBStory";
 import { ServerAdvancedResponse } from "@/interfaces/server/ServerAdvancedResponse";
@@ -25,6 +25,7 @@ export class ServerApiClient {
       page = 1,
       limit = 20,
       isApproved,
+      isTranslationApproved,
       isAscending = false,
       isHighlighted,
       tags,
@@ -42,6 +43,9 @@ export class ServerApiClient {
     }
     if (typeof isApproved === "boolean") {
       query.push(`isApproved=${String(isApproved)}`);
+    }
+    if (typeof isTranslationApproved === "boolean") {
+      query.push(`translations.isApproved=${String(isTranslationApproved)}`);
     }
     if (typeof isHighlighted === "boolean") {
       query.push(`isHighlighted=${String(isHighlighted)}`);
@@ -127,10 +131,10 @@ export class ServerApiClient {
 
   async translateStory(
     storyId: string,
-    translatedFields: RegisteringTranslatedFields
+    translatedFields: RegisteringTranslation
   ) {
     const result = await this.serverApiClient.put<
-      { translatedFields: RegisteringTranslatedFields },
+      { translatedFields: RegisteringTranslation },
       ServerApiResponse<DBStory>
     >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/translate`, {
       translatedFields,
@@ -180,5 +184,44 @@ export class ServerApiClient {
     }
 
     return ok(result.value);
+  }
+
+  async approveStory(token: string, storyId: string, story: RegisteringStory) {
+    const result = await this.serverApiClient.put<
+      RegisteringStory,
+      ServerApiResponse<DBStory>
+    >(
+      `${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/approve`,
+      story,
+      { headers: { Cookie: `token=${token}` } }
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value.data);
+  }
+
+  async approveTranslation(
+    token: string,
+    storyId: string,
+    translationId: string,
+    translation: RegisteringTranslation
+  ) {
+    const result = await this.serverApiClient.put<
+      RegisteringTranslation,
+      ServerApiResponse<DBStory>
+    >(
+      `${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/translations/${translationId}/approve`,
+      translation,
+      { headers: { Cookie: `token=${token}` } }
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value.data);
   }
 }
