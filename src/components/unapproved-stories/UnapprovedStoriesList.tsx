@@ -1,7 +1,6 @@
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import { DBStory } from "@/interfaces/database/DBStory";
 import { ServerAdvancedResponse } from "@/interfaces/server/ServerAdvancedResponse";
-import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useUpdateEffect } from "react-use";
 import Paginator from "../pagination/Paginator";
@@ -16,14 +15,10 @@ const serverApiClient = new ServerApiClient();
 function UnapprovedStoriesList({
   storiesWithPagination: serverStoriesWithPagination,
 }: Props) {
-  // const t = useTranslations("UnapprovedStoriesList");
-
   const [storiesWithPagination, setStoriesWithPagination] = useState(
     serverStoriesWithPagination
   );
   const [page, setPage] = useState(1);
-
-  // console.log("🍉", { page });
 
   const updateStoriesWithPage = async (page: number) => {
     const storiesResult = await serverApiClient.getStories({
@@ -31,7 +26,6 @@ function UnapprovedStoriesList({
       page,
       limit: storiesWithPagination.pagination.limit,
     });
-    console.log("🕵️‍♀️", { page, storiesResult });
 
     if (storiesResult.isOk() && storiesResult.value.data.length > 0) {
       setStoriesWithPagination(storiesResult.value);
