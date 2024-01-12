@@ -150,7 +150,7 @@ export const getServerSideProps = (async ({
   const storiesResult = await serverApiClient.getStories({
     ...filters,
     isApproved: true,
-    limit: 1,
+    limit: 8,
   });
   if (storiesResult.isErr()) {
     HNode.consumeError(
