@@ -129,7 +129,7 @@
     "story": "القصة",
     "name_placeholder": "الاسم بلغة {language}",
     "name_placeholder_fallback": "الاسم مترجم",
-    "job_placeholder": "الاسم بلغة {language}",
+    "job_placeholder": "الوظيفة بلغة {language}",
     "job_placeholder_fallback": "الوظيفة مترجمة",
     "name_required": "رجاءاً، أضف الاسم",
     "job_required": "رجاءاً، أضف الوظيفة",
