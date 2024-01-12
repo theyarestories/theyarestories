@@ -186,7 +186,12 @@ function StoryPage({
   );
 }
 
-export const getServerSideProps = (async ({ params, req, locale }) => {
+export const getServerSideProps = (async ({
+  params,
+  req,
+  locale,
+  resolvedUrl,
+}) => {
   initHighlightNode();
 
   const storyResult = await serverApiClient.getStoryById(
@@ -201,7 +206,7 @@ export const getServerSideProps = (async ({ params, req, locale }) => {
       },
       undefined,
       undefined,
-      { payload: JSON.stringify(storyResult.error) }
+      { payload: JSON.stringify(storyResult.error), resolvedUrl }
     );
     return {
       notFound: true,

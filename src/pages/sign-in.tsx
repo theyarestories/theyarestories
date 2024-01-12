@@ -11,12 +11,14 @@ import { useTranslations } from "next-intl";
 import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import { useAsyncFn } from "react-use";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 
 type Props = {};
 
 const serverApiClient = new ServerApiClient();
 
 function SignInPage({}: Props) {
+  const router = useRouter();
   const t = useTranslations("SignInPage");
 
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
@@ -87,7 +89,8 @@ function SignInPage({}: Props) {
         expires: Number(process.env.NEXT_PUBLIC_JWT_EXPIRE),
       });
 
-      setIsSubmittedOnce(false);
+      // 4. Redirect to admin page
+      router.push("/admin");
 
       return ok(signInResult.value.user);
     }
@@ -105,7 +108,7 @@ function SignInPage({}: Props) {
   return (
     <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
-        <div className="space-y-4">
+        <div className="space-y-4 max-w-md border p-4 rounded-sm mx-auto">
           <h1 className="title-1">{t("heading")}</h1>
 
           <form
@@ -142,7 +145,7 @@ function SignInPage({}: Props) {
             </InputContainer>
 
             <ThemeButton
-              className="w-full py-2.5"
+              className="w-full py-2"
               type="submit"
               loading={handleSubmitState.loading}
               disabled={handleSubmitState.loading}

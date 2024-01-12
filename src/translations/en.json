@@ -12,6 +12,11 @@
     "page_description": "Palestinians are not just numbers. They are stories.",
     "heading": "Add a Story"
   },
+  "ApproveStoryPage": {
+    "page_title": "Approve Story | {protagonist}",
+    "page_description": "Palestinians are not just numbers. They are stories.",
+    "heading": "Approve <b>{protagonist}</b>'s Story"
+  },
   "StoryForm": {
     "language": "Choose story language",
     "name": "Name",
@@ -61,7 +66,9 @@
     "doctor": "doctor",
     "nurse": "nurse",
     "submit": "Submit",
+    "approve": "Approve",
     "submit_success": "Thank you for your effort ♥. We will review and share your story in a maximum of {reviewHours} hours.",
+    "approve_success": "Thank you! The story is now published.",
     "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
     "wrong_language": "Sorry, we detected the story is written in another language than the selected one. If that's not the case, please reach us through any of our social media channels."
   },
@@ -125,8 +132,6 @@
   "AllStoriesPage": {
     "page_title": "They are stories | All Stories",
     "page_description": "Palestinians are not just numbers. They are stories.",
-    "previous": "Previous",
-    "next": "Next",
     "search_stories": "Search the stories"
   },
   "SignInPage": {
@@ -140,5 +145,20 @@
     "sign_in": "Sign in",
     "email_required": "Please, add the email",
     "password_required": "Please, add the password"
+  },
+  "AdminPage": {
+    "page_title": "They are stories | Administration",
+    "page_description": "Palestinians are not just numbers. They are stories.",
+    "approve_stories": "Approve stories"
+  },
+  "Pagination": {
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "UnapprovedStoryItem": {
+    "age": "Age: {age}",
+    "city": "City: {city}",
+    "job": "Job: {job}",
+    "review": "Review"
   }
 }

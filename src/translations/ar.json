@@ -12,6 +12,11 @@
     "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
     "heading": "أضف قصة"
   },
+  "ApproveStoryPage": {
+    "page_title": "مراجعة قصة | {protagonist}",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "heading": "راجع قصة <b>{protagonist}</b>"
+  },
   "StoryForm": {
     "language": "اختر لغة القصة",
     "name": "الاسم",
@@ -61,7 +66,9 @@
     "doctor": "طبيب",
     "nurse": "ممرض",
     "submit": "إضافة",
+    "approve": "تأكيد",
     "submit_success": "شكراً لك ♥. سنقوم بمراجعة ونشر القصة خلال {reviewHours} ساعة كحدٍ أقصى.",
+    "approve_success": "شكراً لك. تم نشر القصة.",
     "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
     "wrong_language": "عذراً، اللغة المستخدمة لا تتطابق مع اللغة المختارة بالأعلى، اذا كنت تظن أن هذا غير صحيح، رجاءاً، تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي."
   },
@@ -125,8 +132,6 @@
   "AllStoriesPage": {
     "page_title": "هم قصص | جميع القصص",
     "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
-    "previous": "السابق",
-    "next": "التالي",
     "search_stories": "ابحث في القصص"
   },
   "SignInPage": {
@@ -140,5 +145,20 @@
     "sign_in": "تسجيل الدخول",
     "email_required": "رجاءاً، أضف البريد الإلكتروني",
     "password_required": "رجاءاً، أضف رمز المرور"
+  },
+  "AdminPage": {
+    "page_title": "هم قصص | الإدارة",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "approve_stories": "راجع القصص"
+  },
+  "Pagination": {
+    "previous": "السابق",
+    "next": "التالي"
+  },
+  "UnapprovedStoryItem": {
+    "age": "العمر: {age}",
+    "city": "المدينة: {city}",
+    "job": "الوظيفة: {job}",
+    "read_my_story": "مراجعة"
   }
 }

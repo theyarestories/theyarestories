@@ -381,7 +381,7 @@ function TranslateStoryPage({
   );
 }
 
-export const getServerSideProps = (async ({ params, query }) => {
+export const getServerSideProps = (async ({ params, query, resolvedUrl }) => {
   initHighlightNode();
 
   const storyResult = await serverApiClient.getStoryById(
@@ -396,7 +396,7 @@ export const getServerSideProps = (async ({ params, query }) => {
       },
       undefined,
       undefined,
-      { payload: JSON.stringify(storyResult.error) }
+      { payload: JSON.stringify(storyResult.error), resolvedUrl }
     );
     return {
       notFound: true,
