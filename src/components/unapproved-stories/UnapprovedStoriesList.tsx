@@ -23,12 +23,15 @@ function UnapprovedStoriesList({
   );
   const [page, setPage] = useState(1);
 
+  // console.log("🍉", { page });
+
   const updateStoriesWithPage = async (page: number) => {
     const storiesResult = await serverApiClient.getStories({
       isApproved: false,
       page,
       limit: storiesWithPagination.pagination.limit,
     });
+    console.log("🕵️‍♀️", { page, storiesResult });
 
     if (storiesResult.isOk() && storiesResult.value.data.length > 0) {
       setStoriesWithPagination(storiesResult.value);
@@ -52,7 +55,7 @@ function UnapprovedStoriesList({
           <Paginator
             pageCount={storiesWithPagination.pagination.totalPages}
             page={page - 1}
-            onPageChange={(value) => setPage(value.selected)}
+            onPageChange={(value) => setPage(value.selected + 1)}
           />
         </div>
       )}

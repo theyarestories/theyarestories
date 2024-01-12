@@ -20,8 +20,8 @@ function AdminHomePage({
   return (
     <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
-        <section>
-          <h2>{t("approve_stories")}</h2>
+        <section className="space-y-4">
+          <h2 className="title-1">{t("approve_stories")}</h2>
           <UnapprovedStoriesList storiesWithPagination={unapprovedStories} />
         </section>
       </Container>

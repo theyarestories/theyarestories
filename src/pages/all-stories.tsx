@@ -68,6 +68,7 @@ export default function AllStoriesPage({
 
     const storiesResult = await serverApiClient.getStories({
       ...filters,
+      isApproved: true,
       limit: storiesWithPagination.pagination.limit,
     });
 
