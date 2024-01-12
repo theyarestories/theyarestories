@@ -46,7 +46,7 @@ type StoryFields = {
 
 type Props = {
   mode: "add" | "edit" | "approve";
-  story?: DBStory;
+  unapprovedStory?: DBStory;
 };
 
 const languagesOptions = mapLanguagesToOptions(allLanguages);
@@ -55,16 +55,16 @@ const serverApiClient = new ServerApiClient();
 const apiClient = new ApiClient();
 const languageDetectorApiClient = new LanguageDetectorApiClient();
 
-function StoryForm({ mode, story }: Props) {
+function StoryForm({ mode, unapprovedStory }: Props) {
   // Dependencies
   const router = useRouter();
   const t = useTranslations("StoryForm");
 
   // States
   let initialSelectedLanguage = languagesOptions[0];
-  if (mode === "approve" && story) {
+  if (mode === "approve" && unapprovedStory) {
     const storyLanguage = languagesOptions.find(
-      (option) => option.code === story.translationLanguage
+      (option) => option.code === unapprovedStory.translationLanguage
     );
     if (storyLanguage) initialSelectedLanguage = storyLanguage;
   }
@@ -87,17 +87,17 @@ function StoryForm({ mode, story }: Props) {
     age: "",
     tags: [],
   };
-  if (mode === "approve" && story) {
+  if (mode === "approve" && unapprovedStory) {
     storyFieldsInitalState = {
-      protagonist: story.protagonist,
+      protagonist: unapprovedStory.protagonist,
       city:
-        cityOptions.find((option) => option.name === story.city) ||
+        cityOptions.find((option) => option.name === unapprovedStory.city) ||
         cityOptions[0],
-      story: story.story,
-      avatar: story.avatar,
-      job: story.job,
-      age: story.age ? String(story.age) : "",
-      tags: story.tags,
+      story: unapprovedStory.story,
+      avatar: unapprovedStory.avatar,
+      job: unapprovedStory.job,
+      age: unapprovedStory.age ? String(unapprovedStory.age) : "",
+      tags: unapprovedStory.tags,
     };
   }
   const [storyFields, setStoryFields] = useState<StoryFields>(
@@ -250,6 +250,7 @@ function StoryForm({ mode, story }: Props) {
     ): Promise<Result<DBStory, ApiError>> => {
       event.preventDefault();
       setIsSubmittedOnce(true);
+      setIsSubmitSuccess(false);
 
       // 1. validate fields
       const validationResult = await validateStoryFields(
@@ -354,7 +355,13 @@ function StoryForm({ mode, story }: Props) {
     <form
       className="space-y-3"
       onSubmit={(event) =>
-        handleSubmit(event, mode, storyFields, selectedLanguage, story)
+        handleSubmit(
+          event,
+          mode,
+          storyFields,
+          selectedLanguage,
+          unapprovedStory
+        )
       }
       noValidate
     >
@@ -430,7 +437,7 @@ function StoryForm({ mode, story }: Props) {
 
       <InputContainer
         label={t("story")}
-        error={storyFieldsErrors.storyError}
+        error={storyFieldsErrors.storyError || storyFieldsErrors.languageError}
         required
       >
         <ThemeMDEditor
@@ -520,10 +527,6 @@ function StoryForm({ mode, story }: Props) {
       >
         {mode === "approve" ? t("approve") : t("submit")}
       </ThemeButton>
-
-      {storyFieldsErrors.languageError && (
-        <ErrorMessage message={storyFieldsErrors.languageError} />
-      )}
     </form>
   );
 }

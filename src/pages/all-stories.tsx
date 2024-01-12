@@ -19,6 +19,7 @@ import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 import { H as HNode } from "@highlight-run/node";
 import Paginator from "@/components/pagination/Paginator";
 import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
+import getHomeLanguage from "@/helpers/translations/getHomeLanguage";
 
 const serverApiClient = new ServerApiClient();
 
@@ -64,7 +65,10 @@ export default function AllStoriesPage({
     });
   };
 
-  const updateStoriesWithQuery = async (query: ParsedUrlQuery) => {
+  const updateStoriesWithQuery = async (
+    query: ParsedUrlQuery,
+    locale: string
+  ) => {
     const filters = getStoryFiltersFromQuery(query);
 
     const storiesResult = await serverApiClient.getStories({
@@ -74,13 +78,27 @@ export default function AllStoriesPage({
     });
 
     if (storiesResult.isOk() && storiesResult.value.data.length > 0) {
+      // filter out unapproved translations
+      storiesResult.value.data = filterApprovedTranslations(
+        storiesResult.value.data
+      );
+
+      // sort stories by user's preferred language
+      const homeLanguage = getHomeLanguage();
+      storiesResult.value.data = sortAndTranslateStories(
+        storiesResult.value.data,
+        homeLanguage,
+        locale
+      );
       setStoriesWithPagination(storiesResult.value);
     }
   };
 
   useEffect(() => {
-    updateStoriesWithQuery(router.query);
-  }, [router.query.page, router.query.search]);
+    if (router.locale) {
+      updateStoriesWithQuery(router.query, router.locale);
+    }
+  }, [router.query.page, router.locale, router.query.search]);
 
   return (
     <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>

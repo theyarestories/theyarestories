@@ -109,7 +109,14 @@
     "page_title": "Translate | {protagonist}",
     "page_description": "Palestinians are not just numbers. They are stories. Translate {protagonist}'s story to the world.",
     "heading": "Translate <b>{protagonist}</b>'s story",
-    "subheading": "Let's share their stories to the world!",
+    "subheading": "Let's share their stories to the world!"
+  },
+  "ApproveTranslationPage": {
+    "page_title": "Approve Translation | {protagonist}",
+    "page_description": "Palestinians are not just numbers. They are stories",
+    "heading": "Approve <b>{protagonist}</b>'s story translation"
+  },
+  "TranslateForm": {
     "from_language": "From",
     "to_language": "To",
     "select_language": "Select language",
@@ -127,7 +134,9 @@
     "wrong_language": "Sorry, we detected the story is written in another language than the selected one. If that's not the case, please reach us through any of our social media channels.",
     "submit": "Submit",
     "submit_success": "Thank you for your effort ♥. We will review and share your translation in a maximum of {reviewHours} hours.",
-    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels."
+    "approve_success": "Thank you! The translation is now published.",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "approve": "Approve"
   },
   "AllStoriesPage": {
     "page_title": "They are stories | All Stories",
@@ -150,13 +159,21 @@
     "page_title": "They are stories | Administration",
     "page_description": "Palestinians are not just numbers. They are stories.",
     "approve_stories": "Approve stories",
-    "approve_translations": "Approve Translations"
+    "approve_translations": "Approve Translations",
+    "no_stories": "No new stories to approve",
+    "no_translations": "No new translations to approve"
   },
   "Pagination": {
     "previous": "Previous",
     "next": "Next"
   },
   "UnapprovedStoryItem": {
+    "age": "Age: {age}",
+    "city": "City: {city}",
+    "job": "Job: {job}",
+    "review": "Review"
+  },
+  "UnapprovedTranslationItem": {
     "age": "Age: {age}",
     "city": "City: {city}",
     "job": "Job: {job}",
