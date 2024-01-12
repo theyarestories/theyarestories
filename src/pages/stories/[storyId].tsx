@@ -132,7 +132,7 @@ function StoryPage({
               <p className="font-bold text-lg mb-2">
                 {translatedStory.protagonist}
               </p>
-              {translatedStory.age && (
+              {Number.isInteger(translatedStory.age) && (
                 <p className="">
                   {t.rich("age_bold", {
                     age: translatedStory.age,

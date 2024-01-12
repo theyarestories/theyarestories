@@ -53,7 +53,7 @@ function UnapprovedTranslationItem({ story }: Props) {
       </Link>
       <h3 className="font-semibold text-sm text-center">
         {translatedStory.protagonist}{" "}
-        {translatedStory.age ? (
+        {Number.isInteger(translatedStory.age) ? (
           <span className="font-normal">{`(${translatedStory.age})`}</span>
         ) : (
           ""
