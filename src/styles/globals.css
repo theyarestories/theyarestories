@@ -16,9 +16,10 @@
   }
 }
 
-body {
-  color: #333;
-  background-color: #fff;
+@layer base {
+  body {
+    @apply bg-white text-gray-900;
+  }
 }
 
 @layer components {

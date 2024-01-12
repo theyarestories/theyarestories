@@ -4,6 +4,10 @@
     "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
     "title": "هم قصص"
   },
+  "Banner": {
+    "not_number": "ليسوا مجرد أرقام.",
+    "but_stories": "هم قصص."
+  },
   "StoriesList": {
     "stories": "القصص"
   },

@@ -9,6 +9,7 @@ import sortAndTranslateStories from "@/helpers/stories/sortAndTranslateStories";
 import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 import { H as HNode } from "@highlight-run/node";
 import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
+import Banner from "@/components/banner/Banner";
 
 export default function Home({
   stories,
@@ -18,6 +19,7 @@ export default function Home({
   return (
     <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
+        <Banner />
         <StoriesList stories={stories} />
       </Container>
     </Layout>
