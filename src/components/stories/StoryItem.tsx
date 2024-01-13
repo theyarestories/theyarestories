@@ -23,6 +23,7 @@ function StoryItem({ story }: Props) {
           height={300}
           crop="fill"
           gravity="auto"
+          priority
         />
       </Link>
       <h3 className="font-semibold text-sm">
