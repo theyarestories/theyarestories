@@ -125,6 +125,7 @@ function StoryPage({
               height={200}
               crop="fill"
               gravity="auto"
+              priority
             />
 
             {/* Protagonist info */}
