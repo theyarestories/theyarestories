@@ -19,8 +19,10 @@ export default function Home({
   return (
     <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
-        <Banner />
-        <StoriesList stories={stories} />
+        <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+          <Banner />
+          <StoriesList stories={stories} />
+        </div>
       </Container>
     </Layout>
   );
@@ -31,10 +33,11 @@ export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
 
   const serverApiClient = new ServerApiClient();
   const storiesResult = await serverApiClient.getStories({
-    isHighlighted: true,
-    isApproved: true,
+    // isHighlighted: true,
+    // isApproved: true,
     limit: 8,
   });
+  console.log("🍉", storiesResult);
   if (storiesResult.isErr()) {
     HNode.consumeError(
       {
