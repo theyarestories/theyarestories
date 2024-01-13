@@ -91,6 +91,7 @@ export default function AllStoriesPage({
         locale
       );
       setStoriesWithPagination(storiesResult.value);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
