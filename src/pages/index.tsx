@@ -33,7 +33,7 @@ export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
   const storiesResult = await serverApiClient.getStories({
     isHighlighted: true,
     isApproved: true,
-    limit: 6,
+    limit: 8,
   });
   if (storiesResult.isErr()) {
     HNode.consumeError(
