@@ -1,13 +1,12 @@
-import { highlightInitConfig } from "@/config/highlight-io/highlightInitConfig";
+import { highlightNextConfig } from "@/config/highlight-io/highlightNextConfig";
 import {
   PageRouterErrorProps,
   pageRouterCustomErrorHandler,
 } from "@highlight-run/next/ssr";
-
 import NextError from "next/error";
 
 export default pageRouterCustomErrorHandler(
-  highlightInitConfig,
+  highlightNextConfig,
   /**
    *
    * This second argument is purely optional.
