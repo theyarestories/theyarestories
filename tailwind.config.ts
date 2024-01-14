@@ -14,7 +14,7 @@ const config: Config = {
       keyframes: {
         pulseBg: {
           "0%, 100%": { backgroundColor: "rgba(187,247,208,1)" },
-          "50%": { backgroundColor: "rgba(187,247,208, 0.5)" },
+          "50%": { backgroundColor: "rgba(187,247,208,0.5)" },
         },
       },
       backgroundImage: {
