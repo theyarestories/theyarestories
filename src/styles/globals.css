@@ -16,9 +16,10 @@
   }
 }
 
-body {
-  color: #333;
-  background-color: #fff;
+@layer base {
+  body {
+    @apply bg-white text-gray-900;
+  }
 }
 
 @layer components {
@@ -32,6 +33,10 @@ body {
 
   .button {
     @apply flex items-center text-sm font-semibold justify-center rounded-sm py-1.5 px-4;
+  }
+
+  .stories-grid {
+    @apply grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 lg:gap-10 gap-4;
   }
 
   .button-primary {
@@ -107,4 +112,8 @@ body {
 :dir(rtl) .wmde-markdown blockquote {
   border-right: 0.25em solid var(--color-border-default);
   border-left: none;
+}
+.wmde-markdown img {
+  display: block;
+  max-width: 20rem;
 }

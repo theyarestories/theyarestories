@@ -3,7 +3,6 @@ import handleApiError from "@/helpers/api-client/handleApiError";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import axiosRetry, { IAxiosRetryConfig } from "axios-retry";
 import { Result, ok } from "neverthrow";
-import { H } from "@highlight-run/next/client";
 
 export default class ApiClient {
   private client: AxiosInstance;
@@ -75,10 +74,11 @@ export default class ApiClient {
 
   async put<TRequest, TResponse>(
     path: string,
-    payload: TRequest
+    payload: TRequest,
+    config: AxiosRequestConfig<any> = { headers: {} }
   ): Promise<Result<TResponse, ApiError>> {
     try {
-      const response = await this.client.put<TResponse>(path, payload);
+      const response = await this.client.put<TResponse>(path, payload, config);
       return ok(response.data);
     } catch (error) {
       return handleApiError<TResponse>(error, {

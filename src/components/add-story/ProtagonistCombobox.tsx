@@ -60,6 +60,7 @@ function ProtagonistCombobox({
         <Combobox.Input
           className="input w-full"
           value={value}
+          displayValue={(_) => value}
           onChange={(event) => {
             onChange(event);
             fetchSuggestions(event);
@@ -91,7 +92,7 @@ function ProtagonistCombobox({
                   >
                     <figure className="flex items-center gap-4">
                       <CldImage
-                        className="object-cover rounded-full"
+                        className="object-cover rounded-full animate-pulse-bg"
                         src={story.avatar.cloudinaryId}
                         alt=""
                         width={60}
@@ -104,7 +105,7 @@ function ProtagonistCombobox({
                       <figcaption className="text-sm">
                         {/* name */}
                         <p className="font-bold">{story.protagonist}</p>
-                        {story.age && (
+                        {Number.isInteger(story.age) && (
                           <p className="">
                             {t.rich("age_bold", {
                               age: story.age,

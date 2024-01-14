@@ -1,16 +1,25 @@
 {
   "IndexPage": {
     "page_title": "هم قصص",
-    "page_description": "",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
     "title": "هم قصص"
+  },
+  "Banner": {
+    "not_number": "ليسوا مجرد أرقام.",
+    "but_stories": "هم قصص."
   },
   "StoriesList": {
     "stories": "القصص"
   },
   "AddStoryPage": {
     "page_title": "أضف قصة",
-    "page_description": "",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
     "heading": "أضف قصة"
+  },
+  "ApproveStoryPage": {
+    "page_title": "مراجعة قصة | {protagonist}",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "heading": "راجع قصة <b>{protagonist}</b>"
   },
   "StoryForm": {
     "language": "اختر لغة القصة",
@@ -61,7 +70,9 @@
     "doctor": "طبيب",
     "nurse": "ممرض",
     "submit": "إضافة",
+    "approve": "تأكيد",
     "submit_success": "شكراً لك ♥. سنقوم بمراجعة ونشر القصة خلال {reviewHours} ساعة كحدٍ أقصى.",
+    "approve_success": "شكراً لك. تم نشر القصة.",
     "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
     "wrong_language": "عذراً، اللغة المستخدمة لا تتطابق مع اللغة المختارة بالأعلى، اذا كنت تظن أن هذا غير صحيح، رجاءاً، تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي."
   },
@@ -100,9 +111,16 @@
   },
   "TranslateStoryPage": {
     "page_title": "ترجم | {protagonist}",
-    "page_description": "ترجم قصة {protagonist} للعالم.",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص. ترجم قصة {protagonist} للعالم.",
     "heading": "ترجم قصة <b>{protagonist}</b>",
-    "subheading": "شاركنا بنشر قصصمهم للعالم!",
+    "subheading": "شاركنا بنشر قصصمهم للعالم!"
+  },
+  "ApproveTranslationPage": {
+    "page_title": "مراجعة ترجمة | {protagonist}",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "heading": "مراجعة الترجمة لقصة <b>{protagonist}</b>"
+  },
+  "TranslateForm": {
     "from_language": "من",
     "to_language": "إلى",
     "select_language": "اختر لغة",
@@ -111,7 +129,7 @@
     "story": "القصة",
     "name_placeholder": "الاسم بلغة {language}",
     "name_placeholder_fallback": "الاسم مترجم",
-    "job_placeholder": "الاسم بلغة {language}",
+    "job_placeholder": "الوظيفة بلغة {language}",
     "job_placeholder_fallback": "الوظيفة مترجمة",
     "name_required": "رجاءاً، أضف الاسم",
     "job_required": "رجاءاً، أضف الوظيفة",
@@ -120,13 +138,13 @@
     "wrong_language": "عذراً، اللغة المستخدمة لا تتطابق مع اللغة المختارة بالأعلى، اذا كنت تظن أن هذا غير صحيح، رجاءاً، تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
     "submit": "إضافة",
     "submit_success": "شكراً لك ♥. سنقوم بمراجعة ونشر الترجمة خلال {reviewHours} ساعة كحدٍ أقصى.",
-    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي."
+    "approve_success": "شكراً لك. تم نشر الترجمة.",
+    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "approve": "تأكيد"
   },
   "AllStoriesPage": {
     "page_title": "هم قصص | جميع القصص",
-    "page_description": "",
-    "previous": "السابق",
-    "next": "التالي",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
     "search_stories": "ابحث في القصص"
   },
   "SignInPage": {
@@ -140,5 +158,29 @@
     "sign_in": "تسجيل الدخول",
     "email_required": "رجاءاً، أضف البريد الإلكتروني",
     "password_required": "رجاءاً، أضف رمز المرور"
+  },
+  "AdminPage": {
+    "page_title": "هم قصص | الإدارة",
+    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "approve_stories": "راجع القصص",
+    "approve_translations": "راجع التراجم",
+    "no_stories": "لا توجد قصص للمراجعة بعد",
+    "no_translations": "لا توجد تراجم للترجمة بعد"
+  },
+  "Pagination": {
+    "previous": "السابق",
+    "next": "التالي"
+  },
+  "UnapprovedStoryItem": {
+    "age": "العمر: {age}",
+    "city": "المدينة: {city}",
+    "job": "الوظيفة: {job}",
+    "review": "مراجعة"
+  },
+  "UnapprovedTranslationItem": {
+    "age": "العمر: {age}",
+    "city": "المدينة: {city}",
+    "job": "الوظيفة: {job}",
+    "review": "مراجعة"
   }
 }

@@ -8,13 +8,13 @@ type Props = {
   story: DBStory;
 };
 
-function StoryItem({ story }: Props) {
-  const t = useTranslations("StoryItem");
+function UnapprovedStoryItem({ story }: Props) {
+  const t = useTranslations("UnapprovedStoryItem");
   const { translatedStory } = useTranslatedStory(story);
 
   return (
     <article className="flex flex-col gap-1 relative">
-      <Link href={`/stories/${translatedStory._id}`}>
+      <Link href={`/admin/approve-story/${translatedStory._id}`}>
         <CldImage
           className="object-cover rounded-sm w-full animate-pulse-bg"
           src={translatedStory.avatar.cloudinaryId}
@@ -34,13 +34,13 @@ function StoryItem({ story }: Props) {
         )}
       </h3>
       <Link
-        href={`/stories/${translatedStory._id}`}
+        href={`/admin/approve-story/${translatedStory._id}`}
         className="button button-primary mt-auto"
       >
-        {t("read_my_story")}
+        {t("review")}
       </Link>
     </article>
   );
 }
 
-export default StoryItem;
+export default UnapprovedStoryItem;

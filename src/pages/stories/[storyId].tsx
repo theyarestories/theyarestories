@@ -7,6 +7,7 @@ import ThemeSelect from "@/components/select/ThemeSelect";
 import SharePlatforms from "@/components/stories/SharePlatforms";
 import allLanguages from "@/config/all-languages/allLanguages";
 import consts from "@/config/consts";
+import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 import getTranslatedStory from "@/helpers/stories/getTranslatedStory";
 import mapLanguageCodesToOptions from "@/helpers/stories/mapLanguageCodesToOptions";
 import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
@@ -25,6 +26,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
+import { H as HNode } from "@highlight-run/node";
+import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
 
 const serverApiClient = new ServerApiClient();
 
@@ -115,13 +118,14 @@ function StoryPage({
           <div className="flex gap-8 items-center">
             {/* Image */}
             <CldImage
-              className="object-cover rounded-full"
+              className="object-cover rounded-full w-36 h-36 sm:w-40 sm:h-40 animate-pulse-bg"
               src={translatedStory.avatar.cloudinaryId}
               alt=""
-              width={150}
-              height={150}
+              width={200}
+              height={200}
               crop="fill"
               gravity="auto"
+              priority
             />
 
             {/* Protagonist info */}
@@ -129,7 +133,7 @@ function StoryPage({
               <p className="font-bold text-lg mb-2">
                 {translatedStory.protagonist}
               </p>
-              {translatedStory.age && (
+              {Number.isInteger(translatedStory.age) && (
                 <p className="">
                   {t.rich("age_bold", {
                     age: translatedStory.age,
@@ -184,29 +188,45 @@ function StoryPage({
   );
 }
 
-export const getServerSideProps = (async ({ params, req, locale }) => {
+export const getServerSideProps = (async ({
+  params,
+  req,
+  locale,
+  resolvedUrl,
+}) => {
+  initHighlightNode();
+
   const storyResult = await serverApiClient.getStoryById(
     params?.storyId as string
   );
 
   if (storyResult.isErr()) {
+    HNode.consumeError(
+      {
+        name: "Error",
+        message: storyResult.error.errorMessage || "",
+      },
+      undefined,
+      undefined,
+      { payload: JSON.stringify(storyResult.error), resolvedUrl }
+    );
     return {
       notFound: true,
     };
   }
 
+  // filter out unapproved translations
+  let story = filterApprovedTranslations([storyResult.value])[0];
+
   // translate
   const homeLanguage = req.cookies.home_language;
-  let translationLanguage = storyResult.value.translationLanguage;
-  if (homeLanguage && storyHasLanguage(storyResult.value, homeLanguage)) {
+  let translationLanguage = story.translationLanguage;
+  if (homeLanguage && storyHasLanguage(story, homeLanguage)) {
     translationLanguage = homeLanguage;
-  } else if (locale && storyHasLanguage(storyResult.value, locale)) {
+  } else if (locale && storyHasLanguage(story, locale)) {
     translationLanguage = locale;
   }
-  const translatedStory = getTranslatedStory(
-    storyResult.value,
-    translationLanguage
-  );
+  const translatedStory = getTranslatedStory(story, translationLanguage);
 
   return { props: { story: translatedStory } };
 }) satisfies GetServerSideProps<{
