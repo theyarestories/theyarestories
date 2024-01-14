@@ -92,7 +92,7 @@ function ProtagonistCombobox({
                   >
                     <figure className="flex items-center gap-4">
                       <CldImage
-                        className="object-cover rounded-full"
+                        className="object-cover rounded-full animate-pulse-bg"
                         src={story.avatar.cloudinaryId}
                         alt=""
                         width={60}

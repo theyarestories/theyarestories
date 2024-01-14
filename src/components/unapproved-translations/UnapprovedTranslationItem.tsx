@@ -42,7 +42,7 @@ function UnapprovedTranslationItem({ story }: Props) {
         }}
       >
         <CldImage
-          className="object-cover rounded-sm w-full"
+          className="object-cover rounded-sm w-full animate-pulse-bg"
           src={translatedStory.avatar.cloudinaryId}
           alt=""
           width={300}

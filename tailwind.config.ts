@@ -8,6 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        "pulse-bg": "pulseBg 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      },
+      keyframes: {
+        pulseBg: {
+          "0%, 100%": { backgroundColor: "rgba(187,247,208,1)" },
+          "50%": { backgroundColor: "rgba(187,247,208,0.5)" },
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
