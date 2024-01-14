@@ -488,7 +488,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
             <XMarkIcon className="w-full" />
           </button>
           <CldImage
-            className="object-cover border rounded-sm"
+            className="object-cover border rounded-sm animate-pulse-bg"
             src={storyFields.avatar.cloudinaryId}
             alt={""}
             width={160}

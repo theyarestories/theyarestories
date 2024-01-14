@@ -118,7 +118,7 @@ function StoryPage({
           <div className="flex gap-8 items-center">
             {/* Image */}
             <CldImage
-              className="object-cover rounded-full w-36 h-36 sm:w-40 sm:h-40"
+              className="object-cover rounded-full w-36 h-36 sm:w-40 sm:h-40 animate-pulse-bg"
               src={translatedStory.avatar.cloudinaryId}
               alt=""
               width={200}
