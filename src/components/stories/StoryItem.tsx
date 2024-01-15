@@ -16,14 +16,13 @@ function StoryItem({ story }: Props) {
     <article className="flex flex-col gap-1 relative">
       <Link href={`/stories/${translatedStory._id}`}>
         <CldImage
-          className="object-cover rounded-sm w-full"
+          className="object-cover rounded-sm w-full animate-pulse-bg"
           src={translatedStory.avatar.cloudinaryId}
           alt=""
           width={300}
           height={300}
           crop="fill"
           gravity="auto"
-          priority
         />
       </Link>
       <h3 className="font-semibold text-sm">

@@ -2,6 +2,7 @@ import Head from "next/head";
 import { ReactNode } from "react";
 import Header from "../header/Header";
 import BottomNavigation from "../bottom-navigation/BottomNavigation";
+import Footer from "../footer/Footer";
 
 type Props = {
   pageTitle: string;
@@ -9,6 +10,7 @@ type Props = {
   children: ReactNode;
   withStickyFooter?: boolean;
   withHeader?: boolean;
+  withFooter?: boolean;
 };
 
 function Layout({
@@ -17,9 +19,10 @@ function Layout({
   children,
   withStickyFooter = true,
   withHeader = true,
+  withFooter = false,
 }: Props) {
   return (
-    <>
+    <div className="flex flex-col min-h-[100vh]">
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} key="desc" />
@@ -29,12 +32,18 @@ function Layout({
 
       <main>{children}</main>
 
+      {withFooter && (
+        <div className="mt-auto">
+          <Footer />
+        </div>
+      )}
+
       {withStickyFooter && (
         <div className="sm:hidden">
           <BottomNavigation />
         </div>
       )}
-    </>
+    </div>
   );
 }
 

@@ -182,5 +182,8 @@
     "city": "City: {city}",
     "job": "Job: {job}",
     "review": "Review"
+  },
+  "Footer": {
+    "join_discord": "Join our community on <link><icon></icon> discord</link>"
   }
 }

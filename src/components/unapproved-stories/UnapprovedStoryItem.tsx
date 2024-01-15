@@ -16,7 +16,7 @@ function UnapprovedStoryItem({ story }: Props) {
     <article className="flex flex-col gap-1 relative">
       <Link href={`/admin/approve-story/${translatedStory._id}`}>
         <CldImage
-          className="object-cover rounded-sm w-full"
+          className="object-cover rounded-sm w-full animate-pulse-bg"
           src={translatedStory.avatar.cloudinaryId}
           alt=""
           width={300}
