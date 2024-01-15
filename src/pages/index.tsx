@@ -10,6 +10,7 @@ import initHighlightNode from "@/helpers/highlight/initHighlightNode";
 import { H as HNode } from "@highlight-run/node";
 import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
 import Banner from "@/components/banner/Banner";
+import Link from "next/link";
 
 export default function Home({
   stories,
@@ -26,6 +27,9 @@ export default function Home({
         <div className="space-y-4 sm:space-y-6 lg:space-y-8">
           <Banner />
           <StoriesList stories={stories} />
+          <Link className="button button-reverse" href="/all-stories">
+            {t("all_stories")}
+          </Link>
         </div>
       </Container>
     </Layout>
