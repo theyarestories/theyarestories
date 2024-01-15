@@ -19,7 +19,7 @@ function Layout({
   children,
   withStickyFooter = true,
   withHeader = true,
-  withFooter = false,
+  withFooter = true,
 }: Props) {
   return (
     <div className="flex flex-col min-h-[100vh]">
