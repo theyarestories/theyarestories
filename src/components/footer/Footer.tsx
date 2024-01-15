@@ -14,7 +14,7 @@ function Footer({}: Props) {
             link: (value) => (
               <a
                 className="border-b border-gray-900 text-bold"
-                href="https://discord.gg/vAvQ8Qsv"
+                href="https://discord.gg/Fpy9f8JX"
                 rel="noopener noreferrer"
                 target="_blank"
               >
