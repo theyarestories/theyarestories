@@ -2,7 +2,8 @@
   "IndexPage": {
     "page_title": "هم قصص",
     "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
-    "title": "هم قصص"
+    "title": "هم قصص",
+    "all_stories": "جميع القصص"
   },
   "Banner": {
     "not_number": "ليسوا مجرد أرقام.",
