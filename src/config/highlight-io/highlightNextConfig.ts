@@ -10,5 +10,5 @@ export const highlightNextConfig: HighlightInitProps = {
     recordHeadersAndBody: true,
     urlBlocklist: [],
   },
-  disableSessionRecording: true,
+  disableSessionRecording: process.env.NEXT_PUBLIC_ENV !== "production",
 };
