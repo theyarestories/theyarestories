@@ -11,20 +11,11 @@ function Footer({}: Props) {
     <footer className="bg-green-200">
       <Container className="!py-3">
         <p className="text-sm text-center">
-          {t.rich("join_discord", {
-            icon: (_) => (
-              <Image
-                className="w-4 h-auto inline"
-                src="/images/icons/discord.svg"
-                alt=""
-                width={0}
-                height={0}
-              />
-            ),
+          {t.rich("need_help", {
             link: (value) => (
               <a
                 className="border-b border-gray-900 text-bold"
-                href="https://discord.gg/vAvQ8Qsv"
+                href="https://twitter.com/theyarestories"
                 rel="noopener noreferrer"
                 target="_blank"
               >
