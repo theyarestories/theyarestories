@@ -23,7 +23,10 @@ export default function Home({
         <div className="space-y-4 sm:space-y-6 lg:space-y-8">
           <Banner />
           <StoriesList stories={stories} />
-          <Link className="button button-reverse" href="/all-stories">
+          <Link
+            className="button button-reverse hidden sm:flex"
+            href="/all-stories"
+          >
             {t("all_stories")}
           </Link>
         </div>
