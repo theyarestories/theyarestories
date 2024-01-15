@@ -63,6 +63,7 @@ function StoryPage({
       )}
       withStickyFooter={false}
       withHeader={false}
+      withFooter={false}
     >
       <CldOgImage
         src={translatedStory.avatar.cloudinaryId}

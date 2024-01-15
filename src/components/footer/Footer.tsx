@@ -1,6 +1,5 @@
 import { useTranslations } from "next-intl";
 import Container from "../container/Container";
-import Image from "next/image";
 
 type Props = {};
 
@@ -11,11 +10,11 @@ function Footer({}: Props) {
     <footer className="bg-green-200">
       <Container className="!py-3">
         <p className="text-sm text-center">
-          {t.rich("need_help", {
+          {t.rich("join_discord", {
             link: (value) => (
               <a
                 className="border-b border-gray-900 text-bold"
-                href="https://twitter.com/theyarestories"
+                href="https://discord.gg/vAvQ8Qsv"
                 rel="noopener noreferrer"
                 target="_blank"
               >

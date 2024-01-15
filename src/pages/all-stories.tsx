@@ -102,11 +102,7 @@ export default function AllStoriesPage({
   }, [router.query.page, router.locale, router.query.search]);
 
   return (
-    <Layout
-      pageTitle={t("page_title")}
-      pageDescription={t("page_description")}
-      withFooter
-    >
+    <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container>
         <div className="space-y-4">
           {/* Search form */}
