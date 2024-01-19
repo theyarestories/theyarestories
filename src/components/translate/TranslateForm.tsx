@@ -300,10 +300,16 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
           <InputContainer label={t("from_language")} required>
             <ThemeSelect<LanguageOption>
               options={mapLanguageCodesToOptions(
-                Object.keys(translatedStory.translations),
+                translatedStory.translations.map(
+                  (translation) => translation.translationLanguage
+                ),
                 languagesOptions
               )}
-              selected={fromLanguage}
+              selected={
+                languagesOptions.find(
+                  (lang) => lang.code === fromLanguage?.code
+                ) || null
+              }
               handleChange={setFromLanguage}
               placeholder={t("select_language")}
             />
