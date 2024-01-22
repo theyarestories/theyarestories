@@ -28,6 +28,8 @@ import { LanguageOption } from "@/interfaces/languages/LanguageOption";
 import mapLanguagesToOptions from "@/helpers/translations/mapLanguagesToOptions";
 import ProtagonistCombobox from "./ProtagonistCombobox";
 import ApiClient from "@/helpers/api-client/apiClient";
+import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
+import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 
 type CityOption = {
   name: string;
@@ -54,6 +56,7 @@ const languagesOptions = mapLanguagesToOptions(allLanguages);
 const serverApiClient = new ServerApiClient();
 const apiClient = new ApiClient();
 const languageDetectorApiClient = new LanguageDetectorApiClient();
+const mixpanelApiClient = new MixpanelApiClient();
 
 function StoryForm({ mode, unapprovedStory }: Props) {
   // Dependencies
@@ -279,6 +282,13 @@ function StoryForm({ mode, unapprovedStory }: Props) {
           setIsSubmitSuccess(true);
           setIsSubmittedOnce(false);
           setStoryFields(storyFieldsInitalState);
+
+          // 5. Send Mixpanel event
+          mixpanelApiClient.event(MixpanelEvent["Write Story"], {
+            "Story Language": selectedLanguage.name,
+            "Story Protagonist": storyFields.protagonist,
+          });
+
           return ok(createResult.value);
         }
         case "approve": {

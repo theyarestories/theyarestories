@@ -1,4 +1,5 @@
 import { LanguageDetectorApiClient } from "@/apis/LanguageDetectorApiClient";
+import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import ThemeButton from "@/components/button/ThemeButton";
 import InputContainer from "@/components/input/InputContainer";
@@ -19,6 +20,7 @@ import {
   RegisteringTranslation,
 } from "@/interfaces/database/DBStory";
 import { LanguageOption } from "@/interfaces/languages/LanguageOption";
+import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
@@ -50,6 +52,7 @@ type Props = {
 const serverApiClient = new ServerApiClient();
 const apiClient = new ApiClient();
 const languageDetectorApiClient = new LanguageDetectorApiClient();
+const mixpanelApiClient = new MixpanelApiClient();
 
 const languagesOptions = mapLanguagesToOptions(allLanguages);
 
@@ -209,6 +212,13 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
           setIsSubmittedOnce(false);
           setTranslationFields(initialTranslationFields);
           setToLanguage(null);
+
+          // 4. Send Mixpanel event
+          mixpanelApiClient.event(MixpanelEvent["Translate Story"], {
+            "Translation Language": toLanguage,
+            "Story ID": storyId,
+            "Story Protagonist": translationFields.protagonist,
+          });
 
           return ok(translateResult.value);
         }
