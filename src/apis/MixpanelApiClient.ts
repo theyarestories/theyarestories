@@ -1,3 +1,4 @@
+import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 import { H as HNext } from "@highlight-run/next/client";
 
 export class MixpanelApiClient {
@@ -6,7 +7,7 @@ export class MixpanelApiClient {
    * @param eventName
    * @param props
    */
-  event(eventName: string, props: object = {}) {
+  event(eventName: MixpanelEvent, props: object = {}) {
     try {
       if ((window as any).mixpanel) {
         (window as any).mixpanel.track(eventName, props);

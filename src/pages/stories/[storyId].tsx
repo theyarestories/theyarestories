@@ -28,8 +28,11 @@ import { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { H as HNode } from "@highlight-run/node";
 import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
+import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
+import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 
 const serverApiClient = new ServerApiClient();
+const mixpanelApiClient = new MixpanelApiClient();
 
 const Markdown = dynamic(
   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
@@ -52,6 +55,10 @@ function StoryPage({
 
   useEffect(() => {
     serverApiClient.incrementStoryViews(story._id);
+    mixpanelApiClient.event(MixpanelEvent["View Story"], {
+      "Story ID": story._id,
+      "Story Protagonist": story.protagonist,
+    });
   }, [story]);
 
   return (
