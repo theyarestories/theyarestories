@@ -7,5 +7,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: string;
     NEXT_PUBLIC_HIGHLIGHT_PROJECT_ID: string;
     NEXT_PUBLIC_ENV: "development" | "staging" | "production";
+    NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN: string;
   }
 }
