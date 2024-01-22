@@ -14,7 +14,9 @@ import { highlightNextConfig } from "@/config/highlight-io/highlightNextConfig";
 import { DM_Serif_Display, Open_Sans } from "next/font/google";
 import classNames from "@/helpers/style/classNames";
 import { useEffect } from "react";
-import { ServerApiClient } from "@/apis/ServerApiClient";
+import Mixpanel from "@/components/mixpanel/Mixpanel";
+import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
+import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -29,7 +31,7 @@ const dmSerif = DM_Serif_Display({
   fallback: ["system-ui", "arial"],
 });
 
-const serverApiClient = new ServerApiClient();
+const mixpanelApiClient = new MixpanelApiClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   // content direction
@@ -40,10 +42,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const translations = require(`@/translations/${router.locale}.json`);
 
   useEffect(function sendVisitEvent() {
-    serverApiClient.createEvent({
-      type: "visit",
-      metadata: {},
-    });
+    mixpanelApiClient.event(MixpanelEvent.visit);
   }, []);
 
   return (
@@ -56,6 +55,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <UserProvider>
             <NextNProgress options={{ showSpinner: false }} color="#22c55e" />
             <HighlightInit {...highlightNextConfig} />
+            <Mixpanel />
             <Component {...pageProps} />
           </UserProvider>
         </NextIntlProvider>
