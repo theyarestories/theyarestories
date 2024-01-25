@@ -14,7 +14,6 @@ import { highlightNextConfig } from "@/config/highlight-io/highlightNextConfig";
 import { DM_Serif_Display, Open_Sans } from "next/font/google";
 import classNames from "@/helpers/style/classNames";
 import { useEffect } from "react";
-import Mixpanel from "@/components/mixpanel/Mixpanel";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 
@@ -55,7 +54,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <UserProvider>
             <NextNProgress options={{ showSpinner: false }} color="#22c55e" />
             <HighlightInit {...highlightNextConfig} />
-            <Mixpanel />
             <Component {...pageProps} />
           </UserProvider>
         </NextIntlProvider>
