@@ -312,6 +312,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
           serverApiClient.createEvent({
             type: EventType.write_story,
             metadata: {
+              storyId: story?._id,
               storyLanguage: selectedLanguage.name,
               storyProtagonist: storyFields.protagonist,
             },
