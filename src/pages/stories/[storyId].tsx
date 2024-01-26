@@ -55,6 +55,7 @@ function StoryPage({
 
   useEffect(() => {
     serverApiClient.incrementStoryViews(story._id);
+    serverApiClient.incrementStatisticsViews();
     mixpanelApiClient.event(MixpanelEvent["View Story"], {
       "Story ID": story._id,
       "Story Protagonist": story.protagonist,
