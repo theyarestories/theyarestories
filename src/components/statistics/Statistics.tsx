@@ -1,11 +1,11 @@
 import consts from "@/config/consts";
 import classNames from "@/helpers/style/classNames";
-import { DBStatistics } from "@/interfaces/database/DBStatistics";
+import { EventType } from "@/interfaces/database/DBEvent";
 import { DateTime } from "luxon";
 import { useTranslations } from "next-intl";
 
 type Props = {
-  statistics: DBStatistics;
+  statistics: { [key in EventType]: number };
 };
 
 function Statistics({ statistics }: Props) {
@@ -16,8 +16,8 @@ function Statistics({ statistics }: Props) {
       DateTime.now().diff(consts.genocideStartDate, ["days"]).toObject().days ||
         0
     ),
-    stories: statistics.writeStoryCount,
-    visits: statistics.visitCount,
+    stories: statistics.write_story,
+    visits: statistics.visit,
   };
 
   return (

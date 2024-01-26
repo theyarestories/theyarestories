@@ -12,7 +12,7 @@ import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslat
 import Banner from "@/components/banner/Banner";
 import Link from "next/link";
 import Statistics from "@/components/statistics/Statistics";
-import { DBStatistics } from "@/interfaces/database/DBStatistics";
+import { EventType } from "@/interfaces/database/DBEvent";
 
 export default function Home({
   stories,
@@ -51,7 +51,7 @@ export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
   const serverApiClient = new ServerApiClient();
 
   // 1. Get statistics
-  const statisticsResult = await serverApiClient.getStatistics();
+  const statisticsResult = await serverApiClient.getEventsStatistics();
   if (statisticsResult.isErr()) {
     HNode.consumeError(
       {
@@ -94,5 +94,5 @@ export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
   return { props: { stories, statistics: statisticsResult.value } };
 }) satisfies GetServerSideProps<{
   stories: DBStory[];
-  statistics: DBStatistics;
+  statistics: { [key in EventType]: number };
 }>;

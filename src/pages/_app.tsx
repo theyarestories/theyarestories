@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 import { ServerApiClient } from "@/apis/ServerApiClient";
+import { EventType } from "@/interfaces/database/DBEvent";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -44,7 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(function sendVisitEvent() {
     mixpanelApiClient.event(MixpanelEvent.visit);
-    serverApiClient.incrementStatisticsVisits();
+    serverApiClient.createEvent({ type: EventType.visit, metadata: {} });
   }, []);
 
   return (
