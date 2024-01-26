@@ -11,17 +11,27 @@ import { H as HNode } from "@highlight-run/node";
 import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
 import Banner from "@/components/banner/Banner";
 import Link from "next/link";
+import Statistics from "@/components/statistics/Statistics";
+import { EventType } from "@/interfaces/database/DBEvent";
 
 export default function Home({
   stories,
+  statistics,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const t = useTranslations("IndexPage");
 
   return (
     <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
-      <Container>
-        <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+      <Container className="!pb-0">
+        <div className="border divide-y">
           <Banner />
+          <div className="bg-green-100 py-4 ">
+            <Statistics statistics={statistics} />
+          </div>
+        </div>
+      </Container>
+      <Container>
+        <div className="space-y-4">
           <StoriesList stories={stories} />
           <Link
             className="button button-reverse hidden sm:flex"
@@ -39,6 +49,23 @@ export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
   initHighlightNode();
 
   const serverApiClient = new ServerApiClient();
+
+  // 1. Get statistics
+  const statisticsResult = await serverApiClient.getEventsStatistics();
+  if (statisticsResult.isErr()) {
+    HNode.consumeError(
+      {
+        name: "Error",
+        message: statisticsResult.error.errorMessage || "",
+      },
+      undefined,
+      undefined,
+      { payload: JSON.stringify(statisticsResult.error), resolvedUrl }
+    );
+    throw new Error(statisticsResult.error.errorMessage);
+  }
+
+  // 2. Get stories
   const storiesResult = await serverApiClient.getStories({
     isHighlighted: true,
     isApproved: true,
@@ -54,9 +81,7 @@ export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
       undefined,
       { payload: JSON.stringify(storiesResult.error), resolvedUrl }
     );
-    return {
-      props: { stories: [] },
-    };
+    throw new Error(storiesResult.error.errorMessage);
   }
 
   // filter out unapproved translations
@@ -66,7 +91,8 @@ export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
   const homeLanguage = req.cookies.home_language;
   stories = sortAndTranslateStories(stories, homeLanguage, locale);
 
-  return { props: { stories } };
+  return { props: { stories, statistics: statisticsResult.value } };
 }) satisfies GetServerSideProps<{
   stories: DBStory[];
+  statistics: { [key in EventType]: number };
 }>;

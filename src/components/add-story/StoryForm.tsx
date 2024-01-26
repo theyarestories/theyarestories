@@ -30,6 +30,7 @@ import ProtagonistCombobox from "./ProtagonistCombobox";
 import ApiClient from "@/helpers/api-client/apiClient";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
+import { EventType } from "@/interfaces/database/DBEvent";
 
 type CityOption = {
   name: string;
@@ -306,6 +307,15 @@ function StoryForm({ mode, unapprovedStory }: Props) {
           if (approveResult.isErr()) {
             throw new Error(approveResult.error.errorMessage);
           }
+
+          // 5. Send database event
+          serverApiClient.createEvent({
+            type: EventType.write_story,
+            metadata: {
+              storyLanguage: selectedLanguage.name,
+              storyProtagonist: storyFields.protagonist,
+            },
+          });
 
           setIsSubmitSuccess(true);
           router.push("/admin");

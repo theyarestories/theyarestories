@@ -16,6 +16,8 @@ import classNames from "@/helpers/style/classNames";
 import { useEffect } from "react";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
+import { ServerApiClient } from "@/apis/ServerApiClient";
+import { EventType } from "@/interfaces/database/DBEvent";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -31,6 +33,7 @@ const dmSerif = DM_Serif_Display({
 });
 
 const mixpanelApiClient = new MixpanelApiClient();
+const serverApiClient = new ServerApiClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   // content direction
@@ -42,6 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(function sendVisitEvent() {
     mixpanelApiClient.event(MixpanelEvent.visit);
+    serverApiClient.createEvent({ type: EventType.visit, metadata: {} });
   }, []);
 
   return (

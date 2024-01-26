@@ -13,7 +13,11 @@ import { SignInRequest } from "@/interfaces/server/SignInRequest";
 import { AuthResponse } from "@/interfaces/server/AuthResponse";
 import { DBUser } from "@/interfaces/database/DBUser";
 import { StoryFilters } from "@/interfaces/server/StoryFilters";
-import { DBEvent, RegisteringEvent } from "@/interfaces/database/DBEvent";
+import {
+  DBEvent,
+  EventType,
+  RegisteringEvent,
+} from "@/interfaces/database/DBEvent";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
@@ -171,6 +175,18 @@ export class ServerApiClient {
     }
 
     return ok(result.value);
+  }
+
+  async getEventsStatistics() {
+    const result = await this.serverApiClient.get<
+      ServerApiResponse<{ [key in EventType]: number }>
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/events/statistics`);
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value.data);
   }
 
   async createEvent(event: RegisteringEvent) {
