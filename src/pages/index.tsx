@@ -11,13 +11,13 @@ import { H as HNode } from "@highlight-run/node";
 import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
 import Banner from "@/components/banner/Banner";
 import Link from "next/link";
-import Statistics from "@/components/statistics/Statistics";
+// import Statistics from "@/components/statistics/Statistics";
 import { EventType } from "@/interfaces/database/DBEvent";
 
 export default function Home({
   stories,
-  statistics,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: // statistics,
+InferGetServerSidePropsType<typeof getServerSideProps>) {
   const t = useTranslations("IndexPage");
 
   return (
@@ -51,19 +51,19 @@ export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
   const serverApiClient = new ServerApiClient();
 
   // 1. Get statistics
-  const statisticsResult = await serverApiClient.getEventsStatistics();
-  if (statisticsResult.isErr()) {
-    HNode.consumeError(
-      {
-        name: "Error",
-        message: statisticsResult.error.errorMessage || "",
-      },
-      undefined,
-      undefined,
-      { payload: JSON.stringify(statisticsResult.error), resolvedUrl }
-    );
-    throw new Error(statisticsResult.error.errorMessage);
-  }
+  // const statisticsResult = await serverApiClient.getEventsStatistics();
+  // if (statisticsResult.isErr()) {
+  //   HNode.consumeError(
+  //     {
+  //       name: "Error",
+  //       message: statisticsResult.error.errorMessage || "",
+  //     },
+  //     undefined,
+  //     undefined,
+  //     { payload: JSON.stringify(statisticsResult.error), resolvedUrl }
+  //   );
+  //   throw new Error(statisticsResult.error.errorMessage);
+  // }
 
   // 2. Get stories
   const storiesResult = await serverApiClient.getStories({
@@ -91,8 +91,13 @@ export const getServerSideProps = (async ({ req, locale, resolvedUrl }) => {
   const homeLanguage = req.cookies.home_language;
   stories = sortAndTranslateStories(stories, homeLanguage, locale);
 
-  return { props: { stories, statistics: statisticsResult.value } };
+  return {
+    props: {
+      stories,
+      // statistics: statisticsResult.value
+    },
+  };
 }) satisfies GetServerSideProps<{
   stories: DBStory[];
-  statistics: { [key in EventType]: number };
+  // statistics: { [key in EventType]: number };
 }>;
