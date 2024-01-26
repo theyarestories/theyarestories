@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 const consts = {
   maxAge: 110,
   minAge: 0,
@@ -5,6 +7,7 @@ const consts = {
   stickyBarHeightInRems: 3.5,
   twitterMaxLetters: 220,
   metaDescriptionMaxLetters: 160,
+  genocideStartDate: DateTime.fromISO("2023-10-07"),
 };
 
 export default consts;

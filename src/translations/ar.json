@@ -186,5 +186,10 @@
   },
   "Footer": {
     "join_discord": "أتحتاج المساعدة؟ اسألنا على <link>Discord</link>"
+  },
+  "Statistics": {
+    "day": "اليوم",
+    "stories": "القصص",
+    "visits": "الزيارات"
   }
 }

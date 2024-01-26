@@ -14,6 +14,7 @@ import { AuthResponse } from "@/interfaces/server/AuthResponse";
 import { DBUser } from "@/interfaces/database/DBUser";
 import { StoryFilters } from "@/interfaces/server/StoryFilters";
 import { DBEvent, RegisteringEvent } from "@/interfaces/database/DBEvent";
+import { DBStatistics } from "@/interfaces/database/DBStatistics";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
@@ -223,5 +224,43 @@ export class ServerApiClient {
     }
 
     return ok(result.value.data);
+  }
+
+  async getStatistics() {
+    const result = await this.serverApiClient.get<
+      ServerApiResponse<DBStatistics>
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/statistics`);
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value.data);
+  }
+
+  async incrementStatisticsVisits() {
+    const result = await this.serverApiClient.put<{}, ServerApiResponse<any>>(
+      `${this.apiBaseUrl}/v${this.apiVersion}/statistics/increment-visits`,
+      {}
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
+  }
+
+  async incrementStatisticsViews() {
+    const result = await this.serverApiClient.put<{}, ServerApiResponse<any>>(
+      `${this.apiBaseUrl}/v${this.apiVersion}/statistics/increment-stories-views`,
+      {}
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
   }
 }
