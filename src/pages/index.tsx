@@ -25,9 +25,9 @@ export default function Home({
       <Container className="!pb-0">
         <div className="border divide-y">
           <Banner />
-          <div className="bg-green-100 py-4 ">
+          {/* <div className="bg-green-100 py-4 ">
             <Statistics statistics={statistics} />
-          </div>
+          </div> */}
         </div>
       </Container>
       <Container>
