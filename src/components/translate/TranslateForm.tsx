@@ -216,7 +216,7 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
 
           // 4. Send Mixpanel event
           mixpanelApiClient.event(MixpanelEvent["Translate Story"], {
-            "Translation Language": toLanguage,
+            "Translation Language": toLanguage?.name,
             "Story ID": storyId,
             "Story Protagonist": translationFields.protagonist,
           });
@@ -245,7 +245,8 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
           serverApiClient.createEvent({
             type: EventType.translate_story,
             metadata: {
-              translationLanguage: toLanguage,
+              translationId: translation?._id,
+              translationLanguage: toLanguage?.code,
               storyId: storyId,
               storyProtagonist: translationFields.protagonist,
             },
