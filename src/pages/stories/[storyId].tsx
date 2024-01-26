@@ -30,6 +30,7 @@ import { H as HNode } from "@highlight-run/node";
 import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
+import { EventType } from "@/interfaces/database/DBEvent";
 
 const serverApiClient = new ServerApiClient();
 const mixpanelApiClient = new MixpanelApiClient();
@@ -55,7 +56,13 @@ function StoryPage({
 
   useEffect(() => {
     serverApiClient.incrementStoryViews(story._id);
-    serverApiClient.incrementStatisticsViews();
+    serverApiClient.createEvent({
+      type: EventType.view_story,
+      metadata: {
+        storyId: story._id,
+        storyProtagonist: story.protagonist,
+      },
+    });
     mixpanelApiClient.event(MixpanelEvent["View Story"], {
       "Story ID": story._id,
       "Story Protagonist": story.protagonist,
