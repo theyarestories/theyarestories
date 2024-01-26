@@ -30,7 +30,7 @@ function Statistics({ statistics }: Props) {
             key === "day" ? "text-red-800" : ""
           )}
         >
-          <span>{t(key)}</span>: {value}
+          {t(key)}: {value}
         </li>
       ))}
     </ul>
