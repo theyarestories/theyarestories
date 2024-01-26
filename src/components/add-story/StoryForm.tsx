@@ -313,7 +313,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
             type: EventType.write_story,
             metadata: {
               storyId: story?._id,
-              storyLanguage: selectedLanguage.name,
+              storyLanguage: selectedLanguage.code,
               storyProtagonist: storyFields.protagonist,
             },
           });
