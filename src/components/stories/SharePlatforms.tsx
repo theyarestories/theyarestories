@@ -28,7 +28,7 @@ function SharePlatforms({ story, className = "" }: Props) {
       platform: SharePlatform.twitter,
       Button: TwitterShareButton,
       Icon: XIcon,
-      title: threeDots(story.story, consts.twitterMaxLetters),
+      title: story.story,
     },
     {
       platform: SharePlatform.facebook,
