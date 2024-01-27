@@ -12,7 +12,7 @@ import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslat
 import Banner from "@/components/banner/Banner";
 import Link from "next/link";
 // import Statistics from "@/components/statistics/Statistics";
-import { EventType } from "@/interfaces/database/DBEvent";
+// import { EventType } from "@/interfaces/database/DBEvent";
 
 export default function Home({
   stories,

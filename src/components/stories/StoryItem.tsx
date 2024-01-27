@@ -31,7 +31,7 @@ function StoryItem({ story }: Props) {
         {story.viewsCount > 0 && (
           <span
             className={classNames(
-              "rounded-full text-xs text-gray-600 gap-0.5 bg-white absolute p-1.5 bg-opacity-100 top-1 flex",
+              "rounded-full text-xs text-gray-600 gap-0.5 bg-white absolute p-1 bg-opacity-70 top-1 flex",
               isRtl ? "left-1" : "right-1"
             )}
           >
