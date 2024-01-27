@@ -51,7 +51,7 @@ function StoryItem({ story }: Props) {
       </h3>
       <Link
         href={`/stories/${translatedStory._id}`}
-        className="button button-primary mt-auto"
+        className="button button-primary mt-auto !px-2"
       >
         {t("read_my_story")}
       </Link>
