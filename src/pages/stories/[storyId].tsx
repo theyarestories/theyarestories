@@ -167,7 +167,7 @@ function StoryPage({
               )}
               <p className="">
                 {t.rich("city_bold", {
-                  city: translatedStory.city,
+                  city: t(translatedStory.city),
                   b: (value) => <b className="font-medium">{value}</b>,
                 })}
               </p>

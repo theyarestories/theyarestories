@@ -185,7 +185,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
     const story: RegisteringStory = {
       protagonist: storyFields.protagonist,
       protagonistTranslations: [storyFields.protagonist],
-      city: storyFields.city.name,
+      city: storyFields.city.value,
       story: storyFields.story,
       translationLanguage: selectedLanguage.code,
       translations: [

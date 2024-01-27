@@ -104,7 +104,25 @@
     "job_bold": "<b>Job</b>: {job}",
     "translate": "Add translation",
     "views_count": "Viewed: {count} times",
-    "language_label": "Read in"
+    "language_label": "Read in",
+
+    "Gaza": "Gaza",
+    "Al-Quds": "Al-Quds",
+    "Bethlehem": "Bethlehem",
+    "Beersheba": "Beersheba",
+    "Al-Khalil": "Al-Khalil",
+    "Al Ramla": "Al Ramla",
+    "Ramallah": "Ramallah",
+    "Yaffa": "Yaffa",
+    "Nablus": "Nablus",
+    "Tulkarm": "Tulkarm",
+    "Jinin": "Jinin",
+    "Baysan": "Baysan",
+    "Nazareth": "Nazareth",
+    "Haifa": "Haifa",
+    "Tiberias": "Tiberias",
+    "Safad": "Safad",
+    "Akka": "Akka"
   },
   "BottomNavigation": {
     "add_story": "Add a Story",
