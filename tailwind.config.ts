@@ -8,6 +8,20 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        watermelon: {
+          50: "#fdebe6",
+          100: "#fbd7cd",
+          200: "#f7af9b",
+          300: "#f6a58f",
+          400: "#f59b82",
+          500: "#dd8c75",
+          600: "#c47c68",
+          700: "#ac6d5b",
+          800: "#935d4e",
+          900: "#7b4e41",
+        },
+      },
       animation: {
         "pulse-bg": "pulseBg 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },

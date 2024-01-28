@@ -25,7 +25,9 @@ function StickyBar({ isStickyTop, children }: Props) {
         <Container className="!py-0">
           <div
             className={classNames(isStickyTop ? "border-b" : "border-t")}
-            style={{ height: consts.stickyBarHeightInRems + "rem" }}
+            style={{
+              height: consts.stickyBarHeightInRems + "rem",
+            }}
           >
             {children}
           </div>

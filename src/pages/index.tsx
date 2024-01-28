@@ -23,12 +23,12 @@ InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
       <Container className="!pb-0">
-        <div className="border divide-y">
-          <Banner />
-          {/* <div className="bg-green-100 py-4 ">
+        {/* <div className="border divide-y border-green-300"> */}
+        <Banner />
+        {/* <div className="bg-green-100 py-4 ">
             <Statistics statistics={statistics} />
           </div> */}
-        </div>
+        {/* </div> */}
       </Container>
       <Container>
         <div className="space-y-4">
