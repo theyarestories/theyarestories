@@ -31,6 +31,7 @@ import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslat
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 import { EventType } from "@/interfaces/database/DBEvent";
+import StoryEmojis from "@/components/story-emojis/StoryEmojis";
 
 const serverApiClient = new ServerApiClient();
 const mixpanelApiClient = new MixpanelApiClient();
@@ -131,6 +132,7 @@ function StoryPage({
             </p>
           )}
 
+          {/* Story header */}
           <div className="flex gap-8 items-center">
             {/* Image */}
             <CldImage
@@ -176,6 +178,10 @@ function StoryPage({
 
           <hr />
 
+          {/* Interactions */}
+          <StoryEmojis story={story} />
+
+          {/* Story body */}
           <Markdown className="leading-8" source={translatedStory.story} />
         </div>
       </Container>
