@@ -176,10 +176,10 @@ function StoryPage({
             </div>
           </div>
 
-          <hr />
-
           {/* Interactions */}
           <StoryEmojis story={story} />
+
+          <hr />
 
           {/* Story body */}
           <Markdown className="leading-8" source={translatedStory.story} />

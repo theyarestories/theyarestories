@@ -1,6 +1,6 @@
 import { EmojiType } from "./EmojiType";
 
-export interface DBLike {
+export interface DBEmoji {
   userId: string;
-  emoji: EmojiType;
+  emojiType: EmojiType;
 }
