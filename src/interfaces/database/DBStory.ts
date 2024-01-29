@@ -1,3 +1,4 @@
+import { DBEmoji } from "./DBEmoji";
 import { DBImage } from "./DBImage";
 
 export enum SharePlatform {
@@ -31,6 +32,7 @@ export type DBStory = {
   shares: {
     [key in SharePlatform]?: number;
   };
+  emojis: DBEmoji[];
   tags: string[];
   viewsCount: number;
   translationLanguage: string; // ar
