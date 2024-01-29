@@ -104,7 +104,25 @@
     "job_bold": "<b>الوظيفة</b>: {job}",
     "translate": "أضف ترجمة",
     "views_count": "{count} رؤية للقصة",
-    "language_label": "اقرأ بال"
+    "language_label": "اقرأ بال",
+
+    "Gaza": "غزة",
+    "Al-Quds": "القدس",
+    "Bethlehem": "بيت لحم",
+    "Beersheba": "بئر السبع",
+    "Al-Khalil": "الخليل",
+    "Al Ramla": "الرملة",
+    "Ramallah": "رام الله",
+    "Yaffa": "يافا",
+    "Nablus": "نابلس",
+    "Tulkarm": "طولكرم",
+    "Jinin": "جنين",
+    "Baysan": "بيسان",
+    "Nazareth": "الناصرة",
+    "Haifa": "حيفا",
+    "Tiberias": "طبريا",
+    "Safad": "صفد",
+    "Akka": "عكا"
   },
   "BottomNavigation": {
     "add_story": "أضف قصة",

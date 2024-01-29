@@ -18,6 +18,7 @@ import {
   EventType,
   RegisteringEvent,
 } from "@/interfaces/database/DBEvent";
+import { DBEmoji } from "@/interfaces/database/DBEmoji";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
@@ -194,6 +195,19 @@ export class ServerApiClient {
       RegisteringEvent,
       ServerApiResponse<DBEvent>
     >(`${this.apiBaseUrl}/v${this.apiVersion}/events`, event);
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
+  }
+
+  async emojiStory(storyId: string, emoji: DBEmoji) {
+    const result = await this.serverApiClient.put<
+      DBEmoji,
+      ServerApiResponse<DBStory>
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/emoji`, emoji);
 
     if (result.isErr()) {
       return err(result.error);

@@ -80,6 +80,10 @@
   .storiesPaginator__break {
     @apply p-2;
   }
+
+  .roseSvg path {
+    @apply transition-all;
+  }
 }
 
 @layer utilities {

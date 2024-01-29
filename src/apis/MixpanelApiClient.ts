@@ -22,4 +22,8 @@ export class MixpanelApiClient {
       HNext.consumeError(error, error.message);
     }
   }
+
+  getUserId(): string {
+    return mixpanel.get_distinct_id();
+  }
 }
