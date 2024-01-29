@@ -10,7 +10,7 @@ function HeartSvg({ isActive, className = "" }: Props) {
     <svg
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
-      className={classNames(className)}
+      className={classNames("svg", className)}
     >
       <path
         className={classNames(
