@@ -10,6 +10,7 @@ import classNames from "@/helpers/style/classNames";
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 import useMixpanelId from "@/hooks/useMixpanelId";
+import CandleSvg from "../svgs/CandleSvg";
 
 const mixpanelApiClient = new MixpanelApiClient();
 const serverApiClient = new ServerApiClient();
@@ -32,15 +33,23 @@ function StoryEmojis({ story }: Props) {
       Icon: RoseSvg,
       count: countEmojiType(story, EmojiType.rose),
     },
+    {
+      type: EmojiType.candle,
+      isActive: false,
+      Icon: CandleSvg,
+      count: countEmojiType(story, EmojiType.candle),
+    },
   ]);
 
-  const handleClick = (emojiType: EmojiType) => {
+  const handleClick = (emojiType: EmojiType, prevIsActive: boolean) => {
     // 1. Send Mixpanel event
-    mixpanelApiClient.event(MixpanelEvent["Like Story"], {
-      "Story ID": story._id,
-      "Story Protagonist": story.protagonist,
-      "Story Language": story.translationLanguage,
-    });
+    if (!prevIsActive) {
+      mixpanelApiClient.event(MixpanelEvent["Like Story"], {
+        "Story ID": story._id,
+        "Story Protagonist": story.protagonist,
+        "Story Language": story.translationLanguage,
+      });
+    }
 
     // 2. Update state
     setEmojis((prevEmojis) => {
@@ -79,13 +88,13 @@ function StoryEmojis({ story }: Props) {
       {emojis.map(({ type, Icon, isActive, count }) => (
         <li key={type}>
           <button
-            className="items-center flex gap-0.5"
+            className="items-center flex gap-0"
             type="button"
-            onClick={() => handleClick(type)}
+            onClick={() => handleClick(type, isActive)}
           >
-            <Icon isActive={isActive} className="w-9" />
+            <Icon isActive={isActive} className="w-10" />
             <span
-              className={classNames("text-sm", count === 0 ? "opacity-0" : "")}
+              className={classNames("text-sm", count <= 0 ? "opacity-0" : "")}
             >
               {count}
             </span>

@@ -81,8 +81,8 @@
     @apply p-2;
   }
 
-  .roseSvg path {
-    @apply transition-all;
+  .svg path {
+    @apply transition-all duration-300;
   }
 }
 
