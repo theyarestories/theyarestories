@@ -7,7 +7,7 @@ function RoseSvg({ isActive, className = "" }: Props) {
     <svg
       viewBox="0 0 64 64"
       xmlns="http://www.w3.org/2000/svg"
-      className={classNames("roseSvg", className)}
+      className={classNames("svg", className)}
     >
       <path
         fill={isActive ? "#75a843" : "#999"}
