@@ -88,11 +88,11 @@ function StoryEmojis({ story }: Props) {
       {emojis.map(({ type, Icon, isActive, count }) => (
         <li key={type}>
           <button
-            className="items-center flex gap-0"
+            className="items-center flex gap-0.5"
             type="button"
             onClick={() => handleClick(type, isActive)}
           >
-            <Icon isActive={isActive} className="w-10" />
+            <Icon isActive={isActive} className="w-8" />
             <span
               className={classNames("text-sm", count <= 0 ? "opacity-0" : "")}
             >
