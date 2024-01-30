@@ -21,24 +21,24 @@ function StoryEmojis({ story }: Props) {
   const userId = useMixpanelId();
 
   const [emojis, setEmojis] = useState([
-    // {
-    //   type: EmojiType.heart,
-    //   isActive: false,
-    //   Icon: HeartSvg,
-    //   count: countEmojiType(story, EmojiType.heart),
-    // },
+    {
+      type: EmojiType.heart,
+      isActive: false,
+      Icon: HeartSvg,
+      count: countEmojiType(story, EmojiType.heart),
+    },
     // {
     //   type: EmojiType.rose,
     //   isActive: false,
     //   Icon: RoseSvg,
     //   count: countEmojiType(story, EmojiType.rose),
     // },
-    {
-      type: EmojiType.candle,
-      isActive: false,
-      Icon: CandleSvg,
-      count: countEmojiType(story, EmojiType.candle),
-    },
+    // {
+    //   type: EmojiType.candle,
+    //   isActive: false,
+    //   Icon: CandleSvg,
+    //   count: countEmojiType(story, EmojiType.candle),
+    // },
   ]);
 
   const handleClick = (emojiType: EmojiType, prevIsActive: boolean) => {
