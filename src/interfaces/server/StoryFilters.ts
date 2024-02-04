@@ -5,6 +5,7 @@ export interface StoryFilters {
   isTranslationApproved?: boolean;
   isAscending?: boolean;
   isHighlighted?: boolean;
+  isDeleted?: boolean;
   tags?: string[];
   search?: string;
 }

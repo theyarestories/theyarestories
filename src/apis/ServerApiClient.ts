@@ -25,22 +25,25 @@ export class ServerApiClient {
   private readonly apiVersion = 1;
   private readonly serverApiClient = new ApiClient();
 
-  async getStories(
-    {
-      page = 1,
-      limit = 20,
-      isApproved,
-      isTranslationApproved,
-      isAscending = false,
-      isHighlighted,
-      tags,
-      search,
-    }: StoryFilters = {
-      page: 1,
-      limit: 20,
-      isAscending: false,
-    }
-  ): Promise<Result<ServerAdvancedResponse<DBStory[]>, ApiError>> {
+  async getStories({
+    page = 1,
+    limit = 20,
+    isApproved,
+    isTranslationApproved,
+    isAscending = false,
+    isHighlighted,
+    isDeleted,
+    tags,
+    search,
+  }: StoryFilters): Promise<
+    Result<ServerAdvancedResponse<DBStory[]>, ApiError>
+  > {
+    // Add default values
+    if (!page) page = 1;
+    if (!limit) limit = 20;
+    if (!isAscending) isAscending = false;
+    if (!isDeleted) isDeleted = false;
+
     // Build the query
     let query = [];
     if (typeof isAscending === "boolean") {
@@ -54,6 +57,9 @@ export class ServerApiClient {
     }
     if (typeof isHighlighted === "boolean") {
       query.push(`isHighlighted=${String(isHighlighted)}`);
+    }
+    if (typeof isDeleted === "boolean") {
+      query.push(`isDeleted=${String(isDeleted)}`);
     }
     if (limit) {
       query.push(`limit=${limit}`);
