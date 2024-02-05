@@ -24,6 +24,7 @@ function SignInForm({ successCallback = () => {} }: Props) {
 
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [credentials, setCredentials] = useState<SignInRequest>({
+    mixpanelId: mixpanelApiClient.getUserId(),
     email: "",
     password: "",
   });

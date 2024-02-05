@@ -1,6 +1,5 @@
 export interface DBUser {
   _id: string;
-  mixpanelId: string;
   username: string;
   email: string;
   password: string;
