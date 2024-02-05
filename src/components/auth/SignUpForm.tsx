@@ -16,6 +16,7 @@ import * as EmailValidator from "email-validator";
 import Link from "next/link";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
+import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 
 type Props = {
   successCallback?: Function;
@@ -116,7 +117,12 @@ function SignUpForm({ successCallback = () => {} }: Props) {
       // 4. set Mixpanel ID
       mixpanelApiClient.identify(SignUpResult.value.user._id);
 
-      // 5. Success callback
+      // 5. Send events
+      mixpanelApiClient.event(MixpanelEvent["Sign up"], {
+        username: credentials.username,
+      });
+
+      // 6. Success callback
       successCallback();
 
       return ok(SignUpResult.value.user);
