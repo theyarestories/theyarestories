@@ -185,6 +185,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
     const story: RegisteringStory = {
       protagonist: storyFields.protagonist,
       protagonistTranslations: [storyFields.protagonist],
+      author: mixpanelApiClient.getUserId(),
       city: storyFields.city.value,
       story: storyFields.story,
       translationLanguage: selectedLanguage.code,
@@ -193,6 +194,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
           fromLanguage: selectedLanguage.code,
           translationLanguage: selectedLanguage.code,
           protagonist: storyFields.protagonist,
+          author: mixpanelApiClient.getUserId(),
           story: storyFields.story,
           job: storyFields.job,
         },
