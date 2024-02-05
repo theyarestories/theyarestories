@@ -21,6 +21,7 @@
     "axios-retry": "^3.8.1",
     "browser-or-node": "^3.0.0-pre.0",
     "cloudinary": "^1.41.0",
+    "email-validator": "^2.0.4",
     "js-cookie": "^3.0.5",
     "luxon": "^3.4.4",
     "mixpanel-browser": "^2.48.1",
