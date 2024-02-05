@@ -177,6 +177,24 @@ export class ServerApiClient {
     return ok(result.value.data[0]);
   }
 
+  async getUserByUsername(username: string): Promise<Result<DBUser, ApiError>> {
+    const result = await this.serverApiClient.get<
+      ServerAdvancedResponse<DBUser[]>
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/users?username=${username}`);
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    if (result.value.data.length === 0) {
+      return err({
+        errorMessage: `User with username ${username} doesn't exist`,
+      });
+    }
+
+    return ok(result.value.data[0]);
+  }
+
   async signUp(credentials: SignUpRequest) {
     const result = await this.serverApiClient.post<SignUpRequest, AuthResponse>(
       `${this.apiBaseUrl}/v${this.apiVersion}/auth/register`,

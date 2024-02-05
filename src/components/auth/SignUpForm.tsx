@@ -7,7 +7,13 @@ import { ApiError } from "@/interfaces/api-client/Error";
 import { DBUser } from "@/interfaces/database/DBUser";
 import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
-import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useAsyncFn } from "react-use";
 import Cookies from "js-cookie";
 import { SignUpRequest } from "@/interfaces/server/SignUpRequest";
@@ -17,6 +23,7 @@ import Link from "next/link";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
+import { UserContext, UserContextType } from "@/contexts/UserContext";
 
 type Props = {
   successCallback?: Function;
@@ -27,6 +34,7 @@ const mixpanelApiClient = new MixpanelApiClient();
 
 function SignUpForm({ successCallback = () => {} }: Props) {
   const t = useTranslations("SignUpForm");
+  const { setUser } = useContext(UserContext) as UserContextType;
 
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [credentials, setCredentials] = useState<SignUpRequest>({
@@ -52,6 +60,12 @@ function SignUpForm({ successCallback = () => {} }: Props) {
       usernameError = t("username_exceeds_max_letters", {
         max: consts.maxUsernameLetters,
       });
+    } else if (!consts.usernameRegex.test(fields.username)) {
+      usernameError = t("character_not_allowed");
+    } else if (
+      (await serverApiClient.getUserByUsername(fields.username)).isOk()
+    ) {
+      usernameError = t("duplicate_username");
     }
 
     // email
@@ -108,6 +122,7 @@ function SignUpForm({ successCallback = () => {} }: Props) {
       if (SignUpResult.isErr()) {
         throw new Error(SignUpResult.error.errorMessage);
       }
+      setUser(SignUpResult.value.user);
 
       // 3. Set auth cookie
       Cookies.set("token", SignUpResult.value.token, {

@@ -6,11 +6,18 @@ import { DBUser } from "@/interfaces/database/DBUser";
 import { SignInRequest } from "@/interfaces/server/SignInRequest";
 import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
-import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useAsyncFn } from "react-use";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
+import { UserContext, UserContextType } from "@/contexts/UserContext";
 
 type Props = {
   successCallback?: Function;
@@ -21,6 +28,7 @@ const mixpanelApiClient = new MixpanelApiClient();
 
 function SignInForm({ successCallback = () => {} }: Props) {
   const t = useTranslations("SignInForm");
+  const { setUser } = useContext(UserContext) as UserContextType;
 
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [credentials, setCredentials] = useState<SignInRequest>({
@@ -85,6 +93,7 @@ function SignInForm({ successCallback = () => {} }: Props) {
       if (signInResult.isErr()) {
         throw new Error(signInResult.error.errorMessage);
       }
+      setUser(signInResult.value.user);
 
       // 3. Set auth cookie
       Cookies.set("token", signInResult.value.token, {

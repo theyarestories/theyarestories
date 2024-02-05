@@ -9,6 +9,7 @@ const consts = {
   metaDescriptionMaxLetters: 160,
   genocideStartDate: DateTime.fromISO("2023-10-07"),
   maxUsernameLetters: 36,
+  usernameRegex: /^[a-zA-Z0-9_]+$/,
 };
 
 export default consts;
