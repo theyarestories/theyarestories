@@ -8,7 +8,13 @@ import { ApiError } from "@/interfaces/api-client/Error";
 import { DBStory, RegisteringStory } from "@/interfaces/database/DBStory";
 import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
-import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useAsyncFn } from "react-use";
 import { LanguageDetectorApiClient } from "@/apis/LanguageDetectorApiClient";
 import ErrorMessage from "@/components/alerts/ErrorMessage";
@@ -31,6 +37,7 @@ import ApiClient from "@/helpers/api-client/apiClient";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 import { EventType } from "@/interfaces/database/DBEvent";
+import { UserContext, UserContextType } from "@/contexts/UserContext";
 
 type CityOption = {
   name: string;
@@ -61,6 +68,7 @@ const mixpanelApiClient = new MixpanelApiClient();
 
 function StoryForm({ mode, unapprovedStory }: Props) {
   // Dependencies
+  const { user } = useContext(UserContext) as UserContextType;
   const router = useRouter();
   const t = useTranslations("StoryForm");
 
@@ -185,7 +193,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
     const story: RegisteringStory = {
       protagonist: storyFields.protagonist,
       protagonistTranslations: [storyFields.protagonist],
-      author: mixpanelApiClient.getUserId(),
+      author: user ? user._id : mixpanelApiClient.getUserId(),
       city: storyFields.city.value,
       story: storyFields.story,
       translationLanguage: selectedLanguage.code,
@@ -194,7 +202,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
           fromLanguage: selectedLanguage.code,
           translationLanguage: selectedLanguage.code,
           protagonist: storyFields.protagonist,
-          author: mixpanelApiClient.getUserId(),
+          author: user ? user._id : mixpanelApiClient.getUserId(),
           story: storyFields.story,
           job: storyFields.job,
         },

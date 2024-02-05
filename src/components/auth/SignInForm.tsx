@@ -91,7 +91,7 @@ function SignInForm({ successCallback = () => {} }: Props) {
       });
 
       // 4. set Mixpanel ID
-      mixpanelApiClient.identifyById(signInResult.value.user.mixpanelId);
+      mixpanelApiClient.identify(signInResult.value.user._id);
 
       // 5. Success callback
       successCallback();

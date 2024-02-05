@@ -27,7 +27,7 @@ export class MixpanelApiClient {
     return mixpanel.get_distinct_id();
   }
 
-  identifyById(id: string) {
+  identify(id: string) {
     mixpanel.identify(id);
   }
 }

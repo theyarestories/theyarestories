@@ -26,9 +26,16 @@ import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Skeleton from "react-loading-skeleton";
 import { useAsyncFn } from "react-use";
+import { UserContext, UserContextType } from "@/contexts/UserContext";
 
 const Markdown = dynamic(
   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
@@ -59,6 +66,7 @@ const mixpanelApiClient = new MixpanelApiClient();
 const languagesOptions = mapLanguagesToOptions(allLanguages);
 
 function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
+  const { user } = useContext(UserContext) as UserContextType;
   const router = useRouter();
   const t = useTranslations("TranslateForm");
 
@@ -86,7 +94,7 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
   let initialTranslationFields = {
-    author: mixpanelApiClient.getUserId(),
+    author: user ? user._id : mixpanelApiClient.getUserId(),
     protagonist: "",
     story: "",
     job: "",

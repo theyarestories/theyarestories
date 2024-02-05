@@ -113,7 +113,10 @@ function SignUpForm({ successCallback = () => {} }: Props) {
         expires: Number(process.env.NEXT_PUBLIC_JWT_EXPIRE),
       });
 
-      // 4. Success callback
+      // 4. set Mixpanel ID
+      mixpanelApiClient.identify(SignUpResult.value.user._id);
+
+      // 5. Success callback
       successCallback();
 
       return ok(SignUpResult.value.user);
