@@ -1,8 +1,6 @@
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import ThemeButton from "@/components/button/ThemeButton";
-import Container from "@/components/container/Container";
 import InputContainer from "@/components/input/InputContainer";
-import Layout from "@/components/layout/Layout";
 import { ApiError } from "@/interfaces/api-client/Error";
 import { DBUser } from "@/interfaces/database/DBUser";
 import { SignInRequest } from "@/interfaces/server/SignInRequest";
@@ -11,15 +9,17 @@ import { useTranslations } from "next-intl";
 import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import { useAsyncFn } from "react-use";
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
+import Link from "next/link";
+import { HeartIcon } from "@heroicons/react/24/solid";
 
-type Props = {};
+type Props = {
+  successCallback?: Function;
+};
 
 const serverApiClient = new ServerApiClient();
 
-function SignInPage({}: Props) {
-  const router = useRouter();
-  const t = useTranslations("SignInPage");
+function SignInForm({ successCallback = () => {} }: Props) {
+  const t = useTranslations("SignInForm");
 
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [credentials, setCredentials] = useState<SignInRequest>({
@@ -89,8 +89,8 @@ function SignInPage({}: Props) {
         expires: Number(process.env.NEXT_PUBLIC_JWT_EXPIRE),
       });
 
-      // 4. Redirect to admin page
-      router.push("/admin");
+      // 4. Success callback
+      successCallback();
 
       return ok(signInResult.value.user);
     }
@@ -104,67 +104,63 @@ function SignInPage({}: Props) {
     },
     [isSubmittedOnce, credentials]
   );
-
   return (
-    <Layout pageTitle={t("page_title")} pageDescription={t("page_description")}>
-      <Container>
-        <div className="space-y-4 max-w-md border p-4 rounded-sm mx-auto">
-          <h1 className="title-1">{t("heading")}</h1>
+    <form
+      noValidate
+      className="space-y-4"
+      onSubmit={(event) => handleSubmit(event, credentials)}
+    >
+      <InputContainer
+        label={t("email")}
+        required
+        error={credentialsErrors.emailError}
+      >
+        <input
+          className="w-full input"
+          type="email"
+          name="email"
+          value={credentials.email}
+          onChange={handleChange}
+        />
+      </InputContainer>
 
-          <form
-            noValidate
-            className="space-y-4"
-            onSubmit={(event) => handleSubmit(event, credentials)}
-          >
-            <InputContainer
-              label={t("email")}
-              required
-              error={credentialsErrors.emailError}
-            >
-              <input
-                className="w-full input"
-                type="email"
-                name="email"
-                value={credentials.email}
-                onChange={handleChange}
-              />
-            </InputContainer>
+      <InputContainer
+        label={t("password")}
+        required
+        error={credentialsErrors.passwordError}
+      >
+        <input
+          className="w-full input"
+          type="password"
+          name="password"
+          value={credentials.password}
+          onChange={handleChange}
+        />
+      </InputContainer>
 
-            <InputContainer
-              label={t("password")}
-              required
-              error={credentialsErrors.passwordError}
-            >
-              <input
-                className="w-full input"
-                type="password"
-                name="password"
-                value={credentials.password}
-                onChange={handleChange}
-              />
-            </InputContainer>
+      <ThemeButton
+        className="w-full py-2"
+        type="submit"
+        loading={handleSubmitState.loading}
+        disabled={handleSubmitState.loading}
+        successMessage={
+          handleSubmitState.value && handleSubmitState.value.isOk()
+            ? t("sign_in_success")
+            : ""
+        }
+        errorMessage={handleSubmitState.error ? t("something_went_wrong") : ""}
+      >
+        {t("sign_in")}
+      </ThemeButton>
 
-            <ThemeButton
-              className="w-full py-2"
-              type="submit"
-              loading={handleSubmitState.loading}
-              disabled={handleSubmitState.loading}
-              successMessage={
-                handleSubmitState.value && handleSubmitState.value.isOk()
-                  ? t("sign_in_success")
-                  : ""
-              }
-              errorMessage={
-                handleSubmitState.error ? t("something_went_wrong") : ""
-              }
-            >
-              {t("sign_in")}
-            </ThemeButton>
-          </form>
-        </div>
-      </Container>
-    </Layout>
+      <p className="flex gap-x-1.5">
+        <span>{t("not_member")}</span>
+        <Link href="/signup" className="font-semibold text-green-700 underline">
+          {t("join")}
+        </Link>
+      </p>
+    </form>
   );
 }
 
-export default SignInPage;
+export default SignInForm;

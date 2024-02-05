@@ -70,7 +70,7 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.includes("admin") &&
     !(await isAuthenticated(request))
   ) {
-    response = NextResponse.redirect(new URL(`/sign-in`, request.url));
+    response = NextResponse.redirect(new URL(`/signin`, request.url));
   }
 
   // get preferred language to pass it to frontend to customize the experience

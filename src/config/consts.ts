@@ -8,6 +8,7 @@ const consts = {
   twitterMaxLetters: 220,
   metaDescriptionMaxLetters: 160,
   genocideStartDate: DateTime.fromISO("2023-10-07"),
+  maxUsernameLetters: 36,
 };
 
 export default consts;

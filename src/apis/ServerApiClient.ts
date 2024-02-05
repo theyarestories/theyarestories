@@ -19,6 +19,7 @@ import {
   RegisteringEvent,
 } from "@/interfaces/database/DBEvent";
 import { DBEmoji } from "@/interfaces/database/DBEmoji";
+import { SignUpRequest } from "@/interfaces/server/SignUpRequest";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
@@ -156,6 +157,37 @@ export class ServerApiClient {
     }
 
     return ok(result.value.data);
+  }
+
+  async getUserByEmail(email: string): Promise<Result<DBUser, ApiError>> {
+    const result = await this.serverApiClient.get<
+      ServerAdvancedResponse<DBUser[]>
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/users?email=${email}`);
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    if (result.value.data.length === 0) {
+      return err({
+        errorMessage: `User with email ${email} doesn't exist`,
+      });
+    }
+
+    return ok(result.value.data[0]);
+  }
+
+  async signUp(credentials: SignUpRequest) {
+    const result = await this.serverApiClient.post<SignUpRequest, AuthResponse>(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/register`,
+      credentials
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
   }
 
   async signIn(credentials: SignInRequest) {

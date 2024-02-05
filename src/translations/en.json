@@ -87,7 +87,8 @@
   },
   "Header": {
     "add_story": "Add a Story",
-    "all_stories": "All Stories"
+    "all_stories": "All Stories",
+    "sign_up": "Sign up"
   },
   "Logo": {
     "logo": "They are Stories"
@@ -166,18 +167,6 @@
     "page_description": "Palestinians are not just numbers. They are stories.",
     "search_stories": "Search the stories"
   },
-  "SignInPage": {
-    "page_title": "They are Stories | Sign In",
-    "page_description": "",
-    "heading": "Sign in",
-    "email": "Email",
-    "password": "Password",
-    "sign_in_success": "You have successfully signed in",
-    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
-    "sign_in": "Sign in",
-    "email_required": "Please, add the email",
-    "password_required": "Please, add the password"
-  },
   "AdminPage": {
     "page_title": "They are stories | Administration",
     "page_description": "Palestinians are not just numbers. They are stories.",
@@ -209,5 +198,49 @@
     "day": "day",
     "stories": "stories",
     "visits": "visits"
+  },
+  "SignInPage": {
+    "page_title": "They are Stories | Sign In",
+    "page_description": "",
+    "heading": "Sign in"
+  },
+  "SignInModal": {
+    "sign_in": "Sign in"
+  },
+  "SignInForm": {
+    "email": "Email",
+    "password": "Password",
+    "sign_in_success": "You have successfully signed in",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "sign_in": "Sign in",
+    "email_required": "Please, add the email",
+    "password_required": "Please, add the password",
+    "not_member": "Not a member yet?",
+    "join": "Join the community"
+  },
+  "SignUpPage": {
+    "page_title": "They are Stories | Sign Up",
+    "page_description": "",
+    "heading": "Sign up"
+  },
+  "SignUpModal": {
+    "sign_up": "Sign up"
+  },
+  "SignUpForm": {
+    "earn_badges": "Get rewarded with badges and points for your reading, contributions, and translation efforts <icon></icon>",
+    "username": "Name",
+    "email": "Email",
+    "password": "Password",
+    "sign_up_success": "You have successfully signed up",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "sign_up": "Sign up",
+    "email_required": "Please, add the email",
+    "email_invalid": "Sorry, the email you entered is invalid",
+    "password_required": "Please, add the password",
+    "username_required": "Please, add your name",
+    "username_exceeds_max_letters": "Sorry, the name you entered exceeds the maximum length of {max} letters",
+    "duplicate_email": "Sorry, there's an account with this email. Sign in instead?",
+    "already_member": "Already a member?",
+    "sign_in": "Sign in"
   }
 }
