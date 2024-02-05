@@ -14,7 +14,6 @@ import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
 import getLanguageByCode from "@/helpers/translations/getLanguageByCode";
 import mapLanguagesToOptions from "@/helpers/translations/mapLanguagesToOptions";
 import { ApiError } from "@/interfaces/api-client/Error";
-import { EventType } from "@/interfaces/database/DBEvent";
 import {
   DBStory,
   DBTranslation,
@@ -251,17 +250,6 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
           if (approveResult.isErr()) {
             throw new Error(approveResult.error.errorMessage);
           }
-
-          // 3. Send database event
-          serverApiClient.createEvent({
-            type: EventType.translate_story,
-            metadata: {
-              translationId: translation?._id,
-              translationLanguage: toLanguage?.code,
-              storyId: storyId,
-              storyProtagonist: translationFields.protagonist,
-            },
-          });
 
           setIsSubmitSuccess(true);
           router.push("/admin");

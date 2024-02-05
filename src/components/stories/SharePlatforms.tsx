@@ -1,9 +1,9 @@
+import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { ServerApiClient } from "@/apis/ServerApiClient";
-import consts from "@/config/consts";
-import threeDots from "@/helpers/string/threeDots";
 import classNames from "@/helpers/style/classNames";
 import getUrlOrigin from "@/helpers/url/getUrlOrigin";
 import { DBStory, SharePlatform } from "@/interfaces/database/DBStory";
+import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -19,6 +19,7 @@ type Props = {
 };
 
 const serverApiClient = new ServerApiClient();
+const mixpanelApiClient = new MixpanelApiClient();
 
 function SharePlatforms({ story, className = "" }: Props) {
   const shareUrl = `${getUrlOrigin()}/stories/${story._id}`;
@@ -29,12 +30,14 @@ function SharePlatforms({ story, className = "" }: Props) {
       Button: TwitterShareButton,
       Icon: XIcon,
       title: story.story,
+      hashtags: ["theyarestories"],
     },
     {
       platform: SharePlatform.facebook,
       Button: FacebookShareButton,
       Icon: FacebookIcon,
       title: story.story,
+      hashtag: "theyarestories",
     },
     {
       platform: SharePlatform.whatsapp,
@@ -46,15 +49,22 @@ function SharePlatforms({ story, className = "" }: Props) {
 
   return (
     <ul className={classNames("flex gap-1", className)}>
-      {platforms.map(({ platform, Button, Icon, title }) => (
-        <li
-          key={platform}
-          className="flex relative"
-          onClick={() =>
-            serverApiClient.incrementStoryShares(story._id, platform)
-          }
-        >
-          <Button url={shareUrl} title={title} className="">
+      {platforms.map(({ platform, Button, Icon, title, hashtag, hashtags }) => (
+        <li key={platform} className="flex relative">
+          <Button
+            onClick={() => {
+              serverApiClient.incrementStoryShares(story._id, platform);
+              mixpanelApiClient.event(MixpanelEvent["Share Story"], {
+                Platform: platform,
+                "Story ID": story._id,
+                "Story Protagonist": story.protagonist,
+              });
+            }}
+            url={shareUrl}
+            title={title}
+            hashtag={hashtag}
+            hashtags={hashtags}
+          >
             <Icon size={40} round />
           </Button>
           {typeof story.shares[platform] === "number" && (
