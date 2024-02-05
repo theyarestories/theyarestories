@@ -39,6 +39,7 @@ const Markdown = dynamic(
 );
 
 type TranslationFields = {
+  author: string;
   protagonist: string;
   story: string;
   job: string;
@@ -85,12 +86,14 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
   let initialTranslationFields = {
+    author: mixpanelApiClient.getUserId(),
     protagonist: "",
     story: "",
     job: "",
   };
   if (mode === "approve" && unapprovedTranslation) {
     initialTranslationFields = {
+      author: unapprovedTranslation.author,
       protagonist: unapprovedTranslation.protagonist,
       story: unapprovedTranslation.story,
       job: unapprovedTranslation.job || "",

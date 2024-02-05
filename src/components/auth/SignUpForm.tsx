@@ -15,18 +15,21 @@ import consts from "@/config/consts";
 import * as EmailValidator from "email-validator";
 import Link from "next/link";
 import { HeartIcon } from "@heroicons/react/24/solid";
+import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 
 type Props = {
   successCallback?: Function;
 };
 
 const serverApiClient = new ServerApiClient();
+const mixpanelApiClient = new MixpanelApiClient();
 
 function SignUpForm({ successCallback = () => {} }: Props) {
   const t = useTranslations("SignUpForm");
 
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [credentials, setCredentials] = useState<SignUpRequest>({
+    mixpanelId: mixpanelApiClient.getUserId(),
     username: "",
     email: "",
     password: "",

@@ -10,13 +10,14 @@ import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import { useAsyncFn } from "react-use";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { HeartIcon } from "@heroicons/react/24/solid";
+import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 
 type Props = {
   successCallback?: Function;
 };
 
 const serverApiClient = new ServerApiClient();
+const mixpanelApiClient = new MixpanelApiClient();
 
 function SignInForm({ successCallback = () => {} }: Props) {
   const t = useTranslations("SignInForm");
@@ -89,7 +90,10 @@ function SignInForm({ successCallback = () => {} }: Props) {
         expires: Number(process.env.NEXT_PUBLIC_JWT_EXPIRE),
       });
 
-      // 4. Success callback
+      // 4. set Mixpanel ID
+      mixpanelApiClient.identifyById(signInResult.value.user.mixpanelId);
+
+      // 5. Success callback
       successCallback();
 
       return ok(signInResult.value.user);
