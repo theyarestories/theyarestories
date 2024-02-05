@@ -88,7 +88,8 @@
   "Header": {
     "add_story": "Add a Story",
     "all_stories": "All Stories",
-    "sign_up": "Sign up"
+    "sign_up": "Sign up",
+    "profile": "Profile"
   },
   "Logo": {
     "logo": "They are Stories"
@@ -228,7 +229,7 @@
   },
   "SignUpForm": {
     "earn_badges": "Get rewarded with badges and points for your reading, contributions, and translation efforts <icon></icon>",
-    "username": "Name",
+    "username": "Username",
     "email": "Email",
     "password": "Password",
     "sign_up_success": "You have successfully signed up",
@@ -239,6 +240,8 @@
     "password_required": "Please, add the password",
     "username_required": "Please, add your name",
     "username_exceeds_max_letters": "Sorry, the name you entered exceeds the maximum length of {max} letters",
+    "character_not_allowed": "Sorry, only alphanumeric characters and underscore are allowed.",
+    "duplicate_username": "Sorry, this username is taken. Try another one.",
     "duplicate_email": "Sorry, there's an account with this email. Sign in instead?",
     "already_member": "Already a member?",
     "sign_in": "Sign in"
