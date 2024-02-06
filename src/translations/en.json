@@ -245,5 +245,9 @@
     "duplicate_email": "Sorry, there's an account with this email. Sign in instead?",
     "already_member": "Already a member?",
     "sign_in": "Sign in"
+  },
+  "ProfilePage": {
+    "page_title": "{username} | They are stories",
+    "page_description": "Palestinians are not just numbers. They are stories"
   }
 }
