@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import Header from "../header/Header";
 import BottomNavigation from "../bottom-navigation/BottomNavigation";
 import Footer from "../footer/Footer";
+import Container from "../container/Container";
 
 type Props = {
   pageTitle: string;
@@ -34,7 +35,9 @@ function Layout({
 
       {withFooter && (
         <div className="mt-auto">
-          <Footer />
+          <Container className="!py-0">
+            <Footer />
+          </Container>
         </div>
       )}
 

@@ -10,6 +10,8 @@ const consts = {
   genocideStartDate: DateTime.fromISO("2023-10-07"),
   maxUsernameLetters: 36,
   usernameRegex: /^[a-zA-Z0-9_]+$/,
+  avatarSmSizeInPx: 28,
+  avatarLgSizeInPx: 90,
 };
 
 export default consts;

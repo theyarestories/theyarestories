@@ -1,7 +1,7 @@
 {
   "IndexPage": {
     "page_title": "هُم قصص",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
     "title": "هُم قصص",
     "all_stories": "جميع القصص"
   },
@@ -14,12 +14,12 @@
   },
   "AddStoryPage": {
     "page_title": "أضف قصة",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
     "heading": "أضف قصة"
   },
   "ApproveStoryPage": {
     "page_title": "مراجعة قصة | {protagonist}",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
     "heading": "راجع قصة <b>{protagonist}</b>"
   },
   "StoryForm": {
@@ -132,13 +132,13 @@
   },
   "TranslateStoryPage": {
     "page_title": "ترجم | {protagonist}",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص. ترجم قصة {protagonist} للعالم.",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص. ترجم قصة {protagonist} للعالم.",
     "heading": "ترجم قصة <b>{protagonist}</b>",
     "subheading": "شاركنا بنشر قصصمهُم للعالم!"
   },
   "ApproveTranslationPage": {
     "page_title": "مراجعة ترجمة | {protagonist}",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
     "heading": "مراجعة الترجمة لقصة <b>{protagonist}</b>"
   },
   "TranslateForm": {
@@ -165,12 +165,12 @@
   },
   "AllStoriesPage": {
     "page_title": "هُم قصص | جميع القصص",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
     "search_stories": "ابحث في القصص"
   },
   "AdminPage": {
     "page_title": "هُم قصص | الإدارة",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
     "approve_stories": "راجع القصص",
     "approve_translations": "راجع التراجم",
     "no_stories": "لا توجد قصص للمراجعة بعد",
@@ -245,5 +245,9 @@
     "duplicate_email": "عذراً، يوجد حساب بالفعل بهذا البريد الإلكتروني، أتو تسجيل الدخول؟",
     "already_member": "هل أنت عضوٌ بالفعل?",
     "sign_in": "تسجيل الدخول"
+  },
+  "ProfilePage": {
+    "page_title": "{username} | هُم قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص"
   }
 }

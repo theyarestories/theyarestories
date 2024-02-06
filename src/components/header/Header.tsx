@@ -8,7 +8,7 @@ import { useContext, useState } from "react";
 import { UserContext, UserContextType } from "@/contexts/UserContext";
 import SignUpModal from "../auth/SignUpModal";
 import { useRouter } from "next/router";
-import Image from "next/image";
+import Avatar from "../avatar/Avatar";
 
 type Props = {};
 
@@ -25,22 +25,9 @@ function Header({}: Props) {
   let authButton = <></>;
   if (!isUserLoading && !isAuthPage) {
     if (user) {
-      const avatar = user.avatar ? (
-        <Image
-          className="uppercase rounded-full border-green-600 border"
-          src={user.avatar}
-          alt=""
-          width={28}
-          height={28}
-        />
-      ) : (
-        <span className="uppercase w-7 h-7 p-1 flex justify-center items-center rounded-full font-sans border-green-400 text-gray-600 bg-red-50 border">
-          {user.username[0]}
-        </span>
-      );
       authButton = (
         <Link href={`/${user.username}`} aria-label={t("profile")}>
-          {avatar}
+          <Avatar user={user} size="sm" />
         </Link>
       );
     } else {
