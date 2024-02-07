@@ -20,6 +20,7 @@ import {
 } from "@/interfaces/database/DBEvent";
 import { DBEmoji } from "@/interfaces/database/DBEmoji";
 import { SignUpRequest } from "@/interfaces/server/SignUpRequest";
+import { isBrowser } from "browser-or-node";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;

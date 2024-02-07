@@ -52,7 +52,7 @@
   }
 
   .button-danger {
-    @apply border text-red-600 border-red-500;
+    @apply border text-watermelon-600 border-watermelon-500;
   }
 
   /* Pagination */

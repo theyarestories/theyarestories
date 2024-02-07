@@ -258,7 +258,8 @@
     "your_words": "كرِم ذكراهم بكلماتك.",
     "no_stories": "لا توجد قصص بعد",
     "bridge_cultures": "صِل الثقافات والقلوب",
-    "no_translations": "لا توجد تراجم بعد"
+    "no_translations": "لا توجد تراجم بعد",
+    "logout": "تسجيل الخروج"
   },
   "TranslationItem": {
     "read_my_story": "اقرأ القصة",

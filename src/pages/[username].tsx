@@ -10,10 +10,16 @@ import Avatar from "@/components/avatar/Avatar";
 import consts from "@/config/consts";
 import { DBStory } from "@/interfaces/database/DBStory";
 import StoriesList from "@/components/stories/StoriesList";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Paginator from "@/components/pagination/Paginator";
 import flattenStoriesByUserTranslation from "@/helpers/stories/flattenStoriesByUserTranslation";
 import TranslationsList from "@/components/translations/TranslationsList";
+import { useAsyncFn } from "react-use";
+import Cookies from "js-cookie";
+import { UserContext, UserContextType } from "@/contexts/UserContext";
+import ThemeButton from "@/components/button/ThemeButton";
+import useIsRtl from "@/hooks/useIsRtl";
+import classNames from "@/helpers/style/classNames";
 
 const serverApiClient = new ServerApiClient();
 
@@ -21,9 +27,14 @@ function ProfilePage({
   user,
   userStories,
   storiesTranslatedByUser,
-  isVisitorProfile,
+  isVisitorProfile: serverIsVisitorProfile,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const t = useTranslations("ProfilePage");
+  const isRtl = useIsRtl();
+  const [isVisitorProfile, setIsVisitorProfile] = useState(
+    serverIsVisitorProfile
+  );
+  const { setUser } = useContext(UserContext) as UserContextType;
 
   // stories
   const [storiesPage, setStoriesPage] = useState(0);
@@ -42,6 +53,15 @@ function ProfilePage({
     storiesTranslatedByUser.length / consts.profileMaxStories
   );
 
+  // signout
+  const [signoutState, signout] = useAsyncFn(async () => {
+    await serverApiClient.signout();
+
+    Cookies.remove("token");
+    setIsVisitorProfile(false);
+    setUser(null);
+  });
+
   return (
     <Layout
       pageTitle={t("page_title", { username: user.username })}
@@ -49,14 +69,26 @@ function ProfilePage({
     >
       <Container>
         <div className="flex flex-col gap-y-4">
-          <div className="">
+          <div className="relative">
             {/* User name */}
             <h2 className="text-3xl text-center font-bold capitalize text-gray-700">
               {user.username}
             </h2>
 
             {/* Logout */}
-            <button className="button button-danger">Logout</button>
+            {isVisitorProfile && (
+              <ThemeButton
+                type="button"
+                className={classNames(
+                  "button-danger absolute",
+                  isRtl ? "left-0" : "right-0"
+                )}
+                onClick={signout}
+                loading={signoutState.loading}
+              >
+                {t("logout")}
+              </ThemeButton>
+            )}
           </div>
 
           {/* Profile container */}
