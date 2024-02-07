@@ -135,7 +135,7 @@
     "page_title": "Translate | {protagonist}",
     "page_description": "Palestinians are not just numbers. They are stories. Translate {protagonist}'s story to the world.",
     "heading": "Translate <b>{protagonist}</b>'s story",
-    "subheading": "Let's share their stories to the world!"
+    "subheading": "Bridge cultures and hearts"
   },
   "ApproveTranslationPage": {
     "page_title": "Approve Translation | {protagonist}",
@@ -253,7 +253,11 @@
     "my_stories": "My stories",
     "stories_by": "Stories by <capitalize>{username}</capitalize>",
     "my_translations": "My translations",
-    "translations_by": "Translations by <capitalize>{username}</capitalize>"
+    "translations_by": "Translations by <capitalize>{username}</capitalize>",
+    "your_words": "Your words can honor their memories",
+    "no_stories": "No stories yet",
+    "bridge_cultures": "Bridge cultures and hearts",
+    "no_translations": "No translations yet"
   },
   "TranslationItem": {
     "read_my_story": "Read the story",

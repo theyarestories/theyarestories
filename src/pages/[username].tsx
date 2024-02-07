@@ -82,12 +82,22 @@ function ProfilePage({
                       })}
                 </h3>
 
-                <StoriesList
-                  stories={userStories.slice(
-                    storiesStartIndex,
-                    storiesEndIndex
-                  )}
-                />
+                {userStories.length === 0 && isVisitorProfile && (
+                  <p className="text-gray-500">{t("your_words")}</p>
+                )}
+
+                {userStories.length === 0 && !isVisitorProfile && (
+                  <p className="text-gray-500">{t("no_stories")}</p>
+                )}
+
+                {userStories.length > 0 && (
+                  <StoriesList
+                    stories={userStories.slice(
+                      storiesStartIndex,
+                      storiesEndIndex
+                    )}
+                  />
+                )}
 
                 {userStories.length > consts.profileMaxStories && (
                   <div className="flex justify-center">
@@ -113,12 +123,22 @@ function ProfilePage({
                       })}
                 </h3>
 
-                <TranslationsList
-                  stories={storiesTranslatedByUser.slice(
-                    translationsStartIndex,
-                    translationsEndIndex
-                  )}
-                />
+                {storiesTranslatedByUser.length > 0 && (
+                  <TranslationsList
+                    stories={storiesTranslatedByUser.slice(
+                      translationsStartIndex,
+                      translationsEndIndex
+                    )}
+                  />
+                )}
+
+                {storiesTranslatedByUser.length === 0 && isVisitorProfile && (
+                  <p className="text-gray-500">{t("bridge_cultures")}</p>
+                )}
+
+                {storiesTranslatedByUser.length === 0 && !isVisitorProfile && (
+                  <p className="text-gray-500">{t("no_translations")}</p>
+                )}
 
                 {storiesTranslatedByUser.length > consts.profileMaxStories && (
                   <div className="flex justify-center">
