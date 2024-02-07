@@ -20,6 +20,7 @@ import { UserContext, UserContextType } from "@/contexts/UserContext";
 import ThemeButton from "@/components/button/ThemeButton";
 import useIsRtl from "@/hooks/useIsRtl";
 import classNames from "@/helpers/style/classNames";
+import { useRouter } from "next/router";
 
 const serverApiClient = new ServerApiClient();
 
@@ -30,6 +31,7 @@ function ProfilePage({
   isVisitorProfile: serverIsVisitorProfile,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const t = useTranslations("ProfilePage");
+  const router = useRouter();
   const isRtl = useIsRtl();
   const [isVisitorProfile, setIsVisitorProfile] = useState(
     serverIsVisitorProfile
@@ -60,6 +62,7 @@ function ProfilePage({
     Cookies.remove("token");
     setIsVisitorProfile(false);
     setUser(null);
+    router.push("/");
   });
 
   return (
