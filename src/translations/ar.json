@@ -135,7 +135,7 @@
     "page_title": "ترجم | {protagonist}",
     "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص. ترجم قصة {protagonist} للعالم.",
     "heading": "ترجم قصة <b>{protagonist}</b>",
-    "subheading": "شاركنا بنشر قصصمهُم للعالم!"
+    "subheading": "صِل الثقافات والقلوب"
   },
   "ApproveTranslationPage": {
     "page_title": "مراجعة ترجمة | {protagonist}",
@@ -175,7 +175,7 @@
     "approve_stories": "راجع القصص",
     "approve_translations": "راجع التراجم",
     "no_stories": "لا توجد قصص للمراجعة بعد",
-    "no_translations": "لا توجد تراجم للترجمة بعد"
+    "no_translations": "لا توجد تراجم للمراجعة بعد"
   },
   "Pagination": {
     "previous": "السابق",
@@ -253,7 +253,11 @@
     "my_stories": "قصصي",
     "stories_by": "قصص بكتابة <capitalize>{username}</capitalize>",
     "my_translations": "ترجماتي",
-    "translations_by": "ترجمات بكتابة <capitalize>{username}</capitalize>"
+    "translations_by": "ترجمات بكتابة <capitalize>{username}</capitalize>",
+    "your_words": "كرِم ذكراهم بكلماتك.",
+    "no_stories": "لا توجد قصص بعد",
+    "bridge_cultures": "صِل الثقافات والقلوب",
+    "no_translations": "لا توجد تراجم بعد"
   },
   "TranslationItem": {
     "read_my_story": "اقرأ القصة",
