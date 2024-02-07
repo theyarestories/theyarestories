@@ -49,10 +49,15 @@ function ProfilePage({
     >
       <Container>
         <div className="flex flex-col gap-y-4">
-          {/* User name */}
-          <h2 className="text-3xl text-center font-bold capitalize text-gray-700">
-            {user.username}
-          </h2>
+          <div className="">
+            {/* User name */}
+            <h2 className="text-3xl text-center font-bold capitalize text-gray-700">
+              {user.username}
+            </h2>
+
+            {/* Logout */}
+            <button className="button button-danger">Logout</button>
+          </div>
 
           {/* Profile container */}
           <div

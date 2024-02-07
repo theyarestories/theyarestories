@@ -51,6 +51,10 @@
     @apply border text-green-700 border-green-500;
   }
 
+  .button-danger {
+    @apply border text-red-600 border-red-500;
+  }
+
   /* Pagination */
   .storiesPaginator {
     @apply flex border rounded-sm h-10 sm:h-12;

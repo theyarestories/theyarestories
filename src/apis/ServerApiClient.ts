@@ -229,6 +229,18 @@ export class ServerApiClient {
     return ok(result.value);
   }
 
+  async signout(): Promise<Result<ServerApiResponse<{}>, ApiError>> {
+    const result = await this.serverApiClient.get<ServerApiResponse<{}>>(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/logout`
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
+  }
+
   async getUserByToken(token: string) {
     const result = await this.serverApiClient.get<ServerApiResponse<DBUser>>(
       `${this.apiBaseUrl}/v${this.apiVersion}/auth/me`,
