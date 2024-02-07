@@ -248,6 +248,7 @@
   },
   "ProfilePage": {
     "page_title": "{username} | They are stories",
-    "page_description": "Palestinians are not just numbers. They are stories"
+    "page_description": "Palestinians are not just numbers. They are stories",
+    "your_stories": "Your stories"
   }
 }

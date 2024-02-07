@@ -18,13 +18,17 @@
 
 @layer base {
   body {
-    @apply bg-white text-gray-900;
+    @apply bg-white text-gray-800;
   }
 }
 
 @layer components {
   .title-1 {
     @apply text-lg lg:text-xl font-semibold leading-6;
+  }
+
+  .title-2 {
+    @apply text-base lg:text-lg font-semibold leading-6;
   }
 
   .input {

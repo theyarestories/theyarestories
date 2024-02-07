@@ -8,4 +8,5 @@ export interface StoryFilters {
   isDeleted?: boolean;
   tags?: string[];
   search?: string;
+  author?: string;
 }
