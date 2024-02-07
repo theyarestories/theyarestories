@@ -542,7 +542,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
       </InputContainer>
 
       <ThemeButton
-        className="w-full"
+        className="w-full button-primary"
         type="submit"
         loading={handleSubmitState.loading}
         disabled={handleSubmitState.loading}

@@ -161,7 +161,7 @@ function SignInForm({ successCallback = () => {} }: Props) {
       </InputContainer>
 
       <ThemeButton
-        className="w-full py-2"
+        className="w-full py-2 button-primary"
         type="submit"
         loading={handleSubmitState.loading}
         disabled={handleSubmitState.loading}

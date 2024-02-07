@@ -431,7 +431,7 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
       </InputContainer>
 
       <ThemeButton
-        className="w-full"
+        className="w-full button-primary"
         type="submit"
         loading={handleSubmitState.loading}
         disabled={handleSubmitState.loading}

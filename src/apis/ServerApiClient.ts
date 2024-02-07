@@ -20,6 +20,7 @@ import {
 } from "@/interfaces/database/DBEvent";
 import { DBEmoji } from "@/interfaces/database/DBEmoji";
 import { SignUpRequest } from "@/interfaces/server/SignUpRequest";
+import { isBrowser } from "browser-or-node";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
@@ -220,6 +221,18 @@ export class ServerApiClient {
     const result = await this.serverApiClient.post<SignInRequest, AuthResponse>(
       `${this.apiBaseUrl}/v${this.apiVersion}/auth/login`,
       credentials
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
+  }
+
+  async signout(): Promise<Result<ServerApiResponse<{}>, ApiError>> {
+    const result = await this.serverApiClient.get<ServerApiResponse<{}>>(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/logout`
     );
 
     if (result.isErr()) {

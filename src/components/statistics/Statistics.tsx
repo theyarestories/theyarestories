@@ -27,7 +27,7 @@ function Statistics({ statistics }: Props) {
           key={key}
           className={classNames(
             "text-center",
-            key === "day" ? "text-red-800" : ""
+            key === "day" ? "text-wateremelon-800" : ""
           )}
         >
           {t(key)}: {value}
