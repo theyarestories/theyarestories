@@ -18,6 +18,7 @@ import Cookies from "js-cookie";
 import Link from "next/link";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { UserContext, UserContextType } from "@/contexts/UserContext";
+import { HttpStatusCode } from "axios";
 
 type Props = {
   successCallback?: Function;
@@ -31,6 +32,7 @@ function SignInForm({ successCallback = () => {} }: Props) {
   const { setUser } = useContext(UserContext) as UserContextType;
 
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [credentials, setCredentials] = useState<SignInRequest>({
     mixpanelId: mixpanelApiClient.getUserId(),
     email: "",
@@ -80,6 +82,7 @@ function SignInForm({ successCallback = () => {} }: Props) {
       credentials: SignInRequest
     ): Promise<Result<DBUser, ApiError>> => {
       event.preventDefault();
+      setSubmitError("");
       setIsSubmittedOnce(true);
 
       // 1. validate fields
@@ -91,6 +94,11 @@ function SignInForm({ successCallback = () => {} }: Props) {
       // 2. Sign in
       const signInResult = await serverApiClient.signIn(credentials);
       if (signInResult.isErr()) {
+        if (signInResult.error.errorStatus === HttpStatusCode.Unauthorized) {
+          setSubmitError(t("invalid_email_password"));
+        } else {
+          setSubmitError(t("something_went_wrong"));
+        }
         throw new Error(signInResult.error.errorMessage);
       }
       setUser(signInResult.value.user);
@@ -162,7 +170,7 @@ function SignInForm({ successCallback = () => {} }: Props) {
             ? t("sign_in_success")
             : ""
         }
-        errorMessage={handleSubmitState.error ? t("something_went_wrong") : ""}
+        errorMessage={submitError}
       >
         {t("sign_in")}
       </ThemeButton>
