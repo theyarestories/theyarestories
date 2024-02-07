@@ -12,6 +12,7 @@ const consts = {
   usernameRegex: /^[a-zA-Z0-9_]+$/,
   avatarSmSizeInPx: 28,
   avatarLgSizeInPx: 90,
+  profileMaxStories: 4,
 };
 
 export default consts;

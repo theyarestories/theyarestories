@@ -9,4 +9,5 @@ export interface StoryFilters {
   tags?: string[];
   search?: string;
   author?: string;
+  translationAuthor?: string;
 }

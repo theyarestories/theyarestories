@@ -204,6 +204,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
           author: user ? user._id : mixpanelApiClient.getUserId(),
           story: storyFields.story,
           job: storyFields.job,
+          isOriginal: true,
         },
       ],
       tags: storyFields.tags,

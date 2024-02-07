@@ -20,5 +20,5 @@ export default async function handler(
       .json({ success: false, data: null });
   }
 
-  return res.status(200).json({ success: true, data: userResult.value.data });
+  return res.status(200).json({ success: true, data: userResult.value });
 }

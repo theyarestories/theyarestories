@@ -98,7 +98,8 @@
     "age": "Age: {age}",
     "city": "City: {city}",
     "job": "Job: {job}",
-    "read_my_story": "Read the story"
+    "read_my_story": "Read the story",
+    "in_review": "In review"
   },
   "StoryPage": {
     "age_bold": "<b>Age</b>: {age}",
@@ -249,6 +250,13 @@
   "ProfilePage": {
     "page_title": "{username} | They are stories",
     "page_description": "Palestinians are not just numbers. They are stories",
-    "your_stories": "Your stories"
+    "my_stories": "My stories",
+    "stories_by": "Stories by <capitalize>{username}</capitalize>",
+    "my_translations": "My translations",
+    "translations_by": "Translations by <capitalize>{username}</capitalize>"
+  },
+  "TranslationItem": {
+    "read_my_story": "Read the story",
+    "in_review": "In review"
   }
 }

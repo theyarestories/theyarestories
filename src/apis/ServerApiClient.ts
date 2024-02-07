@@ -37,12 +37,13 @@ export class ServerApiClient {
     tags,
     search,
     author,
+    translationAuthor,
   }: StoryFilters): Promise<
     Result<ServerAdvancedResponse<DBStory[]>, ApiError>
   > {
     // Add default values
     if (!page) page = 1;
-    if (!limit) limit = 20;
+    if (isNaN(limit)) limit = 25;
     if (!isAscending) isAscending = false;
     if (!isDeleted) isDeleted = false;
 
@@ -63,7 +64,7 @@ export class ServerApiClient {
     if (typeof isDeleted === "boolean") {
       query.push(`isDeleted=${String(isDeleted)}`);
     }
-    if (limit) {
+    if (!isNaN(limit)) {
       query.push(`limit=${limit}`);
     }
     if (page) {
@@ -77,6 +78,9 @@ export class ServerApiClient {
     }
     if (author) {
       query.push(`author=${author}`);
+    }
+    if (translationAuthor) {
+      query.push(`translations.author=${translationAuthor}`);
     }
 
     const result = await this.serverApiClient.get<
@@ -235,7 +239,7 @@ export class ServerApiClient {
       return err(result.error);
     }
 
-    return ok(result.value);
+    return ok(result.value.data);
   }
 
   async getEventsStatistics() {

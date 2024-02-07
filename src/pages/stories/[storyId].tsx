@@ -233,9 +233,12 @@ export const getServerSideProps = (async ({
   let story = filterApprovedTranslations([storyResult.value])[0];
 
   // translate
+  const langParam = params?.lang;
   const homeLanguage = req.cookies.home_language;
   let translationLanguage = story.translationLanguage;
-  if (homeLanguage && storyHasLanguage(story, homeLanguage)) {
+  if (typeof langParam === "string" && storyHasLanguage(story, langParam)) {
+    translationLanguage = langParam;
+  } else if (homeLanguage && storyHasLanguage(story, homeLanguage)) {
     translationLanguage = homeLanguage;
   } else if (locale && storyHasLanguage(story, locale)) {
     translationLanguage = locale;

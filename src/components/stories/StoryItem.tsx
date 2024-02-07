@@ -16,6 +16,34 @@ function StoryItem({ story }: Props) {
   const isRtl = useIsRtl();
   const { translatedStory } = useTranslatedStory(story);
 
+  let badge = <></>;
+
+  if (!story.isApproved) {
+    badge = (
+      <span
+        className={classNames(
+          "rounded-full text-xs text-gray-700 gap-0.5 bg-white absolute p-1 bg-opacity-90 top-1 flex",
+          isRtl ? "left-1" : "right-1"
+        )}
+      >
+        {t("in_review")}
+      </span>
+    );
+  } else if (story.viewsCount > 0) {
+    badge = (
+      <span
+        className={classNames(
+          "rounded-full text-xs text-gray-600 gap-0.5 bg-white absolute p-1 bg-opacity-70 top-1 flex",
+          isRtl ? "left-1" : "right-1"
+        )}
+      >
+        <EyeIcon className="w-4" />
+        {/* views: */}
+        {story.viewsCount}
+      </span>
+    );
+  }
+
   return (
     <article className="flex flex-col gap-1 relative">
       <Link className="relative" href={`/stories/${translatedStory._id}`}>
@@ -28,18 +56,7 @@ function StoryItem({ story }: Props) {
           crop="fill"
           gravity="auto"
         />
-        {story.viewsCount > 0 && (
-          <span
-            className={classNames(
-              "rounded-full text-xs text-gray-600 gap-0.5 bg-white absolute p-1 bg-opacity-70 top-1 flex",
-              isRtl ? "left-1" : "right-1"
-            )}
-          >
-            <EyeIcon className="w-4" />
-            {/* views: */}
-            {story.viewsCount}
-          </span>
-        )}
+        {badge}
       </Link>
       <h3 className="font-semibold text-sm">
         {translatedStory.protagonist}{" "}
