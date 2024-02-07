@@ -248,6 +248,7 @@
   },
   "ProfilePage": {
     "page_title": "{username} | هُم قصص",
-    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص"
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
+    "your_stories": "قصصك"
   }
 }

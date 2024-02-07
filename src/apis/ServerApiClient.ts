@@ -36,6 +36,7 @@ export class ServerApiClient {
     isDeleted,
     tags,
     search,
+    author,
   }: StoryFilters): Promise<
     Result<ServerAdvancedResponse<DBStory[]>, ApiError>
   > {
@@ -73,6 +74,9 @@ export class ServerApiClient {
     }
     if (search) {
       query.push(`text[search]=${search}`);
+    }
+    if (author) {
+      query.push(`author=${author}`);
     }
 
     const result = await this.serverApiClient.get<
