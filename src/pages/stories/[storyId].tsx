@@ -113,7 +113,7 @@ function StoryPage({
 
       <Container>
         <div className="flex flex-col gap-y-4 relative">
-          {story.viewsCount > 0 && (
+          {story.viewsCount > 0 && story.isApproved && (
             <p
               className={classNames(
                 "absolute text-gray-500 top-0 text-sm items-center gap-1 hidden lg:flex",
@@ -169,7 +169,7 @@ function StoryPage({
           </div>
 
           {/* Interactions */}
-          <StoryEmojis story={story} />
+          {story.isApproved && <StoryEmojis story={story} />}
 
           <hr />
 
@@ -178,26 +178,28 @@ function StoryPage({
         </div>
       </Container>
 
-      <StickyBar isStickyTop={false}>
-        <div className="h-full grid grid-cols-2">
-          <SharePlatforms
-            story={translatedStory}
-            className="justify-center !gap-2 border-e"
-          />
-          <Link
-            className="flex items-center gap-2 justify-center font-bold text-sm sm:text-base"
-            href={`/translate/${story._id}?lang=${translationLanguage}`}
-          >
-            <Image
-              src={"/images/icons/translate.svg"}
-              alt={""}
-              width={40}
-              height={40}
+      {story.isApproved && (
+        <StickyBar isStickyTop={false}>
+          <div className="h-full grid grid-cols-2">
+            <SharePlatforms
+              story={translatedStory}
+              className="justify-center !gap-2 border-e"
             />
-            {t("translate")}
-          </Link>
-        </div>
-      </StickyBar>
+            <Link
+              className="flex items-center gap-2 justify-center font-bold text-sm sm:text-base"
+              href={`/translate/${story._id}?lang=${translationLanguage}`}
+            >
+              <Image
+                src={"/images/icons/translate.svg"}
+                alt={""}
+                width={40}
+                height={40}
+              />
+              {t("translate")}
+            </Link>
+          </div>
+        </StickyBar>
+      )}
     </Layout>
   );
 }
