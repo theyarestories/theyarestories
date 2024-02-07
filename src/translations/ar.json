@@ -98,7 +98,8 @@
     "age": "العمر: {age}",
     "city": "المدينة: {city}",
     "job": "الوظيفة: {job}",
-    "read_my_story": "اقرأ القصة"
+    "read_my_story": "اقرأ القصة",
+    "in_review": "قيد المراجعة"
   },
   "StoryPage": {
     "age_bold": "<b>العمر</b>: {age}",
@@ -249,6 +250,13 @@
   "ProfilePage": {
     "page_title": "{username} | هُم قصص",
     "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
-    "your_stories": "قصصك"
+    "my_stories": "قصصي",
+    "stories_by": "قصص بكتابة <capitalize>{username}</capitalize>",
+    "my_translations": "ترجماتي",
+    "translations_by": "ترجمات بكتابة <capitalize>{username}</capitalize>"
+  },
+  "TranslationItem": {
+    "read_my_story": "اقرأ القصة",
+    "in_review": "قيد المراجعة"
   }
 }

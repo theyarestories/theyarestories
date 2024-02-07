@@ -8,41 +8,39 @@ import { DBUser } from "@/interfaces/database/DBUser";
 import Container from "@/components/container/Container";
 import Avatar from "@/components/avatar/Avatar";
 import consts from "@/config/consts";
-import { ServerAdvancedResponse } from "@/interfaces/server/ServerAdvancedResponse";
 import { DBStory } from "@/interfaces/database/DBStory";
 import StoriesList from "@/components/stories/StoriesList";
 import { useState } from "react";
-import { useUpdateEffect } from "react-use";
 import Paginator from "@/components/pagination/Paginator";
+import flattenStoriesByUserTranslation from "@/helpers/stories/flattenStoriesByUserTranslation";
+import TranslationsList from "@/components/translations/TranslationsList";
 
 const serverApiClient = new ServerApiClient();
 
 function ProfilePage({
   user,
-  storiesWithPagination: serverStoriesWithPagination,
+  userStories,
+  storiesTranslatedByUser,
+  isVisitorProfile,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const t = useTranslations("ProfilePage");
 
-  const [storiesPage, setStoriesPage] = useState(1);
-  const [storiesWithPagination, setStoriesWithPagination] = useState(
-    serverStoriesWithPagination
+  // stories
+  const [storiesPage, setStoriesPage] = useState(0);
+  const storiesStartIndex = storiesPage * consts.profileMaxStories;
+  const storiesEndIndex = storiesStartIndex + consts.profileMaxStories;
+  const storiesPageCount = Math.ceil(
+    userStories.length / consts.profileMaxStories
   );
 
-  const updateStoriesWithPage = async (page: number) => {
-    const storiesResult = await serverApiClient.getStories({
-      author: user._id,
-      limit: storiesWithPagination.pagination.limit,
-      page,
-    });
-
-    if (storiesResult.isOk() && storiesResult.value.data.length > 0) {
-      setStoriesWithPagination(storiesResult.value);
-    }
-  };
-
-  useUpdateEffect(() => {
-    updateStoriesWithPage(storiesPage);
-  }, [storiesPage]);
+  // translations
+  const [translationsPage, setTranslationsPage] = useState(0);
+  const translationsStartIndex = translationsPage * consts.profileMaxStories;
+  const translationsEndIndex =
+    translationsStartIndex + consts.profileMaxStories;
+  const translationsPageCount = Math.ceil(
+    storiesTranslatedByUser.length / consts.profileMaxStories
+  );
 
   return (
     <Layout
@@ -68,22 +66,67 @@ function ProfilePage({
 
             {/* User interactions */}
             <div
-              className="p-4"
+              className="p-4 space-y-6"
               style={{ marginTop: consts.avatarLgSizeInPx / 2 + "px" }}
             >
               {/* user written stories */}
               <section className="space-y-4">
-                <h3 className="title-2">{t("your_stories")}</h3>
+                <h3 className="title-2">
+                  {isVisitorProfile
+                    ? t("my_stories")
+                    : t.rich("stories_by", {
+                        username: user.username,
+                        capitalize: (value) => (
+                          <span className="capitalize">{value}</span>
+                        ),
+                      })}
+                </h3>
 
-                <StoriesList stories={storiesWithPagination.data} />
+                <StoriesList
+                  stories={userStories.slice(
+                    storiesStartIndex,
+                    storiesEndIndex
+                  )}
+                />
 
-                {storiesWithPagination.pagination.totalPages > 1 && (
+                {userStories.length > consts.profileMaxStories && (
                   <div className="flex justify-center">
                     <Paginator
-                      pageCount={storiesWithPagination.pagination.totalPages}
-                      page={storiesPage - 1}
+                      pageCount={storiesPageCount}
+                      page={storiesPage}
+                      onPageChange={(value) => setStoriesPage(value.selected)}
+                    />
+                  </div>
+                )}
+              </section>
+
+              {/* user written translations */}
+              <section className="space-y-4">
+                <h3 className="title-2">
+                  {isVisitorProfile
+                    ? t("my_translations")
+                    : t.rich("translations_by", {
+                        username: user.username,
+                        capitalize: (value) => (
+                          <span className="capitalize">{value}</span>
+                        ),
+                      })}
+                </h3>
+
+                <TranslationsList
+                  stories={storiesTranslatedByUser.slice(
+                    translationsStartIndex,
+                    translationsEndIndex
+                  )}
+                />
+
+                {storiesTranslatedByUser.length > consts.profileMaxStories && (
+                  <div className="flex justify-center">
+                    <Paginator
+                      pageCount={translationsPageCount}
+                      page={translationsPage}
                       onPageChange={(value) =>
-                        setStoriesPage(value.selected + 1)
+                        setTranslationsPage(value.selected)
                       }
                     />
                   </div>
@@ -97,7 +140,7 @@ function ProfilePage({
   );
 }
 
-export const getServerSideProps = (async ({ params }) => {
+export const getServerSideProps = (async ({ req, params }) => {
   initHighlightNode();
 
   if (!params || typeof params.username !== "string") {
@@ -118,7 +161,7 @@ export const getServerSideProps = (async ({ params }) => {
   // 2. Get user's stories
   const storiesResult = await serverApiClient.getStories({
     author: userResult.value._id,
-    limit: 4,
+    limit: 0, // all
   });
   if (storiesResult.isErr()) {
     HNode.consumeError({
@@ -128,15 +171,45 @@ export const getServerSideProps = (async ({ params }) => {
     throw new Error(storiesResult.error.errorMessage);
   }
 
+  // 3. Get user's translations
+  const storiesTranslatedByUserResult = await serverApiClient.getStories({
+    translationAuthor: userResult.value._id,
+    limit: 0, // all
+  });
+  if (storiesTranslatedByUserResult.isErr()) {
+    HNode.consumeError({
+      name: "Error",
+      message: JSON.stringify(storiesTranslatedByUserResult.error),
+    });
+    throw new Error(storiesTranslatedByUserResult.error.errorMessage);
+  }
+  const storiesTranslatedByUser = flattenStoriesByUserTranslation(
+    storiesTranslatedByUserResult.value.data,
+    userResult.value._id
+  );
+
+  // Check if visitor owns profile
+  let isVisitorProfile = false;
+  if (req.cookies.token) {
+    const userByToken = await serverApiClient.getUserByToken(req.cookies.token);
+    if (userByToken.isOk() && userByToken.value._id === userResult.value._id) {
+      isVisitorProfile = true;
+    }
+  }
+
   return {
     props: {
       user: userResult.value,
-      storiesWithPagination: storiesResult.value,
+      userStories: storiesResult.value.data,
+      storiesTranslatedByUser,
+      isVisitorProfile,
     },
   };
 }) satisfies GetServerSideProps<{
   user: DBUser;
-  storiesWithPagination: ServerAdvancedResponse<DBStory[]>;
+  userStories: DBStory[];
+  storiesTranslatedByUser: DBStory[];
+  isVisitorProfile: boolean;
 }>;
 
 export default ProfilePage;

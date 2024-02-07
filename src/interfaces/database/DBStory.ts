@@ -15,6 +15,7 @@ export interface DBTranslation {
   author: string;
   story: string;
   job?: string;
+  isOriginal: boolean;
   isApproved: boolean;
   approvedBy: string | null;
   createdAt: string;
@@ -52,6 +53,7 @@ export type RegisteringTranslation = {
   fromLanguage: string;
   protagonist: string;
   author: string;
+  isOriginal?: boolean;
   story: string;
   job?: string;
 };
