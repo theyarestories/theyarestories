@@ -18,8 +18,6 @@ function TranslationItem({ story }: Props) {
   const isRtl = useIsRtl();
 
   const translation = story.translations[0];
-  const fromLanguage = getLanguageByCode(translation.fromLanguage)?.name;
-  const toLanguage = getLanguageByCode(translation.translationLanguage)?.name;
 
   const protagonistImage = (
     <CldImage
@@ -59,21 +57,21 @@ function TranslationItem({ story }: Props) {
       )}
 
       <h3 className="font-semibold text-sm text-center">
-        {translatedStory.protagonist}{" "}
+        {translatedStory.protagonist}
         {Number.isInteger(translatedStory.age) ? (
-          <span className="font-normal">{`(${translatedStory.age})`}</span>
+          <span className="font-normal">{` - ${translatedStory.age}`}</span>
         ) : (
           ""
         )}
       </h3>
       <p className="text-gray-600 text-sm flex gap-1 justify-center">
-        {fromLanguage}
+        {translation.fromLanguage}
         {isRtl ? (
           <ArrowLeftIcon className="w-4" />
         ) : (
           <ArrowRightIcon className="w-4" />
         )}
-        {toLanguage}
+        {translation.translationLanguage}
       </p>
     </article>
   );
