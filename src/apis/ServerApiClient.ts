@@ -19,28 +19,37 @@ import {
   RegisteringEvent,
 } from "@/interfaces/database/DBEvent";
 import { DBEmoji } from "@/interfaces/database/DBEmoji";
+import { SignUpRequest } from "@/interfaces/server/SignUpRequest";
+import { isBrowser } from "browser-or-node";
+import { ForgotPasswordRequest } from "@/interfaces/server/ForgotPasswordRequest";
+import { ResetPasswordRequest } from "@/interfaces/server/ResetPasswordRequest";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
   private readonly apiVersion = 1;
   private readonly serverApiClient = new ApiClient();
 
-  async getStories(
-    {
-      page = 1,
-      limit = 20,
-      isApproved,
-      isTranslationApproved,
-      isAscending = false,
-      isHighlighted,
-      tags,
-      search,
-    }: StoryFilters = {
-      page: 1,
-      limit: 20,
-      isAscending: false,
-    }
-  ): Promise<Result<ServerAdvancedResponse<DBStory[]>, ApiError>> {
+  async getStories({
+    page = 1,
+    limit = 20,
+    isApproved,
+    isTranslationApproved,
+    isAscending = false,
+    isHighlighted,
+    isDeleted,
+    tags,
+    search,
+    author,
+    translationAuthor,
+  }: StoryFilters): Promise<
+    Result<ServerAdvancedResponse<DBStory[]>, ApiError>
+  > {
+    // Add default values
+    if (!page) page = 1;
+    if (isNaN(limit)) limit = 25;
+    if (!isAscending) isAscending = false;
+    if (!isDeleted) isDeleted = false;
+
     // Build the query
     let query = [];
     if (typeof isAscending === "boolean") {
@@ -55,7 +64,10 @@ export class ServerApiClient {
     if (typeof isHighlighted === "boolean") {
       query.push(`isHighlighted=${String(isHighlighted)}`);
     }
-    if (limit) {
+    if (typeof isDeleted === "boolean") {
+      query.push(`isDeleted=${String(isDeleted)}`);
+    }
+    if (!isNaN(limit)) {
       query.push(`limit=${limit}`);
     }
     if (page) {
@@ -66,6 +78,12 @@ export class ServerApiClient {
     }
     if (search) {
       query.push(`text[search]=${search}`);
+    }
+    if (author) {
+      query.push(`author=${author}`);
+    }
+    if (translationAuthor) {
+      query.push(`translations.author=${translationAuthor}`);
     }
 
     const result = await this.serverApiClient.get<
@@ -121,11 +139,13 @@ export class ServerApiClient {
     return ok(result.value.data);
   }
 
-  async incrementStoryViews(storyId: string) {
+  async incrementStoryViews(storyId: string, userId: string) {
     const result = await this.serverApiClient.put<
-      {},
+      { userId: string },
       ServerApiResponse<DBStory>
-    >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/view`, {});
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/view`, {
+      userId,
+    });
 
     if (result.isErr()) {
       return err(result.error);
@@ -152,10 +172,71 @@ export class ServerApiClient {
     return ok(result.value.data);
   }
 
+  async getUserByEmail(email: string): Promise<Result<DBUser, ApiError>> {
+    const result = await this.serverApiClient.get<
+      ServerAdvancedResponse<DBUser[]>
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/users?email=${email}`);
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    if (result.value.data.length === 0) {
+      return err({
+        errorMessage: `User with email ${email} doesn't exist`,
+      });
+    }
+
+    return ok(result.value.data[0]);
+  }
+
+  async getUserByUsername(username: string): Promise<Result<DBUser, ApiError>> {
+    const result = await this.serverApiClient.get<
+      ServerAdvancedResponse<DBUser[]>
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/users?username=${username}`);
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    if (result.value.data.length === 0) {
+      return err({
+        errorMessage: `User with username ${username} doesn't exist`,
+      });
+    }
+
+    return ok(result.value.data[0]);
+  }
+
+  async signUp(credentials: SignUpRequest) {
+    const result = await this.serverApiClient.post<SignUpRequest, AuthResponse>(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/register`,
+      credentials
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
+  }
+
   async signIn(credentials: SignInRequest) {
     const result = await this.serverApiClient.post<SignInRequest, AuthResponse>(
       `${this.apiBaseUrl}/v${this.apiVersion}/auth/login`,
       credentials
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
+  }
+
+  async signout(): Promise<Result<ServerApiResponse<{}>, ApiError>> {
+    const result = await this.serverApiClient.get<ServerApiResponse<{}>>(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/logout`
     );
 
     if (result.isErr()) {
@@ -175,7 +256,7 @@ export class ServerApiClient {
       return err(result.error);
     }
 
-    return ok(result.value);
+    return ok(result.value.data);
   }
 
   async getEventsStatistics() {
@@ -253,5 +334,37 @@ export class ServerApiClient {
     }
 
     return ok(result.value.data);
+  }
+
+  async forgotPassword(credentials: ForgotPasswordRequest) {
+    const result = await this.serverApiClient.post<
+      ForgotPasswordRequest,
+      AuthResponse
+    >(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/forgotpassword`,
+      credentials
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
+  }
+
+  async resetPassword(credentials: ResetPasswordRequest, resetToken: string) {
+    const result = await this.serverApiClient.put<
+      ResetPasswordRequest,
+      AuthResponse
+    >(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/resetpassword/${resetToken}`,
+      credentials
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
   }
 }

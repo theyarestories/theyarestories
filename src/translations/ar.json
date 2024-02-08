@@ -1,25 +1,25 @@
 {
   "IndexPage": {
-    "page_title": "هم قصص",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
-    "title": "هم قصص",
+    "page_title": "هُم قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
+    "title": "هُم قصص",
     "all_stories": "جميع القصص"
   },
   "Banner": {
     "not_number": "ليسوا مجرد أرقام.",
-    "but_stories": "هم قصص."
+    "but_stories": "هُم قصص."
   },
   "StoriesList": {
     "stories": "القصص"
   },
   "AddStoryPage": {
     "page_title": "أضف قصة",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
     "heading": "أضف قصة"
   },
   "ApproveStoryPage": {
     "page_title": "مراجعة قصة | {protagonist}",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
     "heading": "راجع قصة <b>{protagonist}</b>"
   },
   "StoryForm": {
@@ -75,7 +75,8 @@
     "submit_success": "شكراً لك ♥. سنقوم بمراجعة ونشر القصة خلال {reviewHours} ساعة كحدٍ أقصى.",
     "approve_success": "شكراً لك. تم نشر القصة.",
     "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
-    "wrong_language": "عذراً، اللغة المستخدمة لا تتطابق مع اللغة المختارة بالأعلى، اذا كنت تظن أن هذا غير صحيح، رجاءاً، تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي."
+    "wrong_language": "عذراً، اللغة المستخدمة لا تتطابق مع اللغة المختارة بالأعلى، اذا كنت تظن أن هذا غير صحيح، رجاءاً، تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "sign_up": "<a>أنشئ حساباً</a> لتتبع قصصك."
   },
   "ProtagonistCombobox": {
     "age_bold": "<b>العمر</b>: {age}",
@@ -87,16 +88,19 @@
   },
   "Header": {
     "add_story": "أضف قصة",
-    "all_stories": "جميع القصص"
+    "all_stories": "جميع القصص",
+    "sign_up": "إنشاء حساب",
+    "profile": "الصفحة الشخصية"
   },
   "Logo": {
-    "logo": "هم قصص"
+    "logo": "هُم قصص"
   },
   "StoryItem": {
     "age": "العمر: {age}",
     "city": "المدينة: {city}",
     "job": "الوظيفة: {job}",
-    "read_my_story": "اقرأ القصة"
+    "read_my_story": "اقرأ القصة",
+    "in_review": "قيد المراجعة"
   },
   "StoryPage": {
     "age_bold": "<b>العمر</b>: {age}",
@@ -130,13 +134,13 @@
   },
   "TranslateStoryPage": {
     "page_title": "ترجم | {protagonist}",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص. ترجم قصة {protagonist} للعالم.",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص. ترجم قصة {protagonist} للعالم.",
     "heading": "ترجم قصة <b>{protagonist}</b>",
-    "subheading": "شاركنا بنشر قصصمهم للعالم!"
+    "subheading": "صِل الثقافات والقلوب"
   },
   "ApproveTranslationPage": {
     "page_title": "مراجعة ترجمة | {protagonist}",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
     "heading": "مراجعة الترجمة لقصة <b>{protagonist}</b>"
   },
   "TranslateForm": {
@@ -159,32 +163,21 @@
     "submit_success": "شكراً لك ♥. سنقوم بمراجعة ونشر الترجمة خلال {reviewHours} ساعة كحدٍ أقصى.",
     "approve_success": "شكراً لك. تم نشر الترجمة.",
     "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
-    "approve": "تأكيد"
+    "approve": "تأكيد",
+    "sign_up": "<a>أنشئ حساباً</a> لتتبع تراجمك."
   },
   "AllStoriesPage": {
-    "page_title": "هم قصص | جميع القصص",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "page_title": "هُم قصص | جميع القصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
     "search_stories": "ابحث في القصص"
   },
-  "SignInPage": {
-    "page_title": "هم قصص | سجل الدخول",
-    "page_description": "",
-    "heading": "تسجيل الدخول",
-    "email": "البريد الإلكتروني",
-    "password": "رمز المرور",
-    "sign_in_success": "لقد سجلت الدحول بنجاح",
-    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
-    "sign_in": "تسجيل الدخول",
-    "email_required": "رجاءاً، أضف البريد الإلكتروني",
-    "password_required": "رجاءاً، أضف رمز المرور"
-  },
   "AdminPage": {
-    "page_title": "هم قصص | الإدارة",
-    "page_description": "الفلسطينيون ليسوا أرقاماً، بل قصص",
+    "page_title": "هُم قصص | الإدارة",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
     "approve_stories": "راجع القصص",
     "approve_translations": "راجع التراجم",
     "no_stories": "لا توجد قصص للمراجعة بعد",
-    "no_translations": "لا توجد تراجم للترجمة بعد"
+    "no_translations": "لا توجد تراجم للمراجعة بعد"
   },
   "Pagination": {
     "previous": "السابق",
@@ -209,5 +202,99 @@
     "day": "اليوم",
     "stories": "القصص",
     "visits": "الزيارات"
+  },
+  "SignInPage": {
+    "page_title": "هُم قصص | سجل الدخول",
+    "page_description": "",
+    "heading": "تسجيل الدخول"
+  },
+  "SignInModal": {
+    "sign_in": "تسجيل الدخول"
+  },
+  "SignInForm": {
+    "email": "البريد الإلكتروني",
+    "password": "رمز المرور",
+    "sign_in_success": "لقد سجلت الدحول بنجاح",
+    "invalid_email_password": "عذراً، لقد أدخلت بريد إلكتروني أو رمز مرور غير صحيح.",
+    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "sign_in": "تسجيل الدخول",
+    "email_required": "رجاءاً، أضف البريد الإلكتروني",
+    "password_required": "رجاءاً، أضف رمز المرور",
+    "not_member": "لست عضواً بعد؟",
+    "join": "انضم إلينا",
+    "forgot_password": "أنسيت كلمة المرور؟"
+  },
+  "SignUpPage": {
+    "page_title": "هُم قصص | إنشاء حساب",
+    "page_description": "",
+    "heading": "إنشاء حساب"
+  },
+  "SignUpModal": {
+    "sign_up": "إنشاء حساب"
+  },
+  "SignUpForm": {
+    "earn_badges": "تتبع تقدمك في كتابة وترجمة القصص <icon></icon>",
+    "username": "الاسم",
+    "email": "البريد الإلكتروني",
+    "password": "رمز المرور",
+    "sign_up_success": "لقد أتشأت حسابك بنجاح",
+    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "sign_up": "إنشاء حساب",
+    "email_required": "رجاءاً، أضف البريد الإلكتروني",
+    "email_invalid": "عذراً، لقد أدخلت رمزاً بريدياً غير صحيح",
+    "password_required": "رجاءاً، أضف رمز المرور",
+    "username_required": "رجاءاً، أضف الاسم",
+    "username_exceeds_max_letters": "عذراً، لقد تخطيت الحد الأقصى من عدد الحروف وهو {max} حرف",
+    "character_not_allowed": "عذراً، فقط الحروف، الأرقام ورمز (_) مسوحين.",
+    "duplicate_username": "عذراً، لقد تم اختيار هذا الاسم من قبل، رجاءاً، حاول مرةً أخرى.",
+    "duplicate_email": "عذراً، يوجد حساب بالفعل بهذا البريد الإلكتروني، أتو تسجيل الدخول؟",
+    "already_member": "هل أنت عضوٌ بالفعل?",
+    "sign_in": "تسجيل الدخول"
+  },
+  "ProfilePage": {
+    "page_title": "{username} | هُم قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
+    "my_stories": "قصصي",
+    "stories_by": "قصص بكتابة <capitalize>{username}</capitalize>",
+    "my_translations": "ترجماتي",
+    "translations_by": "ترجمات بكتابة <capitalize>{username}</capitalize>",
+    "your_words": "كرِم ذكراهم بكلماتك.",
+    "no_stories": "لا توجد قصص بعد",
+    "bridge_cultures": "صِل الثقافات والقلوب",
+    "no_translations": "لا توجد تراجم بعد",
+    "logout": "تسجيل الخروج"
+  },
+  "TranslationItem": {
+    "read_my_story": "اقرأ القصة",
+    "in_review": "قيد المراجعة"
+  },
+  "ForgotPasswordPage": {
+    "page_title": "نسيت كلمة المرور | هُم قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
+    "heading": "أنسيت كلمة المرور؟"
+  },
+  "ForgotPasswordForm": {
+    "email": "البريد الإلكتروني",
+    "forgot_password_success": "لقد أرسلنا لك بريداً إلكترونياً به رابط لتغيير كلمة السر.",
+    "email_required": "رجاءاً، أضف البريد الإلكتروني",
+    "email_not_exist": "عذرًا، لكن عنوان البريد الإلكتروني الذي أدخلته لا يطابق أي حسابات في قاعدة البيانات الخاصة بنا",
+    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "reset_password": "تغيير كلمة السر",
+    "back_to_login": "العودة إلى تسجيل الدخول"
+  },
+  "ResetPasswordPage": {
+    "page_title": "تغيير كلمة السر | هُم قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
+    "heading": "تغيير كلمة السر"
+  },
+  "ResetPasswordForm": {
+    "password": "كلمة السر",
+    "confirm_password": "تأكيد كلمة السر",
+    "reset_password_success": "لقد غيرت كلمة السر بنجاح.",
+    "password_required": "رجاءاً، أضف رمز المرور",
+    "confirm_password_required": "رجاءاً، أعد كتابة كلمة السر للتأكيد",
+    "password_not_match": "رجاءاً، تأكد من تطابق كلمتي السر.",
+    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "reset_password": "تغيير كلمة السر"
   }
 }

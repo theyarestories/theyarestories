@@ -16,11 +16,11 @@ export const config = {
   ],
 };
 
-async function isAuthenticated(req: NextRequest): Promise<boolean> {
+async function getUser(req: NextRequest): Promise<DBUser | null> {
   // 1. Check if token exists
   const token = req.cookies.get("token")?.value;
   if (!token) {
-    return false;
+    return null;
   }
 
   // 2. Check if token is valid
@@ -30,15 +30,14 @@ async function isAuthenticated(req: NextRequest): Promise<boolean> {
       { headers: { Cookie: `token=${token}` } }
     );
     const data: ServerApiResponse<DBUser> = await userByTokenResponse.json();
-    if (data.success) {
-      return true;
-    } else {
-      return false;
-    }
+    return data.data || null;
   } catch (error) {
-    console.error(error);
-    return false;
+    return null;
   }
+}
+
+async function isAdmin(user: DBUser): Promise<boolean> {
+  return ["admin", "publisher"].some((role) => user.role === role);
 }
 
 function getHomeLanguage(request: NextRequest): string {
@@ -54,23 +53,41 @@ function getHomeLanguage(request: NextRequest): string {
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next();
+  const user = await getUser(request);
+  const page = request.nextUrl.pathname.slice(1);
 
-  // add query param "page" to all-stories page of non exists
-  if (request.nextUrl.pathname.includes("all-stories")) {
-    const pageParam = request.nextUrl.searchParams.get("page");
-    if (!pageParam || !isStringPositiveInteger(pageParam)) {
-      response = NextResponse.redirect(
-        new URL(`${request.nextUrl.pathname}?page=1`, request.url)
-      );
+  switch (page) {
+    // add query param "page" to all-stories page of non exists
+    case "all-stories": {
+      const pageParam = request.nextUrl.searchParams.get("page");
+      if (!pageParam || !isStringPositiveInteger(pageParam)) {
+        response = NextResponse.redirect(
+          new URL(`${request.nextUrl.pathname}?page=1`, request.url)
+        );
+      }
+      break;
     }
-  }
 
-  // allow access to admin pages only to authenticated users
-  if (
-    request.nextUrl.pathname.includes("admin") &&
-    !(await isAuthenticated(request))
-  ) {
-    response = NextResponse.redirect(new URL(`/sign-in`, request.url));
+    // limit allow access to admin pages
+    case "admin": {
+      if (!user) {
+        response = NextResponse.redirect(new URL(`/signin`, request.url));
+      } else if (!isAdmin(user)) {
+        response = NextResponse.redirect(new URL(`/`, request.url));
+      }
+      break;
+    }
+
+    // Redirect signed in users to home page
+    case "signin": {
+    }
+
+    case "signup": {
+      if (user) {
+        response = NextResponse.redirect(new URL(`/`, request.url));
+      }
+      break;
+    }
   }
 
   // get preferred language to pass it to frontend to customize the experience

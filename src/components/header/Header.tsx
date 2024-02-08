@@ -1,17 +1,56 @@
 import Link from "next/link";
 import Logo from "../logo/Logo";
 import { useTranslations } from "next-intl";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import LanguageSwitch from "./LanguageSwitch";
 import StickyBar from "../container/StickyBar";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext, UserContextType } from "@/contexts/UserContext";
+import SignUpModal from "../auth/SignUpModal";
+import { useRouter } from "next/router";
+import Avatar from "../avatar/Avatar";
 
 type Props = {};
 
 function Header({}: Props) {
-  const { user } = useContext(UserContext) as UserContextType;
+  const { user, isUserLoading } = useContext(UserContext) as UserContextType;
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const t = useTranslations("Header");
+  const router = useRouter();
+
+  const isAuthPage = ["signin", "signup"].some((page) =>
+    router.pathname.includes(page)
+  );
+
+  let authButton = <></>;
+  if (!isUserLoading && !isAuthPage) {
+    if (user) {
+      authButton = (
+        <Link href={`/${user.username}`} aria-label={t("profile")}>
+          <Avatar user={user} size="sm" />
+        </Link>
+      );
+    } else {
+      authButton = (
+        <>
+          {/* Sign up button */}
+          <button
+            type="button"
+            onClick={() => setIsSignUpModalOpen(true)}
+            aria-label={t("sign_up")}
+          >
+            <UserCircleIcon className="w-6 text-gray-600" />
+          </button>
+
+          {/* Sign up modal */}
+          <SignUpModal
+            isOpen={isSignUpModalOpen}
+            close={() => setIsSignUpModalOpen(false)}
+          />
+        </>
+      );
+    }
+  }
 
   return (
     <StickyBar isStickyTop>
@@ -43,8 +82,12 @@ function Header({}: Props) {
           </li>
         </ul>
 
-        {/* Language Switch */}
-        <LanguageSwitch />
+        <div className="flex items-center gap-3">
+          {/* Language Switch */}
+          <LanguageSwitch />
+
+          {authButton}
+        </div>
       </nav>
     </StickyBar>
   );

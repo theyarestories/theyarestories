@@ -24,14 +24,14 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { H as HNode } from "@highlight-run/node";
 import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
-import { EventType } from "@/interfaces/database/DBEvent";
 import StoryEmojis from "@/components/story-emojis/StoryEmojis";
+import { UserContext, UserContextType } from "@/contexts/UserContext";
 
 const serverApiClient = new ServerApiClient();
 const mixpanelApiClient = new MixpanelApiClient();
@@ -49,6 +49,7 @@ const languagesOptions = mapLanguagesToOptions(allLanguages);
 function StoryPage({
   story,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { isUserLoading, user } = useContext(UserContext) as UserContextType;
   const isRtl = useIsRtl();
   const t = useTranslations("StoryPage");
 
@@ -56,19 +57,17 @@ function StoryPage({
     useTranslatedStory(story);
 
   useEffect(() => {
-    serverApiClient.incrementStoryViews(story._id);
-    serverApiClient.createEvent({
-      type: EventType.view_story,
-      metadata: {
-        storyId: story._id,
-        storyProtagonist: story.protagonist,
-      },
-    });
-    mixpanelApiClient.event(MixpanelEvent["View Story"], {
-      "Story ID": story._id,
-      "Story Protagonist": story.protagonist,
-    });
-  }, [story]);
+    if (!isUserLoading) {
+      serverApiClient.incrementStoryViews(
+        story._id,
+        user ? user._id : mixpanelApiClient.getUserId()
+      );
+      mixpanelApiClient.event(MixpanelEvent["View Story"], {
+        "Story ID": story._id,
+        "Story Protagonist": story.protagonist,
+      });
+    }
+  }, [story, user, isUserLoading]);
 
   return (
     <Layout
@@ -121,14 +120,14 @@ function StoryPage({
 
       <Container>
         <div className="flex flex-col gap-y-4 relative">
-          {story.viewsCount > 0 && (
+          {story.viewers.length > 0 && story.isApproved && (
             <p
               className={classNames(
                 "absolute text-gray-500 top-0 text-sm items-center gap-1 hidden lg:flex",
                 isRtl ? "left-0" : "right-0"
               )}
             >
-              {t("views_count", { count: story.viewsCount })}
+              {t("views_count", { count: story.viewers.length })}
             </p>
           )}
 
@@ -177,7 +176,7 @@ function StoryPage({
           </div>
 
           {/* Interactions */}
-          <StoryEmojis story={story} />
+          {story.isApproved && <StoryEmojis story={story} />}
 
           <hr />
 
@@ -186,26 +185,28 @@ function StoryPage({
         </div>
       </Container>
 
-      <StickyBar isStickyTop={false}>
-        <div className="h-full grid grid-cols-2">
-          <SharePlatforms
-            story={translatedStory}
-            className="justify-center !gap-2 border-e"
-          />
-          <Link
-            className="flex items-center gap-2 justify-center font-bold text-sm sm:text-base"
-            href={`/translate/${story._id}?lang=${translationLanguage}`}
-          >
-            <Image
-              src={"/images/icons/translate.svg"}
-              alt={""}
-              width={40}
-              height={40}
+      {story.isApproved && (
+        <StickyBar isStickyTop={false}>
+          <div className="h-full grid grid-cols-2">
+            <SharePlatforms
+              story={translatedStory}
+              className="justify-center !gap-2 border-e"
             />
-            {t("translate")}
-          </Link>
-        </div>
-      </StickyBar>
+            <Link
+              className="flex items-center gap-2 justify-center font-bold text-sm sm:text-base"
+              href={`/translate/${story._id}?lang=${translationLanguage}`}
+            >
+              <Image
+                src={"/images/icons/translate.svg"}
+                alt={""}
+                width={40}
+                height={40}
+              />
+              {t("translate")}
+            </Link>
+          </div>
+        </StickyBar>
+      )}
     </Layout>
   );
 }
@@ -241,9 +242,12 @@ export const getServerSideProps = (async ({
   let story = filterApprovedTranslations([storyResult.value])[0];
 
   // translate
+  const langParam = params?.lang;
   const homeLanguage = req.cookies.home_language;
   let translationLanguage = story.translationLanguage;
-  if (homeLanguage && storyHasLanguage(story, homeLanguage)) {
+  if (typeof langParam === "string" && storyHasLanguage(story, langParam)) {
+    translationLanguage = langParam;
+  } else if (homeLanguage && storyHasLanguage(story, homeLanguage)) {
     translationLanguage = homeLanguage;
   } else if (locale && storyHasLanguage(story, locale)) {
     translationLanguage = locale;

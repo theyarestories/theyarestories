@@ -36,7 +36,7 @@ export default function ThemeSelect<CustomOption>({
         <Listbox.Button
           className={classNames(
             "relative w-full cursor-pointer p-2 text-start",
-            withBorder ? "input pe-8" : "pe-6"
+            withBorder ? "input pe-7" : "pe-5"
           )}
         >
           <span className="block truncate">

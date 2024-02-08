@@ -75,7 +75,8 @@
     "submit_success": "Thank you for your effort ♥. We will review and share your story in a maximum of {reviewHours} hours.",
     "approve_success": "Thank you! The story is now published.",
     "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
-    "wrong_language": "Sorry, we detected the story is written in another language than the selected one. If that's not the case, please reach us through any of our social media channels."
+    "wrong_language": "Sorry, we detected the story is written in another language than the selected one. If that's not the case, please reach us through any of our social media channels.",
+    "sign_up": "<a>Create an account</a> to keep track of your stories."
   },
   "ProtagonistCombobox": {
     "age_bold": "<b>Age</b>: {age}",
@@ -87,7 +88,9 @@
   },
   "Header": {
     "add_story": "Add a Story",
-    "all_stories": "All Stories"
+    "all_stories": "All Stories",
+    "sign_up": "Create an account",
+    "profile": "Profile"
   },
   "Logo": {
     "logo": "They are Stories"
@@ -96,7 +99,8 @@
     "age": "Age: {age}",
     "city": "City: {city}",
     "job": "Job: {job}",
-    "read_my_story": "Read the story"
+    "read_my_story": "Read the story",
+    "in_review": "In review"
   },
   "StoryPage": {
     "age_bold": "<b>Age</b>: {age}",
@@ -132,7 +136,7 @@
     "page_title": "Translate | {protagonist}",
     "page_description": "Palestinians are not just numbers. They are stories. Translate {protagonist}'s story to the world.",
     "heading": "Translate <b>{protagonist}</b>'s story",
-    "subheading": "Let's share their stories to the world!"
+    "subheading": "Bridge cultures and hearts"
   },
   "ApproveTranslationPage": {
     "page_title": "Approve Translation | {protagonist}",
@@ -159,24 +163,13 @@
     "submit_success": "Thank you for your effort ♥. We will review and share your translation in a maximum of {reviewHours} hours.",
     "approve_success": "Thank you! The translation is now published.",
     "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
-    "approve": "Approve"
+    "approve": "Approve",
+    "sign_up": "<a>Create an account</a> to keep track of your translations."
   },
   "AllStoriesPage": {
     "page_title": "They are stories | All Stories",
     "page_description": "Palestinians are not just numbers. They are stories.",
     "search_stories": "Search the stories"
-  },
-  "SignInPage": {
-    "page_title": "They are Stories | Sign In",
-    "page_description": "",
-    "heading": "Sign in",
-    "email": "Email",
-    "password": "Password",
-    "sign_in_success": "You have successfully signed in",
-    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
-    "sign_in": "Sign in",
-    "email_required": "Please, add the email",
-    "password_required": "Please, add the password"
   },
   "AdminPage": {
     "page_title": "They are stories | Administration",
@@ -209,5 +202,99 @@
     "day": "day",
     "stories": "stories",
     "visits": "visits"
+  },
+  "SignInPage": {
+    "page_title": "They are Stories | Sign In",
+    "page_description": "",
+    "heading": "Sign in"
+  },
+  "SignInModal": {
+    "sign_in": "Sign in"
+  },
+  "SignInForm": {
+    "email": "Email",
+    "password": "Password",
+    "sign_in_success": "You have successfully signed in",
+    "invalid_email_password": "Sorry, email or password are invalid.",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "sign_in": "Sign in",
+    "email_required": "Please, add the email",
+    "password_required": "Please, add the password",
+    "not_member": "Not a member yet?",
+    "join": "Join the community",
+    "forgot_password": "Forgot password?"
+  },
+  "SignUpPage": {
+    "page_title": "They are Stories | Sign Up",
+    "page_description": "",
+    "heading": "Create an account"
+  },
+  "SignUpModal": {
+    "sign_up": "Create an account"
+  },
+  "SignUpForm": {
+    "earn_badges": "Track your progress in writing and translating stories <icon></icon>",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "sign_up_success": "You have successfully signed up",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "sign_up": "Create an account",
+    "email_required": "Please, add the email",
+    "email_invalid": "Sorry, the email you entered is invalid",
+    "password_required": "Please, add the password",
+    "username_required": "Please, add your name",
+    "username_exceeds_max_letters": "Sorry, the name you entered exceeds the maximum length of {max} letters",
+    "character_not_allowed": "Sorry, only alphanumeric characters and underscore are allowed.",
+    "duplicate_username": "Sorry, this username is taken. Try another one.",
+    "duplicate_email": "Sorry, there's an account with this email. Sign in instead?",
+    "already_member": "Already a member?",
+    "sign_in": "Sign in"
+  },
+  "ProfilePage": {
+    "page_title": "{username} | They are stories",
+    "page_description": "Palestinians are not just numbers. They are stories",
+    "my_stories": "My stories",
+    "stories_by": "Stories by <capitalize>{username}</capitalize>",
+    "my_translations": "My translations",
+    "translations_by": "Translations by <capitalize>{username}</capitalize>",
+    "your_words": "Your words can honor their memories",
+    "no_stories": "No stories yet",
+    "bridge_cultures": "Bridge cultures and hearts",
+    "no_translations": "No translations yet",
+    "logout": "Logout"
+  },
+  "TranslationItem": {
+    "read_my_story": "Read the story",
+    "in_review": "In review"
+  },
+  "ForgotPasswordPage": {
+    "page_title": "Forgot password | They are stories",
+    "page_description": "Palestinians are not just numbers. They are stories",
+    "heading": "Forgot password?"
+  },
+  "ForgotPasswordForm": {
+    "email": "Email",
+    "forgot_password_success": "We've successfully sent you a reset password email. Please check your inbox.",
+    "email_required": "Please, add the email",
+    "email_not_exist": "We're sorry, but the email address you entered does not match any accounts in our database",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "reset_password": "Reset password",
+    "back_to_login": "Back to login"
+  },
+  "ResetPasswordPage": {
+    "page_title": "Reset password | They are stories",
+    "page_description": "Palestinians are not just numbers. They are stories",
+    "heading": "Reset password"
+  },
+  "ResetPasswordForm": {
+    "password": "Password",
+    "confirm_password": "Conform password",
+    "reset_password_success": "We've successfully reset your password.",
+    "password_required": "Please, add the password",
+    "confirm_password_required": "Please, confirm your password",
+    "password_not_match": "Please make sure the passwords in both fields are identical to proceed.",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "reset_password": "Reset password"
   }
 }

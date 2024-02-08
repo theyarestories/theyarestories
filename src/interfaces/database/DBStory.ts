@@ -12,8 +12,10 @@ export interface DBTranslation {
   translationLanguage: string; // ar
   fromLanguage: string;
   protagonist: string;
+  author: string;
   story: string;
   job?: string;
+  isOriginal: boolean;
   isApproved: boolean;
   approvedBy: string | null;
   createdAt: string;
@@ -23,6 +25,7 @@ export interface DBTranslation {
 export type DBStory = {
   _id: string;
   protagonist: string;
+  author: string;
   protagonistTranslations: string[];
   story: string;
   job?: string;
@@ -34,7 +37,7 @@ export type DBStory = {
   };
   emojis: DBEmoji[];
   tags: string[];
-  viewsCount: number;
+  viewers: string[];
   translationLanguage: string; // ar
   translations: DBTranslation[];
   isApproved: boolean;
@@ -49,6 +52,8 @@ export type RegisteringTranslation = {
   translationLanguage: String; // ar
   fromLanguage: string;
   protagonist: string;
+  author: string;
+  isOriginal?: boolean;
   story: string;
   job?: string;
 };
@@ -56,6 +61,7 @@ export type RegisteringTranslation = {
 export type RegisteringStory = {
   protagonist: string;
   protagonistTranslations: string[];
+  author: string;
   story: string;
   job?: string;
   city: string;

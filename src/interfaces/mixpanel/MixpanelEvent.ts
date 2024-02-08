@@ -4,4 +4,6 @@ export enum MixpanelEvent {
   "Write Story" = "Write Story",
   "View Story" = "View Story",
   "Like Story" = "Like Story",
+  "Share Story" = "Share Story",
+  "Sign up" = "Sign up",
 }

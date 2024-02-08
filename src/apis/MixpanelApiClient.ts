@@ -26,4 +26,12 @@ export class MixpanelApiClient {
   getUserId(): string {
     return mixpanel.get_distinct_id();
   }
+
+  identify(id: string) {
+    mixpanel.identify(id);
+  }
+
+  reset() {
+    mixpanel.reset();
+  }
 }

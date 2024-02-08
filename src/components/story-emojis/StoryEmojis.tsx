@@ -1,6 +1,6 @@
 import { DBStory } from "@/interfaces/database/DBStory";
 import { EmojiType } from "@/interfaces/database/EmojiType";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import HeartSvg from "../svgs/HeartSvg";
 import RoseSvg from "../svgs/RoseSvg";
 import hasUserEmojiedStory from "@/helpers/stories/hasUserEmojiedStory";
@@ -9,8 +9,8 @@ import countEmojiType from "@/helpers/stories/countEmojiType";
 import classNames from "@/helpers/style/classNames";
 import { ServerApiClient } from "@/apis/ServerApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
-import useMixpanelId from "@/hooks/useMixpanelId";
 import CandleSvg from "../svgs/CandleSvg";
+import { UserContext, UserContextType } from "@/contexts/UserContext";
 
 const mixpanelApiClient = new MixpanelApiClient();
 const serverApiClient = new ServerApiClient();
@@ -18,8 +18,8 @@ const serverApiClient = new ServerApiClient();
 type Props = { story: DBStory };
 
 function StoryEmojis({ story }: Props) {
-  const userId = useMixpanelId();
-
+  const { user } = useContext(UserContext) as UserContextType;
+  const userId = user ? user._id : mixpanelApiClient.getUserId();
   const [emojis, setEmojis] = useState([
     {
       type: EmojiType.heart,

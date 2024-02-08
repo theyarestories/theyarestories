@@ -14,7 +14,6 @@ import storyHasLanguage from "@/helpers/stories/storyHasLanguage";
 import getLanguageByCode from "@/helpers/translations/getLanguageByCode";
 import mapLanguagesToOptions from "@/helpers/translations/mapLanguagesToOptions";
 import { ApiError } from "@/interfaces/api-client/Error";
-import { EventType } from "@/interfaces/database/DBEvent";
 import {
   DBStory,
   DBTranslation,
@@ -26,9 +25,17 @@ import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Skeleton from "react-loading-skeleton";
 import { useAsyncFn } from "react-use";
+import { UserContext, UserContextType } from "@/contexts/UserContext";
+import SignUpModal from "../auth/SignUpModal";
 
 const Markdown = dynamic(
   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
@@ -39,6 +46,7 @@ const Markdown = dynamic(
 );
 
 type TranslationFields = {
+  author: string;
   protagonist: string;
   story: string;
   job: string;
@@ -58,9 +66,11 @@ const mixpanelApiClient = new MixpanelApiClient();
 const languagesOptions = mapLanguagesToOptions(allLanguages);
 
 function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
+  const { user } = useContext(UserContext) as UserContextType;
   const router = useRouter();
   const t = useTranslations("TranslateForm");
 
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   let initialFromLanguage = getLanguageByCode(story.translationLanguage);
   if (mode === "approve" && unapprovedTranslation) {
     initialFromLanguage = getLanguageByCode(unapprovedTranslation.fromLanguage);
@@ -85,12 +95,14 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
   let initialTranslationFields = {
+    author: user ? user._id : mixpanelApiClient.getUserId(),
     protagonist: "",
     story: "",
     job: "",
   };
   if (mode === "approve" && unapprovedTranslation) {
     initialTranslationFields = {
+      author: unapprovedTranslation.author,
       protagonist: unapprovedTranslation.protagonist,
       story: unapprovedTranslation.story,
       job: unapprovedTranslation.job || "",
@@ -240,17 +252,6 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
           if (approveResult.isErr()) {
             throw new Error(approveResult.error.errorMessage);
           }
-
-          // 3. Send database event
-          serverApiClient.createEvent({
-            type: EventType.translate_story,
-            metadata: {
-              translationId: translation?._id,
-              translationLanguage: toLanguage?.code,
-              storyId: storyId,
-              storyProtagonist: translationFields.protagonist,
-            },
-          });
 
           setIsSubmitSuccess(true);
           router.push("/admin");
@@ -432,7 +433,7 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
       </InputContainer>
 
       <ThemeButton
-        className="w-full"
+        className="w-full button-primary"
         type="submit"
         loading={handleSubmitState.loading}
         disabled={handleSubmitState.loading}
@@ -441,6 +442,27 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
       >
         {mode === "approve" ? t("approve") : t("submit")}
       </ThemeButton>
+
+      {isSubmitSuccess && mode === "add" && (
+        <p>
+          {t.rich("sign_up", {
+            a: (value) => (
+              <button
+                type="button"
+                className="font-semibold text-green-700 underline"
+                onClick={() => setIsSignupModalOpen(true)}
+              >
+                {value}
+              </button>
+            ),
+          })}
+        </p>
+      )}
+
+      <SignUpModal
+        isOpen={isSignupModalOpen}
+        close={() => setIsSignupModalOpen(false)}
+      />
     </form>
   );
 }

@@ -8,10 +8,15 @@ import { ApiError } from "@/interfaces/api-client/Error";
 import { DBStory, RegisteringStory } from "@/interfaces/database/DBStory";
 import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
-import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
+import {
+  ChangeEventHandler,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useAsyncFn } from "react-use";
 import { LanguageDetectorApiClient } from "@/apis/LanguageDetectorApiClient";
-import ErrorMessage from "@/components/alerts/ErrorMessage";
 import {
   CldImage,
   CldUploadWidget,
@@ -30,7 +35,8 @@ import ProtagonistCombobox from "./ProtagonistCombobox";
 import ApiClient from "@/helpers/api-client/apiClient";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
-import { EventType } from "@/interfaces/database/DBEvent";
+import { UserContext, UserContextType } from "@/contexts/UserContext";
+import SignUpModal from "../auth/SignUpModal";
 
 type CityOption = {
   name: string;
@@ -61,10 +67,12 @@ const mixpanelApiClient = new MixpanelApiClient();
 
 function StoryForm({ mode, unapprovedStory }: Props) {
   // Dependencies
+  const { user } = useContext(UserContext) as UserContextType;
   const router = useRouter();
   const t = useTranslations("StoryForm");
 
   // States
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   let initialSelectedLanguage = languagesOptions[0];
   if (mode === "approve" && unapprovedStory) {
     const storyLanguage = languagesOptions.find(
@@ -185,6 +193,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
     const story: RegisteringStory = {
       protagonist: storyFields.protagonist,
       protagonistTranslations: [storyFields.protagonist],
+      author: user ? user._id : mixpanelApiClient.getUserId(),
       city: storyFields.city.value,
       story: storyFields.story,
       translationLanguage: selectedLanguage.code,
@@ -193,8 +202,10 @@ function StoryForm({ mode, unapprovedStory }: Props) {
           fromLanguage: selectedLanguage.code,
           translationLanguage: selectedLanguage.code,
           protagonist: storyFields.protagonist,
+          author: user ? user._id : mixpanelApiClient.getUserId(),
           story: storyFields.story,
           job: storyFields.job,
+          isOriginal: true,
         },
       ],
       tags: storyFields.tags,
@@ -307,16 +318,6 @@ function StoryForm({ mode, unapprovedStory }: Props) {
           if (approveResult.isErr()) {
             throw new Error(approveResult.error.errorMessage);
           }
-
-          // 5. Send database event
-          serverApiClient.createEvent({
-            type: EventType.write_story,
-            metadata: {
-              storyId: story?._id,
-              storyLanguage: selectedLanguage.code,
-              storyProtagonist: storyFields.protagonist,
-            },
-          });
 
           setIsSubmitSuccess(true);
           router.push("/admin");
@@ -542,7 +543,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
       </InputContainer>
 
       <ThemeButton
-        className="w-full"
+        className="w-full button-primary"
         type="submit"
         loading={handleSubmitState.loading}
         disabled={handleSubmitState.loading}
@@ -551,6 +552,27 @@ function StoryForm({ mode, unapprovedStory }: Props) {
       >
         {mode === "approve" ? t("approve") : t("submit")}
       </ThemeButton>
+
+      {isSubmitSuccess && mode === "add" && (
+        <p>
+          {t.rich("sign_up", {
+            a: (value) => (
+              <button
+                type="button"
+                className="font-semibold text-green-700 underline"
+                onClick={() => setIsSignupModalOpen(true)}
+              >
+                {value}
+              </button>
+            ),
+          })}
+        </p>
+      )}
+
+      <SignUpModal
+        isOpen={isSignupModalOpen}
+        close={() => setIsSignupModalOpen(false)}
+      />
     </form>
   );
 }
