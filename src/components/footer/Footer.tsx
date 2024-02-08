@@ -6,7 +6,7 @@ function Footer({}: Props) {
   const t = useTranslations("Footer");
 
   return (
-    <footer className="bg-green-100 py-3">
+    <footer className="py-3">
       <p className="text-sm text-center">
         {t.rich("join_discord", {
           link: (value) => (

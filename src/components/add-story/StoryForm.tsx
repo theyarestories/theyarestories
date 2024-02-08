@@ -17,7 +17,6 @@ import {
 } from "react";
 import { useAsyncFn } from "react-use";
 import { LanguageDetectorApiClient } from "@/apis/LanguageDetectorApiClient";
-import ErrorMessage from "@/components/alerts/ErrorMessage";
 import {
   CldImage,
   CldUploadWidget,
@@ -37,6 +36,7 @@ import ApiClient from "@/helpers/api-client/apiClient";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 import { UserContext, UserContextType } from "@/contexts/UserContext";
+import SignUpModal from "../auth/SignUpModal";
 
 type CityOption = {
   name: string;
@@ -72,6 +72,7 @@ function StoryForm({ mode, unapprovedStory }: Props) {
   const t = useTranslations("StoryForm");
 
   // States
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   let initialSelectedLanguage = languagesOptions[0];
   if (mode === "approve" && unapprovedStory) {
     const storyLanguage = languagesOptions.find(
@@ -551,6 +552,27 @@ function StoryForm({ mode, unapprovedStory }: Props) {
       >
         {mode === "approve" ? t("approve") : t("submit")}
       </ThemeButton>
+
+      {isSubmitSuccess && mode === "add" && (
+        <p>
+          {t.rich("sign_up", {
+            a: (value) => (
+              <button
+                type="button"
+                className="font-semibold text-green-700 underline"
+                onClick={() => setIsSignupModalOpen(true)}
+              >
+                {value}
+              </button>
+            ),
+          })}
+        </p>
+      )}
+
+      <SignUpModal
+        isOpen={isSignupModalOpen}
+        close={() => setIsSignupModalOpen(false)}
+      />
     </form>
   );
 }
