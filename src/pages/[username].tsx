@@ -21,8 +21,10 @@ import ThemeButton from "@/components/button/ThemeButton";
 import useIsRtl from "@/hooks/useIsRtl";
 import classNames from "@/helpers/style/classNames";
 import { useRouter } from "next/router";
+import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 
 const serverApiClient = new ServerApiClient();
+const mixpanelApiClient = new MixpanelApiClient();
 
 function ProfilePage({
   user,
@@ -62,6 +64,7 @@ function ProfilePage({
     Cookies.remove("token");
     setIsVisitorProfile(false);
     setUser(null);
+    mixpanelApiClient.reset();
     router.push("/");
   });
 

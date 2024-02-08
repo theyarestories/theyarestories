@@ -30,4 +30,8 @@ export class MixpanelApiClient {
   identify(id: string) {
     mixpanel.identify(id);
   }
+
+  reset() {
+    mixpanel.reset();
+  }
 }
