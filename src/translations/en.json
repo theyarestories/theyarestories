@@ -75,7 +75,8 @@
     "submit_success": "Thank you for your effort ♥. We will review and share your story in a maximum of {reviewHours} hours.",
     "approve_success": "Thank you! The story is now published.",
     "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
-    "wrong_language": "Sorry, we detected the story is written in another language than the selected one. If that's not the case, please reach us through any of our social media channels."
+    "wrong_language": "Sorry, we detected the story is written in another language than the selected one. If that's not the case, please reach us through any of our social media channels.",
+    "sign_up": "<a>Create an account</a> to keep track of your stories."
   },
   "ProtagonistCombobox": {
     "age_bold": "<b>Age</b>: {age}",
@@ -88,7 +89,7 @@
   "Header": {
     "add_story": "Add a Story",
     "all_stories": "All Stories",
-    "sign_up": "Sign up",
+    "sign_up": "Create an account",
     "profile": "Profile"
   },
   "Logo": {
@@ -162,7 +163,8 @@
     "submit_success": "Thank you for your effort ♥. We will review and share your translation in a maximum of {reviewHours} hours.",
     "approve_success": "Thank you! The translation is now published.",
     "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
-    "approve": "Approve"
+    "approve": "Approve",
+    "sign_up": "<a>Create an account</a> to keep track of your translations."
   },
   "AllStoriesPage": {
     "page_title": "They are stories | All Stories",
@@ -225,19 +227,19 @@
   "SignUpPage": {
     "page_title": "They are Stories | Sign Up",
     "page_description": "",
-    "heading": "Sign up"
+    "heading": "Create an account"
   },
   "SignUpModal": {
-    "sign_up": "Sign up"
+    "sign_up": "Create an account"
   },
   "SignUpForm": {
-    "earn_badges": "Get rewarded with badges and points for your reading, contributions, and translation efforts <icon></icon>",
+    "earn_badges": "Track your progress in writing and translating stories <icon></icon>",
     "username": "Username",
     "email": "Email",
     "password": "Password",
     "sign_up_success": "You have successfully signed up",
     "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
-    "sign_up": "Sign up",
+    "sign_up": "Create an account",
     "email_required": "Please, add the email",
     "email_invalid": "Sorry, the email you entered is invalid",
     "password_required": "Please, add the password",

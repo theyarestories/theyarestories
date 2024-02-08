@@ -34,7 +34,7 @@ function Layout({
       <main>{children}</main>
 
       {withFooter && (
-        <div className="mt-auto">
+        <div className="mt-auto bg-green-100">
           <Container className="!py-0">
             <Footer />
           </Container>

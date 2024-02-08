@@ -35,6 +35,7 @@ import {
 import Skeleton from "react-loading-skeleton";
 import { useAsyncFn } from "react-use";
 import { UserContext, UserContextType } from "@/contexts/UserContext";
+import SignUpModal from "../auth/SignUpModal";
 
 const Markdown = dynamic(
   () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
@@ -69,6 +70,7 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
   const router = useRouter();
   const t = useTranslations("TranslateForm");
 
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   let initialFromLanguage = getLanguageByCode(story.translationLanguage);
   if (mode === "approve" && unapprovedTranslation) {
     initialFromLanguage = getLanguageByCode(unapprovedTranslation.fromLanguage);
@@ -440,6 +442,27 @@ function TranslateForm({ story, mode, unapprovedTranslation }: Props) {
       >
         {mode === "approve" ? t("approve") : t("submit")}
       </ThemeButton>
+
+      {isSubmitSuccess && mode === "add" && (
+        <p>
+          {t.rich("sign_up", {
+            a: (value) => (
+              <button
+                type="button"
+                className="font-semibold text-green-700 underline"
+                onClick={() => setIsSignupModalOpen(true)}
+              >
+                {value}
+              </button>
+            ),
+          })}
+        </p>
+      )}
+
+      <SignUpModal
+        isOpen={isSignupModalOpen}
+        close={() => setIsSignupModalOpen(false)}
+      />
     </form>
   );
 }
