@@ -83,7 +83,7 @@ function ProfilePage({
               <ThemeButton
                 type="button"
                 className={classNames(
-                  "button-danger absolute",
+                  "button-danger absolute top-0",
                   isRtl ? "left-0" : "right-0"
                 )}
                 onClick={signout}

@@ -219,7 +219,8 @@
     "email_required": "رجاءاً، أضف البريد الإلكتروني",
     "password_required": "رجاءاً، أضف رمز المرور",
     "not_member": "لست عضواً بعد؟",
-    "join": "انضم إلينا"
+    "join": "انضم إلينا",
+    "forgot_password": "أنسيت كلمة المرور؟"
   },
   "SignUpPage": {
     "page_title": "هُم قصص | إنشاء حساب",
@@ -264,5 +265,34 @@
   "TranslationItem": {
     "read_my_story": "اقرأ القصة",
     "in_review": "قيد المراجعة"
+  },
+  "ForgotPasswordPage": {
+    "page_title": "نسيت كلمة المرور | هُم قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
+    "heading": "أنسيت كلمة المرور؟"
+  },
+  "ForgotPasswordForm": {
+    "email": "البريد الإلكتروني",
+    "forgot_password_success": "لقد أرسلنا لك بريداً إلكترونياً به رابط لتغيير كلمة السر.",
+    "email_required": "رجاءاً، أضف البريد الإلكتروني",
+    "email_not_exist": "عذرًا، لكن عنوان البريد الإلكتروني الذي أدخلته لا يطابق أي حسابات في قاعدة البيانات الخاصة بنا",
+    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "reset_password": "تغيير كلمة السر",
+    "back_to_login": "العودة إلى تسجيل الدخول"
+  },
+  "ResetPasswordPage": {
+    "page_title": "تغيير كلمة السر | هُم قصص",
+    "page_description": "ضحايا فلسطين ليسوا أرقاماً، بل قصص",
+    "heading": "تغيير كلمة السر"
+  },
+  "ResetPasswordForm": {
+    "password": "كلمة السر",
+    "confirm_password": "تأكيد كلمة السر",
+    "reset_password_success": "لقد غيرت كلمة السر بنجاح.",
+    "password_required": "رجاءاً، أضف رمز المرور",
+    "confirm_password_required": "رجاءاً، أعد كتابة كلمة السر للتأكيد",
+    "password_not_match": "رجاءاً، تأكد من تطابق كلمتي السر.",
+    "something_went_wrong": "عذراً، حدث خطأُ ما! رجاءاً، حاول مرةً أخرى، أو تواصل معنا عبر أيٍ من منصات التواصل الاجتماعي.",
+    "reset_password": "تغيير كلمة السر"
   }
 }

@@ -219,7 +219,8 @@
     "email_required": "Please, add the email",
     "password_required": "Please, add the password",
     "not_member": "Not a member yet?",
-    "join": "Join the community"
+    "join": "Join the community",
+    "forgot_password": "Forgot password?"
   },
   "SignUpPage": {
     "page_title": "They are Stories | Sign Up",
@@ -264,5 +265,34 @@
   "TranslationItem": {
     "read_my_story": "Read the story",
     "in_review": "In review"
+  },
+  "ForgotPasswordPage": {
+    "page_title": "Forgot password | They are stories",
+    "page_description": "Palestinians are not just numbers. They are stories",
+    "heading": "Forgot password?"
+  },
+  "ForgotPasswordForm": {
+    "email": "Email",
+    "forgot_password_success": "We've successfully sent you a reset password email. Please check your inbox.",
+    "email_required": "Please, add the email",
+    "email_not_exist": "We're sorry, but the email address you entered does not match any accounts in our database",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "reset_password": "Reset password",
+    "back_to_login": "Back to login"
+  },
+  "ResetPasswordPage": {
+    "page_title": "Reset password | They are stories",
+    "page_description": "Palestinians are not just numbers. They are stories",
+    "heading": "Reset password"
+  },
+  "ResetPasswordForm": {
+    "password": "Password",
+    "confirm_password": "Conform password",
+    "reset_password_success": "We've successfully reset your password.",
+    "password_required": "Please, add the password",
+    "confirm_password_required": "Please, confirm your password",
+    "password_not_match": "Please make sure the passwords in both fields are identical to proceed.",
+    "something_went_wrong": "Sorry, something went wrong! Please try again, or reach us through any of our social media channels.",
+    "reset_password": "Reset password"
   }
 }
