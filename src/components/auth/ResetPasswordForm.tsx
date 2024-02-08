@@ -19,6 +19,7 @@ import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { UserContext, UserContextType } from "@/contexts/UserContext";
 
 interface FormFields {
+  mixpanelId: string;
   password: string;
   confirmPassword: string;
 }
@@ -36,6 +37,7 @@ function ResetPasswordForm({}: Props) {
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [credentials, setCredentials] = useState<FormFields>({
+    mixpanelId: mixpanelApiClient.getUserId(),
     password: "",
     confirmPassword: "",
   });
