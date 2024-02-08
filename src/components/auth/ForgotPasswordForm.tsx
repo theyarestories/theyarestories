@@ -3,65 +3,45 @@ import ThemeButton from "@/components/button/ThemeButton";
 import InputContainer from "@/components/input/InputContainer";
 import { ApiError } from "@/interfaces/api-client/Error";
 import { DBUser } from "@/interfaces/database/DBUser";
-import { SignInRequest } from "@/interfaces/server/SignInRequest";
+import { ForgotPasswordRequest } from "@/interfaces/server/ForgotPasswordRequest";
 import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
-import {
-  ChangeEventHandler,
-  FormEvent,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import { useAsyncFn } from "react-use";
-import Cookies from "js-cookie";
 import Link from "next/link";
-import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
-import { UserContext, UserContextType } from "@/contexts/UserContext";
-import { HttpStatusCode } from "axios";
-
-type Props = {
-  successCallback?: Function;
-};
+import { useRouter } from "next/router";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
+import useIsRtl from "@/hooks/useIsRtl";
+type Props = {};
 
 const serverApiClient = new ServerApiClient();
-const mixpanelApiClient = new MixpanelApiClient();
 
-function SignInForm({ successCallback = () => {} }: Props) {
-  const t = useTranslations("SignInForm");
-  const { setUser } = useContext(UserContext) as UserContextType;
+function ForgotPasswordForm({}: Props) {
+  const router = useRouter();
+  const isRtl = useIsRtl();
+  const t = useTranslations("ForgotPasswordForm");
 
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const [credentials, setCredentials] = useState<SignInRequest>({
-    mixpanelId: mixpanelApiClient.getUserId(),
+  const [credentials, setCredentials] = useState<ForgotPasswordRequest>({
     email: "",
-    password: "",
   });
   const [credentialsErrors, setCredentialsErrors] = useState({
     emailError: "",
-    passwordError: "",
   });
 
   const validateFields = async (
-    fields: SignInRequest
+    fields: ForgotPasswordRequest
   ): Promise<Result<true, false>> => {
     // email
     let emailError = "";
     if (!fields.email) {
       emailError = t("email_required");
+    } else if (!(await serverApiClient.getUserByEmail(fields.email)).isOk()) {
+      emailError = t("email_not_exist");
     }
 
-    // password
-    let passwordError = "";
-    if (!fields.password) {
-      passwordError = t("password_required");
-    }
-
-    const allErrors = {
-      emailError,
-      passwordError,
-    };
+    const allErrors = { emailError };
     setCredentialsErrors((prevErrors) => ({ ...prevErrors, ...allErrors }));
     const isValid = !Object.values(allErrors).some(Boolean);
 
@@ -79,7 +59,7 @@ function SignInForm({ successCallback = () => {} }: Props) {
   const [handleSubmitState, handleSubmit] = useAsyncFn(
     async (
       event: FormEvent<HTMLFormElement>,
-      credentials: SignInRequest
+      credentials: ForgotPasswordRequest
     ): Promise<Result<DBUser, ApiError>> => {
       event.preventDefault();
       setSubmitError("");
@@ -91,30 +71,16 @@ function SignInForm({ successCallback = () => {} }: Props) {
         return err({ errorMessage: "Credentials are not valid" });
       }
 
-      // 2. Sign in
-      const signInResult = await serverApiClient.signIn(credentials);
-      if (signInResult.isErr()) {
-        if (signInResult.error.errorStatus === HttpStatusCode.Unauthorized) {
-          setSubmitError(t("invalid_email_password"));
-        } else {
-          setSubmitError(t("something_went_wrong"));
-        }
-        throw new Error(signInResult.error.errorMessage);
+      // 2. Send forgot password request
+      const forgotPasswordResult = await serverApiClient.forgotPassword(
+        credentials
+      );
+      if (forgotPasswordResult.isErr()) {
+        setSubmitError(t("something_went_wrong"));
+        throw new Error(forgotPasswordResult.error.errorMessage);
       }
-      setUser(signInResult.value.user);
 
-      // 3. Set auth cookie
-      Cookies.set("token", signInResult.value.token, {
-        expires: Number(process.env.NEXT_PUBLIC_JWT_EXPIRE),
-      });
-
-      // 4. set Mixpanel ID
-      mixpanelApiClient.identify(signInResult.value.user._id);
-
-      // 5. Success callback
-      successCallback();
-
-      return ok(signInResult.value.user);
+      return ok(forgotPasswordResult.value.user);
     }
   );
 
@@ -146,27 +112,6 @@ function SignInForm({ successCallback = () => {} }: Props) {
         />
       </InputContainer>
 
-      <InputContainer
-        label={t("password")}
-        required
-        error={credentialsErrors.passwordError}
-      >
-        <input
-          className="w-full input"
-          type="password"
-          name="password"
-          value={credentials.password}
-          onChange={handleChange}
-        />
-      </InputContainer>
-
-      <Link
-        className="text-green-700 underline block font-semibold"
-        href="/forgot-password"
-      >
-        {t("forgot_password")}
-      </Link>
-
       <ThemeButton
         className="w-full py-2 button-primary"
         type="submit"
@@ -174,22 +119,27 @@ function SignInForm({ successCallback = () => {} }: Props) {
         disabled={handleSubmitState.loading}
         successMessage={
           handleSubmitState.value && handleSubmitState.value.isOk()
-            ? t("sign_in_success")
+            ? t("forgot_password_success")
             : ""
         }
         errorMessage={submitError}
       >
-        {t("sign_in")}
+        {t("reset_password")}
       </ThemeButton>
 
-      <p className="flex gap-x-1.5">
-        <span>{t("not_member")}</span>
-        <Link href="/signup" className="font-semibold text-green-700 underline">
-          {t("join")}
-        </Link>
-      </p>
+      <Link
+        href="/signin"
+        className="font-semibold text-green-700 underline flex items-center gap-1"
+      >
+        {isRtl ? (
+          <ArrowRightIcon className="w-4" />
+        ) : (
+          <ArrowLeftIcon className="w-4" />
+        )}
+        {t("back_to_login")}
+      </Link>
     </form>
   );
 }
 
-export default SignInForm;
+export default ForgotPasswordForm;

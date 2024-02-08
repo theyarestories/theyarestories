@@ -21,6 +21,8 @@ import {
 import { DBEmoji } from "@/interfaces/database/DBEmoji";
 import { SignUpRequest } from "@/interfaces/server/SignUpRequest";
 import { isBrowser } from "browser-or-node";
+import { ForgotPasswordRequest } from "@/interfaces/server/ForgotPasswordRequest";
+import { ResetPasswordRequest } from "@/interfaces/server/ResetPasswordRequest";
 
 export class ServerApiClient {
   private readonly apiBaseUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
@@ -330,5 +332,37 @@ export class ServerApiClient {
     }
 
     return ok(result.value.data);
+  }
+
+  async forgotPassword(credentials: ForgotPasswordRequest) {
+    const result = await this.serverApiClient.post<
+      ForgotPasswordRequest,
+      AuthResponse
+    >(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/forgotpassword`,
+      credentials
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
+  }
+
+  async resetPassword(credentials: ResetPasswordRequest, resetToken: string) {
+    const result = await this.serverApiClient.put<
+      ResetPasswordRequest,
+      AuthResponse
+    >(
+      `${this.apiBaseUrl}/v${this.apiVersion}/auth/resetpassword/${resetToken}`,
+      credentials
+    );
+
+    if (result.isErr()) {
+      return err(result.error);
+    }
+
+    return ok(result.value);
   }
 }

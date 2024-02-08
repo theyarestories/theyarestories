@@ -3,7 +3,7 @@ import ThemeButton from "@/components/button/ThemeButton";
 import InputContainer from "@/components/input/InputContainer";
 import { ApiError } from "@/interfaces/api-client/Error";
 import { DBUser } from "@/interfaces/database/DBUser";
-import { SignInRequest } from "@/interfaces/server/SignInRequest";
+import Cookies from "js-cookie";
 import { Result, err, ok } from "neverthrow";
 import { useTranslations } from "next-intl";
 import {
@@ -14,54 +14,63 @@ import {
   useState,
 } from "react";
 import { useAsyncFn } from "react-use";
-import Cookies from "js-cookie";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { UserContext, UserContextType } from "@/contexts/UserContext";
-import { HttpStatusCode } from "axios";
 
-type Props = {
-  successCallback?: Function;
-};
+interface FormFields {
+  mixpanelId: string;
+  password: string;
+  confirmPassword: string;
+}
+
+type Props = {};
 
 const serverApiClient = new ServerApiClient();
 const mixpanelApiClient = new MixpanelApiClient();
 
-function SignInForm({ successCallback = () => {} }: Props) {
-  const t = useTranslations("SignInForm");
+function ResetPasswordForm({}: Props) {
+  const router = useRouter();
   const { setUser } = useContext(UserContext) as UserContextType;
+  const t = useTranslations("ResetPasswordForm");
 
   const [isSubmittedOnce, setIsSubmittedOnce] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const [credentials, setCredentials] = useState<SignInRequest>({
+  const [credentials, setCredentials] = useState<FormFields>({
     mixpanelId: mixpanelApiClient.getUserId(),
-    email: "",
     password: "",
+    confirmPassword: "",
   });
   const [credentialsErrors, setCredentialsErrors] = useState({
-    emailError: "",
     passwordError: "",
+    confirmPasswordError: "",
   });
 
-  const validateFields = async (
-    fields: SignInRequest
+  const validateFormFields = async (
+    fields: FormFields
   ): Promise<Result<true, false>> => {
-    // email
-    let emailError = "";
-    if (!fields.email) {
-      emailError = t("email_required");
-    }
-
     // password
     let passwordError = "";
     if (!fields.password) {
       passwordError = t("password_required");
     }
 
-    const allErrors = {
-      emailError,
-      passwordError,
-    };
+    // confirm password
+    let confirmPasswordError = "";
+    if (!fields.confirmPassword) {
+      confirmPasswordError = t("confirm_password_required");
+    }
+
+    // match
+    if (
+      fields.password &&
+      fields.confirmPassword &&
+      fields.password !== fields.confirmPassword
+    ) {
+      confirmPasswordError = t("password_not_match");
+    }
+
+    const allErrors = { passwordError, confirmPasswordError };
     setCredentialsErrors((prevErrors) => ({ ...prevErrors, ...allErrors }));
     const isValid = !Object.values(allErrors).some(Boolean);
 
@@ -70,8 +79,8 @@ function SignInForm({ successCallback = () => {} }: Props) {
   };
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setCredentials((prevFields) => ({
-      ...prevFields,
+    setCredentials((prevFormFields) => ({
+      ...prevFormFields,
       [event.target.name]: event.target.value,
     }));
   };
@@ -79,49 +88,47 @@ function SignInForm({ successCallback = () => {} }: Props) {
   const [handleSubmitState, handleSubmit] = useAsyncFn(
     async (
       event: FormEvent<HTMLFormElement>,
-      credentials: SignInRequest
+      credentials: FormFields,
+      resetToken: string
     ): Promise<Result<DBUser, ApiError>> => {
       event.preventDefault();
       setSubmitError("");
       setIsSubmittedOnce(true);
 
       // 1. validate fields
-      const validationResult = await validateFields(credentials);
+      const validationResult = await validateFormFields(credentials);
       if (validationResult.isErr()) {
         return err({ errorMessage: "Credentials are not valid" });
       }
 
-      // 2. Sign in
-      const signInResult = await serverApiClient.signIn(credentials);
-      if (signInResult.isErr()) {
-        if (signInResult.error.errorStatus === HttpStatusCode.Unauthorized) {
-          setSubmitError(t("invalid_email_password"));
-        } else {
-          setSubmitError(t("something_went_wrong"));
-        }
-        throw new Error(signInResult.error.errorMessage);
+      // 2. Send reset password request
+      const resetPasswordResult = await serverApiClient.resetPassword(
+        credentials,
+        resetToken
+      );
+      if (resetPasswordResult.isErr()) {
+        setSubmitError(t("something_went_wrong"));
+        throw new Error(resetPasswordResult.error.errorMessage);
       }
-      setUser(signInResult.value.user);
 
       // 3. Set auth cookie
-      Cookies.set("token", signInResult.value.token, {
+      Cookies.set("token", resetPasswordResult.value.token, {
         expires: Number(process.env.NEXT_PUBLIC_JWT_EXPIRE),
       });
 
       // 4. set Mixpanel ID
-      mixpanelApiClient.identify(signInResult.value.user._id);
+      mixpanelApiClient.identify(resetPasswordResult.value.user._id);
 
-      // 5. Success callback
-      successCallback();
-
-      return ok(signInResult.value.user);
+      setUser(resetPasswordResult.value.user);
+      router.push("/");
+      return ok(resetPasswordResult.value.user);
     }
   );
 
   useEffect(
-    function validateFieldsOnChange() {
+    function validateFormFieldsOnChange() {
       if (isSubmittedOnce) {
-        validateFields(credentials);
+        validateFormFields(credentials);
       }
     },
     [isSubmittedOnce, credentials]
@@ -130,22 +137,10 @@ function SignInForm({ successCallback = () => {} }: Props) {
     <form
       noValidate
       className="space-y-4"
-      onSubmit={(event) => handleSubmit(event, credentials)}
+      onSubmit={(event) =>
+        handleSubmit(event, credentials, router.query.resetToken as string)
+      }
     >
-      <InputContainer
-        label={t("email")}
-        required
-        error={credentialsErrors.emailError}
-      >
-        <input
-          className="w-full input"
-          type="email"
-          name="email"
-          value={credentials.email}
-          onChange={handleChange}
-        />
-      </InputContainer>
-
       <InputContainer
         label={t("password")}
         required
@@ -160,12 +155,19 @@ function SignInForm({ successCallback = () => {} }: Props) {
         />
       </InputContainer>
 
-      <Link
-        className="text-green-700 underline block font-semibold"
-        href="/forgot-password"
+      <InputContainer
+        label={t("confirm_password")}
+        required
+        error={credentialsErrors.confirmPasswordError}
       >
-        {t("forgot_password")}
-      </Link>
+        <input
+          className="w-full input"
+          type="password"
+          name="confirmPassword"
+          value={credentials.confirmPassword}
+          onChange={handleChange}
+        />
+      </InputContainer>
 
       <ThemeButton
         className="w-full py-2 button-primary"
@@ -174,22 +176,15 @@ function SignInForm({ successCallback = () => {} }: Props) {
         disabled={handleSubmitState.loading}
         successMessage={
           handleSubmitState.value && handleSubmitState.value.isOk()
-            ? t("sign_in_success")
+            ? t("reset_password_success")
             : ""
         }
         errorMessage={submitError}
       >
-        {t("sign_in")}
+        {t("reset_password")}
       </ThemeButton>
-
-      <p className="flex gap-x-1.5">
-        <span>{t("not_member")}</span>
-        <Link href="/signup" className="font-semibold text-green-700 underline">
-          {t("join")}
-        </Link>
-      </p>
     </form>
   );
 }
 
-export default SignInForm;
+export default ResetPasswordForm;
