@@ -139,11 +139,13 @@ export class ServerApiClient {
     return ok(result.value.data);
   }
 
-  async incrementStoryViews(storyId: string) {
+  async incrementStoryViews(storyId: string, userId: string) {
     const result = await this.serverApiClient.put<
-      {},
+      { userId: string },
       ServerApiResponse<DBStory>
-    >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/view`, {});
+    >(`${this.apiBaseUrl}/v${this.apiVersion}/stories/${storyId}/view`, {
+      userId,
+    });
 
     if (result.isErr()) {
       return err(result.error);

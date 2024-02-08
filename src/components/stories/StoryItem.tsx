@@ -29,7 +29,7 @@ function StoryItem({ story }: Props) {
         {t("in_review")}
       </span>
     );
-  } else if (story.viewsCount > 0) {
+  } else if (story.viewers.length > 0) {
     badge = (
       <span
         className={classNames(
@@ -39,7 +39,7 @@ function StoryItem({ story }: Props) {
       >
         <EyeIcon className="w-4" />
         {/* views: */}
-        {story.viewsCount}
+        {story.viewers.length}
       </span>
     );
   }

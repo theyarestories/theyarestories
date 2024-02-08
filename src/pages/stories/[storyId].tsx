@@ -24,13 +24,14 @@ import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { H as HNode } from "@highlight-run/node";
 import filterApprovedTranslations from "@/helpers/stories/filterApprovedTranslations";
 import { MixpanelApiClient } from "@/apis/MixpanelApiClient";
 import { MixpanelEvent } from "@/interfaces/mixpanel/MixpanelEvent";
 import StoryEmojis from "@/components/story-emojis/StoryEmojis";
+import { UserContext, UserContextType } from "@/contexts/UserContext";
 
 const serverApiClient = new ServerApiClient();
 const mixpanelApiClient = new MixpanelApiClient();
@@ -48,6 +49,7 @@ const languagesOptions = mapLanguagesToOptions(allLanguages);
 function StoryPage({
   story,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { isUserLoading, user } = useContext(UserContext) as UserContextType;
   const isRtl = useIsRtl();
   const t = useTranslations("StoryPage");
 
@@ -55,12 +57,17 @@ function StoryPage({
     useTranslatedStory(story);
 
   useEffect(() => {
-    serverApiClient.incrementStoryViews(story._id);
-    mixpanelApiClient.event(MixpanelEvent["View Story"], {
-      "Story ID": story._id,
-      "Story Protagonist": story.protagonist,
-    });
-  }, [story]);
+    if (!isUserLoading) {
+      serverApiClient.incrementStoryViews(
+        story._id,
+        user ? user._id : mixpanelApiClient.getUserId()
+      );
+      mixpanelApiClient.event(MixpanelEvent["View Story"], {
+        "Story ID": story._id,
+        "Story Protagonist": story.protagonist,
+      });
+    }
+  }, [story, user, isUserLoading]);
 
   return (
     <Layout
