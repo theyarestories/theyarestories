@@ -37,7 +37,7 @@ export type DBStory = {
   };
   emojis: DBEmoji[];
   tags: string[];
-  viewsCount: number;
+  viewers: string[];
   translationLanguage: string; // ar
   translations: DBTranslation[];
   isApproved: boolean;

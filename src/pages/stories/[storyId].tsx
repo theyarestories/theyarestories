@@ -113,14 +113,14 @@ function StoryPage({
 
       <Container>
         <div className="flex flex-col gap-y-4 relative">
-          {story.viewsCount > 0 && story.isApproved && (
+          {story.viewers.length > 0 && story.isApproved && (
             <p
               className={classNames(
                 "absolute text-gray-500 top-0 text-sm items-center gap-1 hidden lg:flex",
                 isRtl ? "left-0" : "right-0"
               )}
             >
-              {t("views_count", { count: story.viewsCount })}
+              {t("views_count", { count: story.viewers.length })}
             </p>
           )}
 
